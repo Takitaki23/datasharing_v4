@@ -389,12 +389,12 @@
                             <!-- :w="'1280px'" :h="'400px'" -->
                             <Vue3Signature  ref="signature1" :sigOption="state.option" :w="'500px'" :h="'300px'"
                             :disabled="state.disabled" class="signature border"></Vue3Signature>
-                            <button @click="save('image/jpeg')">Save</button>
-                            <button @click="clear">Clear</button>
-                            <button @click="undo">Undo</button>
-                            <button @click="addWaterMark">addWaterMark</button>
-                            <button @click="fromDataURL">fromDataURL</button>
-                            <button @click="handleDisabled">disabled</button>
+                            <!-- <button @click="save('image/jpeg')">Save</button> -->
+                            <!-- <button @click="clear">Clear</button> -->
+                            <!-- <button @click="undo">Undo</button> -->
+                            <!-- <button @click="addWaterMark">addWaterMark</button> -->
+                            <!-- <button @click="fromDataURL">fromDataURL</button> -->
+                            <!-- <button @click="handleDisabled">disabled</button> -->
                         </div>
 
                         <div class="col-sm-6">
@@ -414,19 +414,31 @@
                         </div> -->
                 </div>
                 <div class="modal-footer">
+            
                     <button
                         class="btn btn-primary text-center"
-                        @click="captureImage()"
+                        @click="clear"
                     >
-                        <i class="fa-solid fa-id-card"></i> Capture
+                        <i class="fa-solid fa-id-card"></i> Clear
                     </button>
-
                     <button
+                        class="btn btn-primary text-center"
+                        @click="undo"
+                    >
+                        <i class="fa-solid fa-id-card"></i> Undo
+                    </button>
+                    <button
+                        class="btn btn-primary text-center"
+                        @click="save('image/jpeg')"
+                    >
+                        <i class="fa-solid fa-id-card"></i> Save
+                    </button>
+                    <!-- <button
                         class="btn btn-secondary text-center"
                         @click="saveCroppedImage"
                     >
                         <i class="fa-solid fa-id-card"></i> Save
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
@@ -857,7 +869,7 @@ img {
     background-color: white;
     /* width: 250px;
   height: 250px; */
-    border: 1px solid red;
+    /* border: 1px solid red; */
     /* Add any other necessary styles */
 }
 /* Modal Design */
