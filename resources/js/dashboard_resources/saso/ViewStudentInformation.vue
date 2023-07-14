@@ -291,7 +291,7 @@
                                             class="d-flex justify-content-center"
                                         >
                                             <img
-                                                :src="image_signature"
+                                                :src="signature"
                                                 alt=""
                                                 style="background-color: white"
                                             />
@@ -1048,6 +1048,7 @@ export default {
                         //     profile.value = `/id_image/${st_id_no}.png`;
                         // } 
                         let f = await checkImageExists(st_id_no)
+                        let s = await checkSignatureExists(st_id_no)
                         console.log(f)
                         console.log(idCoordinates.value)
                     })
@@ -1072,6 +1073,25 @@ export default {
                         // Find the filename "23-002.png" or fallback to "man.png" if not found
                         const desiredFilename = res.data.find(filename => filename === `${st_no}.png`) || "man.png";
                         profile.value = `/id_image/${desiredFilename}`;
+                        console.log(desiredFilename);  // Output: "23-002.png"
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
+            } catch (error) {
+                return false;
+            }
+        }
+        // check if signature found on public folder
+        const checkSignatureExists = async (st_no) => {
+            try {
+                const response = await axios
+                    .get('/api/get-signatures')
+                    .then((res)=>{
+                        // console.log(res.data)
+                        // Find the filename "23-002.png" or fallback to "man.png" if not found
+                        const desiredFilename = res.data.find(filename => filename === `${st_no}.png`) || "signature1.jpg";
+                        signature.value = `/id_signatures/${desiredFilename}`;
                         console.log(desiredFilename);  // Output: "23-002.png"
                     })
                     .catch((err)=>{
@@ -1144,6 +1164,7 @@ export default {
             image_src,
             profile,
             image_signature,
+            signature
         };
     },
 };

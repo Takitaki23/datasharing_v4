@@ -101,13 +101,16 @@ use Illuminate\Routing\Controller;
             $idnumber = $data->textContents[0]['content'];
             $program = $data->textContents[1]['content'];
             // $pid = $data['params']['pid'];
+            // student no
             $pid = $data->textContents[0]['content'];
-            $ecp = 'test test';
+            // contact person
+            $ecp = $data->textContentsBack[0]['content'];
             $street = "test test";
             $barangay = "test test";
-            $town = "test test";
+            $town = "city";
             $province = "bataan";
-            $ecpc = "test test";
+            // guardian no
+            $ecpc = $data->textContentsBack[2]['content'];
             $img = public_path($data->profile['profile']);
             $sig = public_path($data->signature['signature']);
             $type = "3";
@@ -194,7 +197,9 @@ use Illuminate\Routing\Controller;
             $box->setTextAlign('center','center');
             $box->draw(strtoupper($ecp));
     
-            $address1 = $street.', '.$barangay;
+            // original
+            // $address1 = $street.', '.$barangay;
+            $address1 = $data->textContentsBack[1]['content'];
             $address2 = $town.', '.$province;
     
             $box->setFontFace(public_path("id_fonts\Helvetica.ttf"));
@@ -447,6 +452,8 @@ use Illuminate\Routing\Controller;
                 $img = public_path("id_image/".$pid.".png");
                 // since wala pang signature this is the default
                 $sig = public_path("id_signatures/1685325544.png");
+
+                // $sig = public_path("id_signatures/".$pid.".png");
     
                 $toGenerate[$counter-1]["pid"] = $pid;
                 $toGenerate[$counter-1]["type"] = $type;
@@ -559,7 +566,7 @@ use Illuminate\Routing\Controller;
 
         // semester AY
         public static function getSemAY(){
-            return '2nd Semester AY '.date('Y').' - '.date('Y',strtotime('+1 year'));     
+            return '1st Semester AY '.date('Y').' - '.date('Y',strtotime('+1 year'));     
         }
     }
 ?>

@@ -239,7 +239,7 @@
                                             class="d-flex justify-content-center"
                                         >
                                             <img
-                                                src="../../images/signature.png"
+                                                :src="signatureImage"
                                                 alt=""
                                                 style="
                                                     background-color: white;
@@ -260,6 +260,8 @@
                                             </button>
                                             <button
                                                 class="btn btn-success w-100 mb-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#signatureModal"
                                             >
                                                 <i
                                                     class="fa-solid fa-signature me-2"
@@ -318,7 +320,7 @@
                 </div>
                 <div class="modal-body col-md-12">
                     <!-- Student Profile -->
-                    <div class="conatiner row">
+                    <div class="container row">
                         <video ref="video" autoplay class="col-sm-6">
                             Stream unavailable
                         </video>
@@ -359,15 +361,88 @@
         <!-- Display Captured Image -->
         <!-- <img :src="capturedImage" alt="" style="background-color: white; width: 150px; height: 150px;"> -->
     </div>
+    <!-- camera modal -->
+    <div
+        class="modal fade"
+        id="signatureModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Write your Signature
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body col-md-12">
+                    <!-- Student Profile -->
+                    <div class="conatiner row">
+                        <div class="col-sm-6">
+                            <!-- :w="'1280px'" :h="'400px'" -->
+                            <Vue3Signature  ref="signature1" :sigOption="state.option" :w="'500px'" :h="'300px'"
+                            :disabled="state.disabled" class="signature border"></Vue3Signature>
+                            <button @click="save('image/jpeg')">Save</button>
+                            <button @click="clear">Clear</button>
+                            <button @click="undo">Undo</button>
+                            <button @click="addWaterMark">addWaterMark</button>
+                            <button @click="fromDataURL">fromDataURL</button>
+                            <button @click="handleDisabled">disabled</button>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card border-0 image-container">
+                                <img
+                                    :src="signatureImage"
+                                    alt=""
+                                    class="centered-image"
+                                    id="capture-img"
+                                />
+                                <!-- <Editor :canvasWidth="canvasWidth" :canvasHeight="canvasHeight" ref="editor" editorId="canvasId"/> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                            <video ref="video" autoplay>Stream unavailable</video>
+                        </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-primary text-center"
+                        @click="captureImage()"
+                    >
+                        <i class="fa-solid fa-id-card"></i> Capture
+                    </button>
+
+                    <button
+                        class="btn btn-secondary text-center"
+                        @click="saveCroppedImage"
+                    >
+                        <i class="fa-solid fa-id-card"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Display Captured Image -->
+        <!-- <img :src="capturedImage" alt="" style="background-color: white; width: 150px; height: 150px;"> -->
+    </div>
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted, computed, watch } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch, reactive } from "vue";
 import "cropperjs/dist/cropper.css";
 import Cropper from "cropperjs";
 import axios from "axios";
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+// import Vue3Signature from "vue3-signature"
 let cropper = null
 
 export default {
@@ -378,6 +453,7 @@ export default {
         // accessing public folder in laravel
         const capturedImage = ref("/id_image/1685325544.png"); // Initialize the captured image URL
         const profileImage = ref('')
+        const signatureImage = ref('')
         // accessing public folder in laravel
         const image_src = ref("/id_template/jhsf.png");
         const responseData = ref({});
@@ -386,22 +462,109 @@ export default {
         });
         const users = ref([]);
 
-        
-        // const CloseModal = computed(async () =>{
-        //   try {
-        //     const addModal = document.getElementById("addModal");
-        //     addModal.classList.remove("show");
-        //     addModal.style.display = "none";
-        //     const cameraModal = document.getElementById("cameraModal");
-        //     cameraModal.classList.remove("show");
-        //     cameraModal.style.display = "none";
-        //     // showModal.value = false
-        //     // $('#addModal').modal().hide()
-        //   } catch (error) {
-        //     console.log(error)
-        //   }
-        // })
+        // for signature
+        const state = reactive({
+            count: 0,
+            option: {
+                penColor: "rgb(0, 0, 0)",
+                backgroundColor: "rgb(255,255,255)"
+            },
+            disabled: false
+        })
 
+        const signature1 = ref(null)
+
+        const save = (t) => {
+            signatureImage.value = signature1.value.save(t)
+
+            // Create an image element
+            const image = new Image();
+            // Set the base64-encoded data as the image source
+            image.src = signatureImage.value;
+
+            // Wait for the image to load
+            image.onload = () => {
+                // Create a new canvas with the desired dimensions
+                const targetCanvas = document.createElement("canvas");
+                const targetContext = targetCanvas.getContext("2d");
+                targetCanvas.width = 220;
+                targetCanvas.height = 240;
+                
+                // Draw the image onto the target canvas
+                targetContext.drawImage(
+                image,
+                0,
+                0,
+                targetCanvas.width,
+                targetCanvas.height
+                );
+
+            // Convert the resized canvas to a blob
+            targetCanvas.toBlob((blob) => {
+                        const formData = new FormData();
+                        formData.append(
+                            "signatureImage",
+                            blob,
+                            `${responseData.value.student_no}.png`
+                        );
+
+                        // Send the resized image to the Laravel API endpoint
+                        axios
+                            .post("/api/save-signature-image", formData, {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            })
+                            .then((response) => {
+                                // Handle the response from the server
+                                console.log(response.data);
+                                const $toast = useToast();
+                                let instance = $toast.success(response.data.message, { position: 'bottom-right' });
+                            })
+                            .catch((error) => {
+                                // Handle any errors
+                                console.error(error);
+                            });
+                    }, "image/png");
+
+
+            console.log(signature1.value.save(t))
+            }
+        }
+
+        const clear = () => {
+            signatureImage.value.clear()
+            signature1.value.clear()
+        }
+
+        const undo = () => {
+        
+         signature1.value.undo();
+        }
+
+        const addWaterMark = () => {
+            signature1.value.addWaterMark({
+                text: "This signature is belongs to eastwoodians!",          // watermark text, > default ''
+                font: "20px Arial",         // mark font, > default '20px sans-serif'
+                style: 'all',               // fillText and strokeText,  'all'/'stroke'/'fill', > default 'fill
+                fillStyle: "red",           // fillcolor, > default '#333'
+                strokeStyle: "blue",	       // strokecolor, > default '#333'
+                x: 100,                     // fill positionX, > default 20
+                y: 200,                     // fill positionY, > default 20
+                sx: 100,                    // stroke positionX, > default 40
+                sy: 200                     // stroke positionY, > default 40
+            });
+        }
+
+        const fromDataURL = (url) => {
+            signature1.value.fromDataURL("https://avatars2.githubusercontent.com/u/17644818?s=460&v=4");
+        }
+
+        const handleDisabled = () => {
+            state.disabled = !state.disabled
+        }
+
+        
         const statePath = computed(async () => {
             try {
                 // Add null checks for props.modalData and props.modalData.value
@@ -428,6 +591,8 @@ export default {
                     // initialize profile
                     profileImage.value = `/id_image/${responseData.value.student_no}.png` 
                     capturedImage.value = `/id_image/${responseData.value.student_no}.png`
+
+                    signatureImage.value = `/id_signatures/${responseData.value.student_no}.png`
                     // Replace the image within the existing Cropper instance
                     cropper.replace(capturedImage.value);
                     
@@ -649,16 +814,31 @@ export default {
             captureImage,
             capturedImage,
             profileImage,
+            signatureImage,
             statePath,
             responseData,
             image_src,
-            saveCroppedImage
+            saveCroppedImage,
+            signature1,
+            state,
+            save,
+            clear,
+            undo,
+            addWaterMark,
+            fromDataURL,
+            handleDisabled
+
+
         };
     },
 };
 </script>
 
-<style>
+<style scoped>
+/* signature */
+.signature{
+    margin: 0 auto;
+}
 /* image */
 img {
     display: block;

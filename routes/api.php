@@ -57,5 +57,7 @@ Route::post('/get-generated-id', [GeneratedIDController::class, 'getGeneratedStI
 
 // get images save in public folder
 Route::get('/get-images', [ImageController::class, 'getImages']);
+Route::get('/get-signatures', [ImageController::class, 'getSignatures']);
 // upload images template
 Route::post('/upload-images', [ImageController::class, 'handleUpload']);
+Route::post('/save-signature-image', [ImageController::class, 'handleUploadSignature']);
