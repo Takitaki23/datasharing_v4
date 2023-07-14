@@ -21,4 +21,18 @@ class ImageController extends Controller
         }
         return response()->json($imageNames);
    }
+
+   public function handleUpload(Request $request){
+        $files = $request->file('files');
+        foreach ($files as $file) {
+            // Get the original file name
+            $filename = $file->getClientOriginalName();
+            
+            // Move the file to the public folder
+            $file->move(public_path('id_template/'), $filename);
+        }
+
+        // Return a response indicating success
+        return response()->json(['message' => 'Templates uploaded successfully']);
+   }
 }

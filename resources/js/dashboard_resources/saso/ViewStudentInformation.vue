@@ -632,7 +632,8 @@ export default {
                         drawHeight
                     );
 
-                    // Draw the profile image
+                    if(profile.value){
+                        // Draw the profile image
                     const profileImage = new Image();
                     profileImage.src = profile.value;
                     profileImage.onload = () => {
@@ -722,6 +723,7 @@ export default {
                             // ...
                         };
                     };
+                    }
                 };
             }
         };

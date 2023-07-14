@@ -18,6 +18,7 @@
             </div>
             <div class="uploaded_files" v-if="uploadedFiles.length > 0" style="width:70%; margin: auto; margin-top: 1rem;">
                 <div class="uploaded_file" v-for="(file, index) in uploadedFiles" :key="index">
+                    {{ file }}
                     <img :src="file.url" :alt="'Uploaded ID Template ' + (index + 1)">
                     <button class="btn btn-danger btn-sm delete-button" @click="removeUploadedFile(index)">
                         X
@@ -126,8 +127,12 @@ export default {
   methods: {
     handleFileUpload(event) {
       const files = event.target.files;
+
+      const formData = new FormData();
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        formData.append('files[]',file)
         const fileObject = {
           url: URL.createObjectURL(file),
           name: file.name,
@@ -135,6 +140,21 @@ export default {
         // Insert the new file at the beginning of the array
         this.uploadedFiles.unshift(fileObject);
       }
+
+      // Send the files to the server using an AJAX request
+        axios.post('/api/upload-images', formData)
+            .then(response => {
+            // Handle the response if needed
+            console.log(response.data);
+            const $toast = useToast();
+                    let instance = $toast.success(response.data.message, {
+                        position: "top-right",
+                    });
+        })
+        .catch(error => {
+        // Handle the error if needed
+        console.error(error);
+        });
     },
     removeUploadedFile(index) {
             this.uploadedFiles.splice(index, 1);

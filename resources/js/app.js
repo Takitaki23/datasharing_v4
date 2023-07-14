@@ -56,6 +56,8 @@ const app = createApp({
  
 import ToastPlugin from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-default.css';
+
+import Vue3Signature from "vue3-signature"
 // import 'vue-toast-notification/dist/theme-bootstrap.css';
 
-app.use(router).use(ToastPlugin).mount('#app');
+app.use(router).use(ToastPlugin).use(Vue3Signature).mount('#app');
