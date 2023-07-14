@@ -1044,6 +1044,9 @@ export default {
                         signatureX.value = idCoordinates.value?.signature_x || templateCoordinates.value[0]?.signature_x || (240+64.02)
                         signatureY.value = idCoordinates.value?.signature_y || templateCoordinates.value[0]?.signature_y || 75
 
+                        profileX.value = idCoordinates.value?.profile_x / 2 || templateCoordinates.value[0]?.profile_x / 2 || 55 / 2
+                        profileY.value = idCoordinates.value?.profile_y / 2 || templateCoordinates.value[0]?.profile_y / 2 || 87 / 2
+
                         // if (st_id_no) {
                         //     profile.value = `/id_image/${st_id_no}.png`;
                         // } 

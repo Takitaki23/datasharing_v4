@@ -545,7 +545,7 @@ export default {
         }
 
         const clear = () => {
-            signatureImage.value.clear()
+            // signatureImage.value.clear()
             signature1.value.clear()
         }
 

@@ -127,8 +127,8 @@ use Illuminate\Routing\Controller;
     
                 $box->setFontColor(new Color(0,0,0));
                 $box->setFontSize(Module::flexFontSize($lastname,45,2.5));
-                $box->setBox($data->textContents[2]['x'],40+10,$data->canvas['width'],$data->canvas['height']);
-                $box->setTextAlign('left','center');
+                $box->setBox($data->textContents[2]['x'],($data->textContents[2]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+                $box->setTextAlign('left','custom');
                 $box->draw(strtoupper($lastname));
     
             }
@@ -137,8 +137,8 @@ use Illuminate\Routing\Controller;
                 $lastname = $lastname.' ('.$suffix.')';
                 $box->setFontColor(new Color(0,0,0));
                 $box->setFontSize(Module::flexFontSize($lastname,45,2.5));
-                $box->setBox(430,40+10,$data->canvas['width'],$data->canvas['height']);
-                $box->setTextAlign('left','center');
+                $box->setBox($data->textContents[3]['x'],($data->textContents[3]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+                $box->setTextAlign('left','custom');
                 $box->draw(strtoupper($lastname));
             }
     
@@ -158,28 +158,30 @@ use Illuminate\Routing\Controller;
                 $box->setFontSize(Module::flexFontSize($firstname,40,2.7));
             }
     
-            $box->setBox($data->textContents[3]['x'],40*2+15,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('left','center');
+            // 40*2+15
+            $box->setBox($data->textContents[3]['x'],($data->textContents[3]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+        //    center
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($firstname));
     
             $box->setFontColor(new Color(0,0,0));
             $box->setFontSize(Module::flexFontSize($middlename,40,2.7));
-            $box->setBox($data->textContents[4]['x'],40*3+20,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('left','center');
+            $box->setBox($data->textContents[4]['x'],($data->textContents[4]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($middlename));
     
             $box->setFontFace(public_path("id_fonts\Helvetica-Bold.ttf"));
             $box->setFontColor(new Color(0,100,0));
             $box->setFontSize(Module::flexFontSize($idnumber,40,2.7));
-            $box->setBox($data->textContents[0]['x'],216,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('left','center');
+            $box->setBox($data->textContents[0]['x'],($data->textContents[0]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($idnumber));
     
             $box->setFontFace(public_path("id_fonts\Helvetica-Bold.ttf"));
             $box->setFontColor(new Color(50,50,50));
             $box->setFontSize(Module::flexFontSize($program,35,1));
-            $box->setBox($data->textContents[1]['x'],260,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('left','center');
+            $box->setBox($data->textContents[1]['x'],($data->textContents[1]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($program));
     
             $quality = 9; // 0 to 100
@@ -193,8 +195,8 @@ use Illuminate\Routing\Controller;
     
             $box->setFontColor(new Color(0,0,0));
             $box->setFontSize(Module::flexFontSize($ecp,30,1));
-            $box->setBox(255,-200,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('center','center');
+            $box->setBox($data->textContentsBack[0]['x']*2,($data->textContentsBack[0]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($ecp));
     
             // original
@@ -206,22 +208,22 @@ use Illuminate\Routing\Controller;
     
             $box->setFontColor(new Color(0,0,0));
             $box->setFontSize(Module::flexFontSize($address1,25,0.4));
-            $box->setBox(255,-170,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('center','center');
+            $box->setBox($data->textContentsBack[1]['x']*2,($data->textContentsBack[1]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($address1));
     
-            $box->setFontColor(new Color(0,0,0));
-            $box->setFontSize(Module::flexFontSize($address2,25,0.3));
-            $box->setBox(255,-140,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('center','center');
-            $box->draw(strtoupper($address2));
+            // $box->setFontColor(new Color(0,0,0));
+            // $box->setFontSize(Module::flexFontSize($address2,25,0.3));
+            // $box->setBox($data->textContentsBack[1]['x']*2,($data->textContentsBack[1]['y'] - 35),$data->canvas['width'],$data->canvas['height']);
+            // $box->setTextAlign('left','custom');
+            // $box->draw(strtoupper($address2));
     
             $box->setFontFace(public_path("id_fonts\Helvetica-Bold.ttf"));
     
             $box->setFontColor(new Color(0,0,0));
             $box->setFontSize(Module::flexFontSize($ecpc,25,0.3));
-            $box->setBox(255,-110,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('center','center');
+            $box->setBox($data->textContentsBack[2]['x']*2,($data->textContentsBack[2]['y'] - 40),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($ecpc));
     
             $box->setFontFace(public_path("id_fonts\Helvetica-Bold.ttf"));
@@ -232,8 +234,8 @@ use Illuminate\Routing\Controller;
     
             $box->setFontColor(new Color(0,0,0));
             $box->setFontSize(Module::flexFontSize($semAY,30,0.3));
-            $box->setBox(-240,170,$data->canvas['width'],$data->canvas['height']);
-            $box->setTextAlign('center','center');
+            $box->setBox(($data->textContentsBack[3]['x']*2) - 10,($data->textContentsBack[3]['y'] - 25),$data->canvas['width'],$data->canvas['height']);
+            $box->setTextAlign('left','custom');
             $box->draw(strtoupper($semAY));
     
             $quality = 9; // 0 to 100
@@ -348,11 +350,11 @@ use Illuminate\Routing\Controller;
                 // return response()->json(['message' => 'Template saved successfully']);
             }
 
-            return Module::generatePreview($pid,$img,$sig,$type);
+            return Module::generatePreview($pid,$img,$sig,$data->signature['x'],$data->signature['y'],$type);
         }
 
         // preview for 1 student 
-        public static function generatePreview($pid,$img,$sig,$type){
+        public static function generatePreview($pid,$img,$sig,$sigX,$sigY,$type){
 
             $pdf = new \PDF('L','mm','A4');
     
@@ -396,7 +398,7 @@ use Illuminate\Routing\Controller;
                     $pdf->RotatedImage($img,17,93,37,0,90);
                     $pdf->RotatedImage(public_path('id_final/').$pid.'_f.png',10,95,85.6,54.02,90);               
                     $pdf->RotatedImage(public_path('id_final/').$pid.'_b.png',10,195,85.6,54.02,90);
-                    $pdf->RotatedImage($sig,22,144,25,0,90);
+                    $pdf->RotatedImage($sig,$sigX,$sigY/2 ,25,0,90);
     
                     break;
     
@@ -451,9 +453,9 @@ use Illuminate\Routing\Controller;
                 $pid = $value['student_id']; 
                 $img = public_path("id_image/".$pid.".png");
                 // since wala pang signature this is the default
-                $sig = public_path("id_signatures/1685325544.png");
+                // $sig = public_path("id_signatures/1685325544.png");
 
-                // $sig = public_path("id_signatures/".$pid.".png");
+                $sig = public_path("id_signatures/".$pid.".png");
     
                 $toGenerate[$counter-1]["pid"] = $pid;
                 $toGenerate[$counter-1]["type"] = $type;

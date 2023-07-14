@@ -176,7 +176,7 @@ class Box
     public function setTextAlign($x = 'left', $y = 'top')
     {
         $xAllowed = array('left', 'right', 'center');
-        $yAllowed = array('top', 'bottom', 'center');
+        $yAllowed = array('top', 'bottom', 'center', 'custom'); // Add 'custom' to the allowed values
 
         if (!in_array($x, $xAllowed)) {
             throw new \InvalidArgumentException('Invalid horizontal alignement value was specified.');
