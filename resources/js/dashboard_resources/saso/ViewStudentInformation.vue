@@ -21,31 +21,72 @@
                             aria-label="Close"
                         ></button>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                               <!-- For font size dropdown -->
+                            <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Font Size
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">8</a></li>
+                                        <li><a class="dropdown-item" href="#">9</a></li>
+                                        <li><a class="dropdown-item" href="#">10</a></li>
+                                        <li><a class="dropdown-item" href="#">11</a></li>
+                                        <li><a class="dropdown-item" href="#">12</a></li>
+                                        <li><a class="dropdown-item" href="#">14</a></li>
+                                        <li><a class="dropdown-item" href="#">16</a></li>
+                                        <li><a class="dropdown-item" href="#">18</a></li>
+                                        <li><a class="dropdown-item" href="#">20</a></li>
+                                        <li><a class="dropdown-item" href="#">22</a></li>
+                                        <li><a class="dropdown-item" href="#">24</a></li>
+                                        <li><a class="dropdown-item" href="#">26</a></li>
+                                        <li><a class="dropdown-item" href="#">28</a></li>
+                                        <li><a class="dropdown-item" href="#">36</a></li>
+                                        <li><a class="dropdown-item" href="#">48</a></li>
+                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                              <!-- For font family dropdown -->
+                              <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Font family
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">Arial</a></li>
+                                        <li><a class="dropdown-item" href="#">Century Gothic</a></li>
+                                        <li><a class="dropdown-item" href="#">Calibri</a></li>
+                                        <li><a class="dropdown-item" href="#">Times New Roman</a></li>
+                                        <li><a class="dropdown-item" href="#">Helvetica</a></li>
+                                        <li><a class="dropdown-item" href="#">Futura</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
                     <div
                         class="modal-body row"
                         style="height: 400px; overflow: hidden"
                     >
                         <!-- Content for ID preview -->
-                        <!-- <p>Preview ID Card content goes here...</p> -->
                         <div class="col-sm-6">
                             <canvas
                                 ref="canvasRef"
                                 :width="canvasWidth"
                                 :height="canvasHeight"
                             ></canvas>
-                            <!-- <h5 class="text-success text-center">Preview ID Front</h5> -->
                         </div>
                         <div class="col-md-6" style="height: 380px;overflow: hidden;">
                             <canvas class="" ref="canvasBackRef" :width="canvasWidth" :height="canvasHeight"></canvas>
                         </div>
-                        <!-- for back of id -->
-                        <!-- <div class="col-sm-6">
-              <canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight"></canvas>
-            </div> -->
-                        <!-- <canvas ref="canvasRef" :width="canvasWidth" :height="canvasHeight"></canvas> -->
-                        <!-- <div id="imageContainer">
-              
-            </div> -->
+                     
                     </div>
                     <div class="modal-footer">
                         <button
@@ -1226,4 +1267,53 @@ canvas {
     left: 10px;
     z-index: 1;
 }
+/* Dropdown */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: #f4f4f4;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  min-width: 100%;
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #d5d0d0;
+}
+
 </style>

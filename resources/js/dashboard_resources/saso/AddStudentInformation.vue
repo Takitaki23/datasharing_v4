@@ -282,16 +282,6 @@
                         >
                             Close
                         </button>
-                        <button class="btn btn-primary text-center">
-                            <i class="fa-solid fa-id-card"></i> Preview ID
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-success"
-                            data-bs-dismiss="modal"
-                        >
-                            Submit
-                        </button>
                     </div>
                 </div>
             </div>
@@ -419,16 +409,16 @@
                         class="btn btn-primary text-center"
                         @click="clear"
                     >
-                        <i class="fa-solid fa-id-card"></i> Clear
+                        <i class="fa-solid fa-eraser"></i> Clear
                     </button>
                     <button
-                        class="btn btn-primary text-center"
+                        class="btn btn-secondary text-center"
                         @click="undo"
                     >
-                        <i class="fa-solid fa-id-card"></i> Undo
+                        <i class="fas fa-undo"></i> Undo
                     </button>
                     <button
-                        class="btn btn-primary text-center"
+                        class="btn btn-success text-center"
                         @click="save('image/jpeg')"
                     >
                         <i class="fa-solid fa-id-card"></i> Save
