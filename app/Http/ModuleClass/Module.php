@@ -436,7 +436,7 @@ use Illuminate\Routing\Controller;
 
         // generate bulk ID base on data
         public static function generateBulkID($data){
-            // dd($data['params']['st_id']);
+            // dd($data['params']);
             $toGenerate = array();
             $counter = 0;
     
@@ -445,7 +445,10 @@ use Illuminate\Routing\Controller;
                 // for debugging
                 // for ($i=1; $i <= $data['params']['id'] ; $i++) { 
                     # code...
-             
+
+                // get the student id coordinates using student_id
+                $student_cred = GeneratedID::where('st_no', $value['student_id'])->first();
+                // dd($student_cred);
                 $counter++;
                 //data declaration
                 $type = "3";
@@ -461,19 +464,26 @@ use Illuminate\Routing\Controller;
                 $toGenerate[$counter-1]["type"] = $type;
                 $toGenerate[$counter-1]["img"] = $img;
                 $toGenerate[$counter-1]["sig"] = $sig;
+                $toGenerate[$counter-1]["signatureX"] = $student_cred['signature_x'];
+                $toGenerate[$counter-1]["signatureY"] = $student_cred['signature_y'];
+                $toGenerate[$counter-1]["profileX"] = $student_cred['profile_x'];
+                $toGenerate[$counter-1]["profileY"] = $student_cred['profile_y'];
+
             // }
             }
             return Module::generatePreviewBulk($toGenerate);
         }
 
         public static function generatePreviewBulk($data){
-
+            // dd($data);
             $pdf = new \PDF('L','mm','A4');
             $pdf->AddPage();
             $pdf->SetAutoPageBreak(false,0);
             $counter = 0;
             $space = 0;
-    
+            $x2 = 0;
+            $mt = 12.5;
+            $mb = 23;
             foreach($data as $key => $value){
     
                 $counter++;       
@@ -486,71 +496,97 @@ use Illuminate\Routing\Controller;
                         $pdf->SetAutoPageBreak(false,0);
                         $counter = 1;
                         $space = 0;
+                        $mt = 12.5; // Reset the accumulated top margin
+                        $mb = 23; // Reset the accumulated bottom margin
     
                     }
+                    // ito amg gagalawin
                     else{
+                        // between template
                         $space += 64.02;
+                        // x top position
+                        $mt = (23 + $space);
+                        $mb = ($space+12.5);
+                        // $x2 = 10;
+                        // dd($mt);
                     }
                 }  
     
+                // problem is when its on top its on bottom, alternate position
                 switch ($value["type"]) {
-    
-                    case '1':
-    
-                        $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
-                        $pdf->Image($value["img"],27+$space,35.9,37);
-                        $pdf->Image(public_path('id_template/staffdaya.png'),10+$space,10,54.02,85.6);
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
-                        $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
-    
-                        break;
-    
-                    case '2':
-    
-                        $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
-                        $pdf->Image($value["img"],27+$space,35.9,37);
-                        $pdf->Image(public_path('id_template/staffdaya.png'),10+$space,10,54.02,85.6);
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
-                        $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
-    
-                        break;
-    
-                    case '4':
-    
-                        $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
-                        $pdf->Image($value["img"],27+$space,35.9,37);
-                        $pdf->Image(public_path('id_template/shssdaya.png'),10+$space,10,54.02,85.6);
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
-                        $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
-    
-                        break;
-    
-                        // college done id location, $value["pid"] = name of the id
-                    case '3':
-    
-                        $pdf->RotatedImage($value["img"],17+$space,93,37,0,90);
+                     // college done id location, $value["pid"] = name of the id
+                     case '3':
+                        // 
+                        // 93 = max left and 50 max right y axis rotated
+                        // 10+$pace = max top and max bottom 23+space x axis rotated
+                        $canvasLeft = -3; // Maximum left position on the canvas X
+                        $canvasRight = 659; // Maximum right position on the canvas X
+                        $canvasTop = 1; // Maximum left position on the canvas Y
+                        $canvasBottom = 225; // Maximum right position on the canvas Y
+
+
+                        $y = 95 - (($value['profileX'] - $canvasLeft) * (95 - 50) / ($canvasRight - $canvasLeft)); // Map canvas Y to PDF Y ; // Calculate Y coordinate
+                        $x = $mt - (($value['profileY'] - $canvasTop) * ($mt - $mb) / ($canvasBottom - $canvasTop)); // Calculate X coordinate
+                        // dd($x);
+
+                        // $ys = 95 - (($value['signatureX'] - $canvasLeft) * (95 - 50) / ($canvasRight - $canvasLeft));
+                        // $xs = 12.5+$space - (($value['signatureY'] - $canvasTop) * (12.5+$space - 23+$space) / ($canvasBottom - $canvasTop));
+                        
+                        $pdf->RotatedImage($value["img"],$x,$y,33,0,90);
                         $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
                         $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
                         $pdf->RotatedImage($value["sig"],22+$space,144,25,0,90);
     
                         break;
     
-                    case '5':
-                        $pdf->RotatedImage($value["img"],17+$space,93,37,0,90);
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
-                        $pdf->RotatedImage($value["sig"],25+$space,144,25,0,90);
+                    // case '1':
     
-                        break;
+                    //     $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
+                    //     $pdf->Image($value["img"],27+$space,35.9,37);
+                    //     $pdf->Image(public_path('id_template/staffdaya.png'),10+$space,10,54.02,85.6);
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
+                    //     $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
     
-                    case '7':
+                    //     break;
     
-                        $pdf->RotatedImage($value["img"],17+$space,93,37,0,90);
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
-                        $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
-                        $pdf->RotatedImage($value["sig"],24+$space,144,25,0,90);
+                    // case '2':
     
-                        break;
+                    //     $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
+                    //     $pdf->Image($value["img"],27+$space,35.9,37);
+                    //     $pdf->Image(public_path('id_template/staffdaya.png'),10+$space,10,54.02,85.6);
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
+                    //     $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
+    
+                    //     break;
+    
+                    // case '4':
+    
+                    //     $pdf->Image(public_path('id_final/').$value["pid"].'_f.png',10+$space,10,54.02,85.6);
+                    //     $pdf->Image($value["img"],27+$space,35.9,37);
+                    //     $pdf->Image(public_path('id_template/shssdaya.png'),10+$space,10,54.02,85.6);
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',64+$space,195,54.02,85.6,180);
+                    //     $pdf->RotatedImage($value["sig"],52+$space,153,25,0,180);
+    
+                    //     break;
+    
+                       
+    
+                    // case '5':
+                    //     $pdf->RotatedImage($value["img"],17+$space,93,37,0,90);
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
+                    //     $pdf->RotatedImage($value["sig"],25+$space,144,25,0,90);
+    
+                    //     break;
+    
+                    // case '7':
+    
+                    //     $pdf->RotatedImage($value["img"],17+$space,93,37,0,90);
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
+                    //     $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
+                    //     $pdf->RotatedImage($value["sig"],24+$space,144,25,0,90);
+    
+                    //     break;
                     
                     default:
     
