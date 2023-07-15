@@ -54,9 +54,59 @@
 
                     <!-- editor for template -->
                 </div>
+                <div class="row mt-5">
+                    <div class="col mt-3">
+                        <h3 class="text-success fw-bold">Edit Template</h3>
+                    </div>  
+                        <div class="col">
+                               <!-- For font size dropdown -->
+                            <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Font Size
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">8</a></li>
+                                        <li><a class="dropdown-item" href="#">9</a></li>
+                                        <li><a class="dropdown-item" href="#">10</a></li>
+                                        <li><a class="dropdown-item" href="#">11</a></li>
+                                        <li><a class="dropdown-item" href="#">12</a></li>
+                                        <li><a class="dropdown-item" href="#">14</a></li>
+                                        <li><a class="dropdown-item" href="#">16</a></li>
+                                        <li><a class="dropdown-item" href="#">18</a></li>
+                                        <li><a class="dropdown-item" href="#">20</a></li>
+                                        <li><a class="dropdown-item" href="#">22</a></li>
+                                        <li><a class="dropdown-item" href="#">24</a></li>
+                                        <li><a class="dropdown-item" href="#">26</a></li>
+                                        <li><a class="dropdown-item" href="#">28</a></li>
+                                        <li><a class="dropdown-item" href="#">36</a></li>
+                                        <li><a class="dropdown-item" href="#">48</a></li>
+                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                              <!-- For font family dropdown -->
+                              <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Font family
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">Arial</a></li>
+                                        <li><a class="dropdown-item" href="#">Century Gothic</a></li>
+                                        <li><a class="dropdown-item" href="#">Calibri</a></li>
+                                        <li><a class="dropdown-item" href="#">Times New Roman</a></li>
+                                        <li><a class="dropdown-item" href="#">Helvetica</a></li>
+                                        <li><a class="dropdown-item" href="#">Futura</a></li>
+                                    </ul>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
                 <div class="row mt-4">
-                    <h3 class="text-success fw-bold">Edit Template</h3>
                     <!-- <div class="col-md-4 border">
                         <canvas
                             v-for="(content, index) in contents"
@@ -862,7 +912,7 @@ div.dashboard_header {
 /* for image gallery */
 .image-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 10px;
 }
 
@@ -943,7 +993,7 @@ div.dashboard_header {
   margin-top: 2rem;
   width: 78%;
   margin: auto;
-  margin-top: 3rem
+  margin-top: 3rem;
 }
 
 .upload-container .form-label {
@@ -980,6 +1030,7 @@ div.dashboard_header {
 
 .uploaded_file {
   flex: 0 0 200px;
+  border: 1px solid red;
 }
 
 .uploaded_file img {
@@ -997,6 +1048,54 @@ div.dashboard_header {
     position: absolute;
     top: 5px;
     right: 5px;
+}
+/* Dropdown */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: #f4f4f4;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  min-width: 100%;
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #d5d0d0;
 }
 @media screen and (max-width: 1480px) {
     .generate-id-button {
