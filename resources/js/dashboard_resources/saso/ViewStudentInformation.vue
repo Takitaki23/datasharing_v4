@@ -495,38 +495,38 @@ export default {
         });
 
         const textContents = computed(() => {
-            console.log(responseData.value.student_no);
+            console.log(responseData.value);
             // getIdCoordinates(responseData.value.student_no)
             
             const st_id_s = responseData.value.student_no
                 ? responseData.value.student_no
-                : "";
+                : "12-3456";
 
             const course_s = responseData.value.course
                 ? responseData.value.course
-                : "";
+                : "BS. INFORMATION TECHNOLOGY";
             const last_name = responseData.value.last_name
                 ? responseData.value.last_name
-                : "";
+                : "DOE";
             const first_name = responseData.value.first_name
                 ? responseData.value.first_name
-                : "";
+                : "JOHN";
             const middle_name = responseData.value.middle_name
                 ? responseData.value.middle_name
-                : "";
+                : "SMITH";
             // we devided by 2 to make it smaller
             return [
                 { content: st_id_s, 
                     x: (idCoordinates.value?.textContents_0_x || templateCoordinates.value[0]?.textContents_0_x || 280) / 2, 
                     y: (idCoordinates.value?.textContents_0_y || templateCoordinates.value[0]?.textContents_0_y || 550) / 2, 
-                    fontSize: templateCoordinates.value[0]?.textContents_0_fs || 35 / 2,
+                    fontSize: (templateCoordinates.value[0]?.textContents_0_fs || 35) / 2,
                     fonts: templateCoordinates.value[0]?.textContents_0_ff || "Helvetica-Bold",
                     colors: "rgb("+(idCoordinates.value?.rgb_color_secondary || 'black')+")" 
                 },
                 { content: course_s, 
                     x: (idCoordinates.value?.textContents_1_x || templateCoordinates.value[0]?.textContents_1_x || 45) / 2, 
                     y:(idCoordinates.value?.textContents_1_y || templateCoordinates.value[0]?.textContents_1_y || 590) / 2, 
-                    fontSize: templateCoordinates.value[0]?.textContents_1_fs || 25 / 2,
+                    fontSize: (templateCoordinates.value[0]?.textContents_1_fs || 25) / 2,
                     fonts: templateCoordinates.value[0]?.textContents_1_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
@@ -534,7 +534,7 @@ export default {
                     content: last_name,
                     x: (idCoordinates.value?.textContents_2_x || templateCoordinates.value[0]?.textContents_2_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_2_y || templateCoordinates.value[0]?.textContents_2_y || 370) / 2,
-                    fontSize: templateCoordinates.value[0]?.textContents_2_fs || 45 / 2,
+                    fontSize: (templateCoordinates.value[0]?.textContents_2_fs || 45) / 2,
                     fonts: templateCoordinates.value[0]?.textContents_2_ff || 'Helvetica-Bold',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
@@ -542,7 +542,7 @@ export default {
                     content: first_name,
                     x: (idCoordinates.value?.textContents_3_x || templateCoordinates.value[0]?.textContents_3_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_3_y || templateCoordinates.value[0]?.textContents_3_y || 420) / 2,
-                    fontSize: templateCoordinates.value[0]?.textContents_3_fs || 45 / 2,
+                    fontSize: (templateCoordinates.value[0]?.textContents_3_fs || 45) / 2,
                     fonts: templateCoordinates.value[0]?.textContents_3_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
@@ -550,7 +550,7 @@ export default {
                     content: middle_name,
                     x: (idCoordinates.value?.textContents_4_x || templateCoordinates.value[0]?.textContents_4_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_4_y || templateCoordinates.value[0]?.textContents_4_y || 470) / 2,
-                    fontSize: templateCoordinates.value[0]?.textContents_4_fs || 45 / 2,
+                    fontSize: (templateCoordinates.value[0]?.textContents_4_fs || 45) / 2,
                     fonts: templateCoordinates.value[0]?.textContents_4_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
@@ -559,12 +559,12 @@ export default {
 
         // for back contents
         const textContentsBack = computed(()=>{
-            const ecp = "CONTACT PERSON";
-            const address1 = "#354 QUEZON ST. SAN JOSE BALANGA"
+            const ecp = responseData.value.guardian_name ? responseData.value.guardian_name : "CONTACT PERSON";
+            const address1 = responseData.value.guardian_address ? responseData.value.guardian_address : "#354 QUEZON ST. SAN JOSE BALANGA"
             // const barangay = "SAN JOSE"
             // const address2 = "BALANGA BATAAN"
             // const province = "BATAAN"
-            const ecpc = "09345678986"
+            const ecpc = responseData.value.guardian_contact_no ? responseData.value.guardian_contact_no :"09345678986"
             const semester = "2nd Semester AY 2023 - 2024"
             return [
                 {

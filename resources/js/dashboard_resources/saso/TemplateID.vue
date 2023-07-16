@@ -222,6 +222,7 @@ export default {
         const canvasWidth = ref(0);
         const canvasHeight = ref(0);
         // we devided by 2 to make it smaller
+        let isResizing = ref(false);
         const profileX = ref(55 / 2); // Adjust the X coordinate as needed
         const profileY = ref(87 / 2); // Adjust the Y coordinate as needed
         const profileWidth = ref(352 / 2); // Adjust the width as needed
@@ -279,7 +280,7 @@ export default {
             // selectedFontSize.value = fontSize;
             dropdownOpen.value = false; // Close the dropdown after selection (optional)
             // Close the font size dropdown after selection (optional)
-            toggleFontFamilyDropdown(false);
+            // toggleFontFamilyDropdown(false);
             // Apply the selectedFontSize to your canvas text elements
             // For example:
             // const fontSizeInPixels = parseInt(fontSize);
@@ -303,11 +304,11 @@ export default {
             // we devided by 2 to make it smaller
             // Map the template coordinates to textContent objects
             return [
-                { content: st_id_s, x: (templateCoordinates.value[0]?.textContents_0_x || 280) / 2, y: (templateCoordinates.value[0]?.textContents_0_y || 550) / 2, fontSize: (templateCoordinates.value[0]?.textContents_0_fs ||35 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_0_ff ||'Arial') },
-                { content: course_s, x: (templateCoordinates.value[0]?.textContents_1_x || 45) / 2, y: (templateCoordinates.value[0]?.textContents_1_y || 590) / 2, fontSize: (templateCoordinates.value[0]?.textContents_1_fs ||25 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_1_ff ||'Arial') },
-                { content: last_name, x: (templateCoordinates.value[0]?.textContents_2_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_2_y || 370) / 2, fontSize: (templateCoordinates.value[0]?.textContents_2_fs ||45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_2_y ||'Arial') },
-                { content: first_name, x: (templateCoordinates.value[0]?.textContents_3_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_3_y || 420) / 2, fontSize: (templateCoordinates.value[0]?.textContents_3_fs || 45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_3_y ||'Arial') },
-                { content: middle_name, x: (templateCoordinates.value[0]?.textContents_4_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_4_y || 470) / 2, fontSize: (templateCoordinates.value[0]?.textContents_4_fs ||45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_4_y ||'Arial') },
+                { content: st_id_s, x: (templateCoordinates.value[0]?.textContents_0_x || 280) / 2, y: (templateCoordinates.value[0]?.textContents_0_y || 550) / 2, fontSize: (templateCoordinates.value[0]?.textContents_0_fs ||35) / 2, fontFamily:(templateCoordinates.value[0]?.textContents_0_ff ||'Arial') },
+                { content: course_s, x: (templateCoordinates.value[0]?.textContents_1_x || 45) / 2, y: (templateCoordinates.value[0]?.textContents_1_y || 590) / 2, fontSize: (templateCoordinates.value[0]?.textContents_1_fs ||25) / 2, fontFamily:(templateCoordinates.value[0]?.textContents_1_ff ||'Arial') },
+                { content: last_name, x: (templateCoordinates.value[0]?.textContents_2_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_2_y || 370) / 2, fontSize: (templateCoordinates.value[0]?.textContents_2_fs ||45) / 2, fontFamily:(templateCoordinates.value[0]?.textContents_2_ff ||'Arial') },
+                { content: first_name, x: (templateCoordinates.value[0]?.textContents_3_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_3_y || 420) / 2, fontSize: (templateCoordinates.value[0]?.textContents_3_fs || 45) / 2, fontFamily:(templateCoordinates.value[0]?.textContents_3_ff ||'Arial') },
+                { content: middle_name, x: (templateCoordinates.value[0]?.textContents_4_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_4_y || 470) / 2, fontSize: (templateCoordinates.value[0]?.textContents_4_fs ||45) / 2, fontFamily:(templateCoordinates.value[0]?.textContents_4_ff ||'Arial') },
                 ];
 
         });
@@ -689,7 +690,10 @@ export default {
             const rect = canvasRef.value.getBoundingClientRect();
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;
-            
+            // Check if the mouse is at the edge of the profile (within 5 pixels from the edge)
+            // if (offsetX <= 5 || offsetY <= 5 || offsetX >= profileWidth.value - 5 || offsetY >= profileHeight.value - 5) {
+            //     isResizing = true;
+            // }
             // Check if the mouse is within the profile image
             if (
                 offsetX >= profileX.value &&
@@ -778,7 +782,13 @@ export default {
                     event.clientY - canvasRef.value.getBoundingClientRect().top;
                 const diffX = mouseX - startX.value;
                 const diffY = mouseY - startY.value;
+                // if (isResizing) {
+                //     // Calculate the new image size based on mouse position
+                //     profileWidth.value = event.offsetX;
+                //     profileHeight.value = event.offsetY;
 
+                //     // drawImageOnCanvas();
+                // }
                 if (draggedElement.value === "image") {
                     // Update the profile image position
                     profileX.value += diffX;
@@ -872,6 +882,7 @@ export default {
         };
 
         const handleMouseUp = () => {
+            // isResizing = false;
             isDragging.value = false;
             draggedElement.value = null;
             // new added

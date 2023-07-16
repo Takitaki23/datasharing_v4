@@ -33,8 +33,9 @@ class TemplateController extends Controller
         $alreadySaveT = Template::where('template_name',$request->templates['template'])->first();
         // dd($request);
         if($alreadySaveT){
-            $alreadySaveT->template_name = $request->templates['template'];
-            $alreadySaveT->template_back = $request->templates['templateBack'];
+
+            $alreadySaveT->template_name = preg_replace('#/id_template#', 'id_template', $request->templates['template']);
+            $alreadySaveT->template_back = preg_replace('#/id_template#', 'id_template', $request->templates['templateBack']);
             // canvas
             $alreadySaveT->canvas_width = $request->canvas['width'];
             $alreadySaveT->canvas_height = $request->canvas['height'];
@@ -105,8 +106,8 @@ class TemplateController extends Controller
             return response()->json(['message' => 'Template Updated successfully']);
         }else{
             $template = new Template();
-            $template->template_name = $request->templates['template'];
-            $template->template_back = '/id_template/collegeb.png';
+            $template->template_name = preg_replace('#/id_template#', 'id_template', $request->templates['template']);
+            $template->template_back = preg_replace('#/id_template#', 'id_template', $request->templates['templateBack']);
             // canvas
             $template->canvas_width = $request->canvas['width'];
             $template->canvas_height = $request->canvas['height'];
