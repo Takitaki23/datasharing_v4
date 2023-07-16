@@ -27,7 +27,6 @@
             </div>
         </div>
         <div class="scroll-container">
-            
             <div
             class="row justify-content-center table-main"
             style="width: 90%; margin: auto;
@@ -58,7 +57,9 @@
                     <div class="col-md-12 mt-3">
                         <h3 class="text-success fw-bold">Edit Template</h3>
                     </div>  
-                        <div class="col-md-2">
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
@@ -77,7 +78,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                               <!-- For font family dropdown -->
                               <div class="container mt-3">
                                     <!-- Your Font Family Dropdown Menu -->
@@ -95,7 +96,70 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-2 mt-4">
+                            <div class="container">
+                              <label for="">Resize Image</label>
+                            </div>
+                        </div>
+                        <!-- Dropdown for height -->
+                        <div class="col-md-1">
+                            <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Height
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;">
+                                        <li><a class="dropdown-item" href="#">8</a></li>
+                                        <li><a class="dropdown-item" href="#">9</a></li>
+                                        <li><a class="dropdown-item" href="#">10</a></li>
+                                        <li><a class="dropdown-item" href="#">11</a></li>
+                                        <li><a class="dropdown-item" href="#">12</a></li>
+                                        <li><a class="dropdown-item" href="#">14</a></li>
+                                        <li><a class="dropdown-item" href="#">16</a></li>
+                                        <li><a class="dropdown-item" href="#">18</a></li>
+                                        <li><a class="dropdown-item" href="#">20</a></li>
+                                        <li><a class="dropdown-item" href="#">22</a></li>
+                                        <li><a class="dropdown-item" href="#">24</a></li>
+                                        <li><a class="dropdown-item" href="#">26</a></li>
+                                        <li><a class="dropdown-item" href="#">28</a></li>
+                                        <li><a class="dropdown-item" href="#">36</a></li>
+                                        <li><a class="dropdown-item" href="#">48</a></li>
+                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                                <!-- Dropdown for width -->
+                        <div class="col-md-3">
+                            <div class="container mt-3">
+                                <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Width
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;">
+                                        <li><a class="dropdown-item" href="#">8</a></li>
+                                        <li><a class="dropdown-item" href="#">9</a></li>
+                                        <li><a class="dropdown-item" href="#">10</a></li>
+                                        <li><a class="dropdown-item" href="#">11</a></li>
+                                        <li><a class="dropdown-item" href="#">12</a></li>
+                                        <li><a class="dropdown-item" href="#">14</a></li>
+                                        <li><a class="dropdown-item" href="#">16</a></li>
+                                        <li><a class="dropdown-item" href="#">18</a></li>
+                                        <li><a class="dropdown-item" href="#">20</a></li>
+                                        <li><a class="dropdown-item" href="#">22</a></li>
+                                        <li><a class="dropdown-item" href="#">24</a></li>
+                                        <li><a class="dropdown-item" href="#">26</a></li>
+                                        <li><a class="dropdown-item" href="#">28</a></li>
+                                        <li><a class="dropdown-item" href="#">36</a></li>
+                                        <li><a class="dropdown-item" href="#">48</a></li>
+                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                </div>
                 <div class="row mt-4">
                     <!-- <div class="col-md-4 border">
                         <canvas
@@ -125,7 +189,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
        
 
         <button
@@ -1227,6 +1291,7 @@ div.dashboard_header {
 .dropdown-item:hover {
   background-color: #d5d0d0;
 }
+
 @media screen and (max-width: 1480px) {
     .generate-id-button {
         max-width: 100% !important;
