@@ -519,39 +519,39 @@ export default {
                 { content: st_id_s, 
                     x: (idCoordinates.value?.textContents_0_x || templateCoordinates.value[0]?.textContents_0_x || 280) / 2, 
                     y: (idCoordinates.value?.textContents_0_y || templateCoordinates.value[0]?.textContents_0_y || 550) / 2, 
-                    fontSize: 35 / 2,
-                    fonts: "Helvetica-Bold",
+                    fontSize: templateCoordinates.value[0]?.textContents_0_fs || 35 / 2,
+                    fonts: templateCoordinates.value[0]?.textContents_0_ff || "Helvetica-Bold",
                     colors: "rgb("+(idCoordinates.value?.rgb_color_secondary || 'black')+")" 
                 },
                 { content: course_s, 
                     x: (idCoordinates.value?.textContents_1_x || templateCoordinates.value[0]?.textContents_1_x || 45) / 2, 
                     y:(idCoordinates.value?.textContents_1_y || templateCoordinates.value[0]?.textContents_1_y || 590) / 2, 
-                    fontSize: 25 / 2,
-                    fonts: 'Helvetica',
+                    fontSize: templateCoordinates.value[0]?.textContents_1_fs || 25 / 2,
+                    fonts: templateCoordinates.value[0]?.textContents_1_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
                 {
                     content: last_name,
                     x: (idCoordinates.value?.textContents_2_x || templateCoordinates.value[0]?.textContents_2_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_2_y || templateCoordinates.value[0]?.textContents_2_y || 370) / 2,
-                    fontSize: 45 / 2,
-                    fonts: 'Helvetica-Bold',
+                    fontSize: templateCoordinates.value[0]?.textContents_2_fs || 45 / 2,
+                    fonts: templateCoordinates.value[0]?.textContents_2_ff || 'Helvetica-Bold',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
                 {
                     content: first_name,
                     x: (idCoordinates.value?.textContents_3_x || templateCoordinates.value[0]?.textContents_3_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_3_y || templateCoordinates.value[0]?.textContents_3_y || 420) / 2,
-                    fontSize: 45 / 2,
-                    fonts: 'Helvetica',
+                    fontSize: templateCoordinates.value[0]?.textContents_3_fs || 45 / 2,
+                    fonts: templateCoordinates.value[0]?.textContents_3_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
                 {
                     content: middle_name,
                     x: (idCoordinates.value?.textContents_4_x || templateCoordinates.value[0]?.textContents_4_x || 430) / 2,
                     y: (idCoordinates.value?.textContents_4_y || templateCoordinates.value[0]?.textContents_4_y || 470) / 2,
-                    fontSize: 45 / 2,
-                    fonts: 'Helvetica',
+                    fontSize: templateCoordinates.value[0]?.textContents_4_fs || 45 / 2,
+                    fonts: templateCoordinates.value[0]?.textContents_4_ff || 'Helvetica',
                     colors: "rgb("+(idCoordinates.value?.rgb_color_primary || 'black')+")"
                 },
             ];

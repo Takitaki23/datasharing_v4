@@ -62,26 +62,13 @@
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Font Size
-                                </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="#">8</a></li>
-                                        <li><a class="dropdown-item" href="#">9</a></li>
-                                        <li><a class="dropdown-item" href="#">10</a></li>
-                                        <li><a class="dropdown-item" href="#">11</a></li>
-                                        <li><a class="dropdown-item" href="#">12</a></li>
-                                        <li><a class="dropdown-item" href="#">14</a></li>
-                                        <li><a class="dropdown-item" href="#">16</a></li>
-                                        <li><a class="dropdown-item" href="#">18</a></li>
-                                        <li><a class="dropdown-item" href="#">20</a></li>
-                                        <li><a class="dropdown-item" href="#">22</a></li>
-                                        <li><a class="dropdown-item" href="#">24</a></li>
-                                        <li><a class="dropdown-item" href="#">26</a></li>
-                                        <li><a class="dropdown-item" href="#">28</a></li>
-                                        <li><a class="dropdown-item" href="#">36</a></li>
-                                        <li><a class="dropdown-item" href="#">48</a></li>
-                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Font Size
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton">
+                                    <li v-for="fontSize in fontSizes" :key="fontSize">
+                                        <a class="dropdown-item" href="#" @click="selectFontSize(fontSize)">{{ fontSize }}</a>
+                                    </li>
                                     </ul>
                                 </div>
                             </div>
@@ -89,17 +76,15 @@
                         <div class="col">
                               <!-- For font family dropdown -->
                               <div class="container mt-3">
-                                <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Font family
-                                </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="#">Arial</a></li>
-                                        <li><a class="dropdown-item" href="#">Century Gothic</a></li>
-                                        <li><a class="dropdown-item" href="#">Calibri</a></li>
-                                        <li><a class="dropdown-item" href="#">Times New Roman</a></li>
-                                        <li><a class="dropdown-item" href="#">Helvetica</a></li>
-                                        <li><a class="dropdown-item" href="#">Futura</a></li>
+                                    <!-- Your Font Family Dropdown Menu -->
+                                    <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Font Family
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton">
+                                        <li v-for="fontFamily in fontFamilies" :key="fontFamily">
+                                        <a class="dropdown-item" href="#" @click="selectFontFamily(fontFamily)">{{ fontFamily }}</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -260,19 +245,55 @@ export default {
         const draggedElement = ref(null);
         const draggedElementBack = ref(null);
 
-        // watch(statePath, () => {
-        //     console.log(statePath);
-        //     redrawCanvas();
-        // });
+        // Define a default font size
+        const defaultFontSize = 21.33; // Change this value as per your requirement
+
+        // Define a default font family
+        const defaultFontFamily = 'Arial'; // Change this value as per your requirement
+        // Define the font sizes available in the dropdown
+        const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+
+        // Your existing font families
+        const fontFamilies = ['Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia', 'Comic Sans MS'];
+        // Define a ref for tracking the selected font size
+        const selectedFontSize = ref(null);
+        // Define a ref for tracking the selected font family from the dropdown
+        const selectedFontFamily = ref(null);
+
+        // Define a ref to track whether the dropdown is open or closed
+        const dropdownOpen = ref(false);
+        // Define a ref to track whether the font family dropdown is open or closed
+        const fontFamilyDropdownOpen = ref(false);
+
+        // Function to toggle the dropdown visibility
+        const toggleDropdown = () => {
+        dropdownOpen.value = !dropdownOpen.value;
+        };
+        // Function to toggle the font family dropdown visibility
+        const toggleFontFamilyDropdown = () => {
+        fontFamilyDropdownOpen.value = !fontFamilyDropdownOpen.value;
+        };
+
+        // Function to handle the font size selection
+        const selectFontSize = (fontSize) => {
+            // selectedFontSize.value = fontSize;
+            dropdownOpen.value = false; // Close the dropdown after selection (optional)
+            // Close the font size dropdown after selection (optional)
+            toggleFontFamilyDropdown(false);
+            // Apply the selectedFontSize to your canvas text elements
+            // For example:
+            // const fontSizeInPixels = parseInt(fontSize);
+            // offscreenContext.font = `${fontSizeInPixels}px Arial`;
+            selectedFontSize.value = (parseInt(fontSize)/72)*96
+        };
+        // Function to handle the font family selection
+        const selectFontFamily = (fontFamily) => {
+            selectedFontFamily.value = fontFamily;
+            // Close the font family dropdown after selection (optional)
+            toggleFontFamilyDropdown(false);
+        };
 
         const textContents = computed(() => {
-            // Retrieve the template coordinates from the reactive value
-            // const resolvedCoordinates = templateCoordinates.value;
-            // console.log(templateCoordinates.value[0].profile_x)
-            // console.log(responseData.value.student_no);
-
-           
-
             const st_id_s = "20-1234";
 
             const course_s = "BS. INFORMATION TECHNOLOGY";
@@ -282,11 +303,11 @@ export default {
             // we devided by 2 to make it smaller
             // Map the template coordinates to textContent objects
             return [
-                { content: st_id_s, x: (templateCoordinates.value[0]?.textContents_0_x || 280) / 2, y: (templateCoordinates.value[0]?.textContents_0_y || 550) / 2, fontSize: 35 / 2 },
-                { content: course_s, x: (templateCoordinates.value[0]?.textContents_1_x || 45) / 2, y: (templateCoordinates.value[0]?.textContents_1_y || 590) / 2, fontSize: 25 / 2 },
-                { content: last_name, x: (templateCoordinates.value[0]?.textContents_2_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_2_y || 370) / 2, fontSize: 45 / 2 },
-                { content: first_name, x: (templateCoordinates.value[0]?.textContents_3_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_3_y || 420) / 2, fontSize: 45 / 2 },
-                { content: middle_name, x: (templateCoordinates.value[0]?.textContents_4_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_4_y || 470) / 2, fontSize: 45 / 2 },
+                { content: st_id_s, x: (templateCoordinates.value[0]?.textContents_0_x || 280) / 2, y: (templateCoordinates.value[0]?.textContents_0_y || 550) / 2, fontSize: (templateCoordinates.value[0]?.textContents_0_fs ||35 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_0_ff ||'Arial') },
+                { content: course_s, x: (templateCoordinates.value[0]?.textContents_1_x || 45) / 2, y: (templateCoordinates.value[0]?.textContents_1_y || 590) / 2, fontSize: (templateCoordinates.value[0]?.textContents_1_fs ||25 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_1_ff ||'Arial') },
+                { content: last_name, x: (templateCoordinates.value[0]?.textContents_2_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_2_y || 370) / 2, fontSize: (templateCoordinates.value[0]?.textContents_2_fs ||45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_2_y ||'Arial') },
+                { content: first_name, x: (templateCoordinates.value[0]?.textContents_3_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_3_y || 420) / 2, fontSize: (templateCoordinates.value[0]?.textContents_3_fs || 45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_3_y ||'Arial') },
+                { content: middle_name, x: (templateCoordinates.value[0]?.textContents_4_x || 430) / 2, y: (templateCoordinates.value[0]?.textContents_4_y || 470) / 2, fontSize: (templateCoordinates.value[0]?.textContents_4_fs ||45 / 2), fontFamily:(templateCoordinates.value[0]?.textContents_4_y ||'Arial') },
                 ];
 
         });
@@ -301,13 +322,13 @@ export default {
             const ecpc = "09345678986"
             const semester = "2nd Semester AY 2023 - 2024"
             return [
-                {content: ecp, x:(templateCoordinates.value[0]?.textContentsBack_0_x || 310), y:(templateCoordinates.value[0]?.textContentsBack_0_y || 120) / 2,fontSize:30/2},
-                {content: address1, x:(templateCoordinates.value[0]?.textContentsBack_1_x || 280),y:(templateCoordinates.value[0]?.textContentsBack_1_y ||160)/2,fontSize:22/2},
+                {content: ecp, x:(templateCoordinates.value[0]?.textContentsBack_0_x || 310), y:(templateCoordinates.value[0]?.textContentsBack_0_y || 120) / 2,fontSize:30/2, fontFamily:'Arial'},
+                {content: address1, x:(templateCoordinates.value[0]?.textContentsBack_1_x || 280),y:(templateCoordinates.value[0]?.textContentsBack_1_y ||160)/2,fontSize:22/2,fontFamily:'Arial'},
                 // {content: barangay, x:255,y:0,fontSize:25},
                 // {content: address2, x:255,y:122,fontSize:25/2},
                 // {content: province, x:0,y:0,fontSize:0},
-                {content: ecpc, x:(templateCoordinates.value[0]?.textContentsBack_2_x ||340),y:(templateCoordinates.value[0]?.textContentsBack_2_y ||200)/2,fontSize:25/2},
-                {content: semester, x:(templateCoordinates.value[0]?.textContentsBack_3_x ||35),y:(templateCoordinates.value[0]?.textContentsBack_3_y || 500)/2,fontSize:30/2},
+                {content: ecpc, x:(templateCoordinates.value[0]?.textContentsBack_2_x ||340),y:(templateCoordinates.value[0]?.textContentsBack_2_y ||200)/2,fontSize:25/2,fontFamily:'Arial'},
+                {content: semester, x:(templateCoordinates.value[0]?.textContentsBack_3_x ||35),y:(templateCoordinates.value[0]?.textContentsBack_3_y || 500)/2,fontSize:30/2,fontFamily:'Arial'},
             ]
         })
 
@@ -403,12 +424,26 @@ export default {
                             profileHeight.value
                         );
 
+                        // Add event listener for mouse click on the front canvas
+                        canvas.addEventListener("click", handleMouseClick);
                         // Draw the text elements
                         if (textContents.value) {
+                            // console.log(selectedFontSize.value)
                             textContents.value.forEach((textContent, index) => {
-                                offscreenContext.font = `${textContent.fontSize}px Arial`;
-                                context.fillStyle =
-                                index === selectedContentIndex.value ? "red" : "black"; // Apply selection style
+                               
+                                offscreenContext.font = `${textContent.fontSize}px ${textContent.fontFamily}`;
+                                if (index === selectedContentIndex.value) {
+                                    offscreenContext.fillStyle = "green"; // Apply selection style for the selected text content (green)
+                                    offscreenContext.font = `${textContent.fontSize+1}px ${textContent.fontFamily}`;
+                                            // Shadow properties
+                                            offscreenContext.shadowColor = "grey";
+                                            offscreenContext.shadowOffsetX = 1;
+                                            offscreenContext.shadowOffsetY = 5;
+                                            offscreenContext.shadowBlur = 3;
+                                        } else {
+                                            offscreenContext.fillStyle = "black"; // Apply regular style for non-selected text content
+                                            offscreenContext.shadowColor = "transparent"; // Reset shadow for non-selected text
+                                        }
                                 offscreenContext.fillText(
                                 textContent.content,
                                 textContent.x,
@@ -416,6 +451,8 @@ export default {
                                 );
                             });
                         }
+
+                         
 
                         // Copy the offscreen canvas to the visible canvas
                         context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -462,13 +499,27 @@ export default {
                                     signatureWidth.value,
                                     signatureHeight.value
                                 );
+                                // Add event listener for mouse click on the back canvas
+                                canvasBack.addEventListener("click", handleMouseClick);
 
                                 // Draw the text elements
                                 if (textContentsBack.value) {
                                     textContentsBack.value.forEach((textContent, index) => {
                                         // console.log(textContent.content)
-                                        offscreenContextBack.font = `${textContent.fontSize}px Arial`;
-                                        contextBack.fillStyle = "black"; // Apply selection style
+                                        offscreenContextBack.font = `${textContent.fontSize}px ${textContent.fontFamily}`;
+                                        if (index === selectedContentIndexBack.value) {
+                                            offscreenContextBack.fillStyle = "green"; // Apply selection style for the selected text content (green)
+                                            offscreenContextBack.font = `${textContent.fontSize+1}px ${textContent.fontFamily}`;
+                                            // Shadow properties
+                                            offscreenContextBack.shadowColor = "grey";
+                                            offscreenContextBack.shadowOffsetX = 1;
+                                            offscreenContextBack.shadowOffsetY = 5;
+                                            offscreenContextBack.shadowBlur = 3;
+                                        } else {
+                                            offscreenContextBack.fillStyle = "black"; // Apply regular style for non-selected text content
+                                            offscreenContextBack.shadowColor = "transparent"; // Reset shadow for non-selected text
+                                        }
+                                        
                                         offscreenContextBack.fillText(
                                         textContent.content,
                                         textContent.x,
@@ -476,6 +527,8 @@ export default {
                                         );
                                     });
                                 }
+
+                                
                                 contextBack.clearRect(0, 0, canvasWidth, canvasHeight);
                                 contextBack.drawImage(offscreenCanvas, 0, 0);
                             }
@@ -524,6 +577,7 @@ export default {
                     x: textContent.x * 2,
                     y: textContent.y * 2,
                     fontSize: textContent.fontSize * 2,
+                    fontFamily:textContent.fontFamily
                 })
             );
 
@@ -534,6 +588,7 @@ export default {
                     x: textContentBack.x,
                     y: textContentBack.y * 2,
                     fontSize: textContentBack.fontSize * 2,
+                    fontFamily: textContentBack.fontFamily
                 })
             )
 
@@ -574,6 +629,51 @@ export default {
                 });
         };
 
+        const handleMouseClick = (event) => {
+            const rect = canvasRef.value.getBoundingClientRect();
+            const offsetX = event.clientX - rect.left;
+            const offsetY = event.clientY - rect.top;
+
+            // Check if the mouse is within any text element on the front canvas
+            for (let i = 0; i < textContents.value.length; i++) {
+                const textContent = textContents.value[i];
+                if (
+                offsetX >= textContent.x &&
+                offsetX <= textContent.x + 200 && // Assuming a maximum width of 200 for text elements
+                offsetY >= textContent.y - textContent.fontSize &&
+                offsetY <= textContent.y
+                ) {
+                    textContent.fontSize = selectedFontSize.value || defaultFontSize
+                    // Use selectedFontFamily if available; otherwise, use the defaultFontFamily
+                    textContent.fontFamily = selectedFontFamily.value || defaultFontFamily;
+                    selectedContentIndex.value = i; // Set the selected content index
+                break;
+                }
+            }
+
+            // Check if the mouse is within any text element on the back canvas
+            const rectBack = canvasBackRef.value.getBoundingClientRect();
+            const offsetXBack = event.clientX - rectBack.left;
+            const offsetYBack = event.clientY - rectBack.top;
+
+            for (let b = 0; b < textContentsBack.value.length; b++) {
+                const textContentBack = textContentsBack.value[b];
+                if (
+                offsetXBack >= textContentBack.x &&
+                offsetXBack <= textContentBack.x + 200 && // Assuming a maximum width of 200 for text elements
+                offsetYBack >= textContentBack.y - textContentBack.fontSize &&
+                offsetYBack <= textContentBack.y
+                ) {
+                    textContentBack.fontSize = selectedFontSize.value || defaultFontSize
+                    // Use selectedFontFamily if available; otherwise, use the defaultFontFamily
+                    textContentBack.fontFamily = selectedFontFamily.value || defaultFontFamily;
+                    selectedContentIndexBack.value = b; // Set the selected content index for the back canvas
+                break;
+                }
+            }
+            console.log(selectedContentIndex.value)
+        };
+
         // ...
 
         const handleExportButtonClick = () => {
@@ -589,7 +689,7 @@ export default {
             const rect = canvasRef.value.getBoundingClientRect();
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;
-
+            
             // Check if the mouse is within the profile image
             if (
                 offsetX >= profileX.value &&
@@ -632,6 +732,7 @@ export default {
             const rectBack = canvasBackRef.value.getBoundingClientRect();
             const offsetXBack = event.clientX - rectBack.left;
             const offsetYBack = event.clientY - rectBack.top;
+
 
             if (
                 offsetXBack >= signatureX.value &&
@@ -689,6 +790,10 @@ export default {
                     draggedTextContent.x += diffX;
                     draggedTextContent.y += diffY;
 
+                    // update the fontSize
+                    draggedTextContent.fontSize = selectedFontSize.value || defaultFontSize
+                    draggedTextContent.fontFamily = selectedFontFamily.value || defaultFontFamily
+
                     // Check if the text element is outside the canvas
                     const canvasWidth = canvasRef.value.width;
                     const canvasHeight = canvasRef.value.height;
@@ -733,6 +838,10 @@ export default {
                     const draggedTextContentBack = textContentsBack.value[draggedElementBack.value];
                     draggedTextContentBack.x += diffXBack;
                     draggedTextContentBack.y += diffYBack;
+
+                    // update the fontSize
+                    draggedTextContentBack.fontSize = selectedFontSize.value || defaultFontSize
+                    draggedTextContentBack.fontFamily = selectedFontFamily.value || defaultFontFamily
 
                     // Check if the text element is outside the back canvas
                     const canvasWidthBack = canvasBackRef.value.width;
@@ -865,7 +974,9 @@ export default {
             canvasHeight: 638,
             imageTemplates,
             getImageTemplates,
-            handleImageClick
+            handleImageClick,
+            fontSizes,dropdownOpen,toggleDropdown ,selectFontSize,  //fontsize
+            fontFamilies,fontFamilyDropdownOpen,toggleFontFamilyDropdown,selectFontFamily,selectedFontFamily
         };
     },
 };
