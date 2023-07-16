@@ -26,27 +26,16 @@
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Font Size
-                                </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
-                                    style="overflow: hidden; height: 300px; overflow:scroll;">
-                                        <li><a class="dropdown-item" href="#">8</a></li>
-                                        <li><a class="dropdown-item" href="#">9</a></li>
-                                        <li><a class="dropdown-item" href="#">10</a></li>
-                                        <li><a class="dropdown-item" href="#">11</a></li>
-                                        <li><a class="dropdown-item" href="#">12</a></li>
-                                        <li><a class="dropdown-item" href="#">14</a></li>
-                                        <li><a class="dropdown-item" href="#">16</a></li>
-                                        <li><a class="dropdown-item" href="#">18</a></li>
-                                        <li><a class="dropdown-item" href="#">20</a></li>
-                                        <li><a class="dropdown-item" href="#">22</a></li>
-                                        <li><a class="dropdown-item" href="#">24</a></li>
-                                        <li><a class="dropdown-item" href="#">26</a></li>
-                                        <li><a class="dropdown-item" href="#">28</a></li>
-                                        <li><a class="dropdown-item" href="#">36</a></li>
-                                        <li><a class="dropdown-item" href="#">48</a></li>
-                                        <li><a class="dropdown-item" href="#">72</a></li>
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
+                                        Select Font Size
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
+                                    
+                                    >
+                                    <li v-for="fontSize in fontSizes" :key="fontSize">
+                                        <a class="dropdown-item" href="#" @click="selectFontSize(fontSize)">{{ fontSize }}</a>
+                                    </li>
                                     </ul>
                                 </div>
                             </div>
@@ -55,48 +44,15 @@
                               <!-- For font family dropdown -->
                               <div class="container mt-3">
                                 <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Font family
-                                </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
-                                    style="overflow: hidden; height: 300px; overflow:scroll;">
-                                        <li><a class="dropdown-item" href="#">Arial</a></li>
-                                        <li><a class="dropdown-item" href="#">Century Gothic</a></li>
-                                        <li><a class="dropdown-item" href="#">Calibri</a></li>
-                                        <li><a class="dropdown-item" href="#">Times New Roman</a></li>
-                                        <li><a class="dropdown-item" href="#">Helvetica</a></li>
-                                        <li><a class="dropdown-item" href="#">Futura</a></li>
-                                        <li><a class="dropdown-item" href="#">Verdana</a></li>
-                                        <li><a class="dropdown-item" href="#">Courier New</a></li>
-                                        <li><a class="dropdown-item" href="#">Comic Sans MS</a></li>
-                                        <li><a class="dropdown-item" href="#">Monseratt</a></li>
-                                        <li><a class="dropdown-item" href="#">Poppins</a></li>
-                                        <li><a class="dropdown-item" href="#">Arial Narrow</a></li>
-                                        <li><a class="dropdown-item" href="#">Myriad Pro</a></li>
-                                        <li><a class="dropdown-item" href="#">Baskerville</a></li>
-                                        <li><a class="dropdown-item" href="#">Tahoma</a></li>
-                                        <li><a class="dropdown-item" href="#">Garamond</a></li>
-                                        <li><a class="dropdown-item" href="#">Franklin Gothic</a></li>
-                                        <li><a class="dropdown-item" href="#">Rockwell</a></li>
-                                        <li><a class="dropdown-item" href="#"> Comfortaa</a></li>
-                                        <li><a class="dropdown-item" href="#">Proxima Nova</a></li>
-                                        <li><a class="dropdown-item" href="#">Roboto</a></li>
-                                        <li><a class="dropdown-item" href="#">Lato</a></li>
-                                        <li><a class="dropdown-item" href="#">Quick Sand</a></li>
-                                        <li><a class="dropdown-item" href="#">Open Sans</a></li>
-                                        <li><a class="dropdown-item" href="#">Ubuntu</a></li>
-                                        <li><a class="dropdown-item" href="#"> Avenir</a></li>
-                                        <li><a class="dropdown-item" href="#">News Gothic</a></li>
-                                        <li><a class="dropdown-item" href="#">Merriweather</a></li>
-                                        <li><a class="dropdown-item" href="#">Frutiger</a></li>
-                                        <li><a class="dropdown-item" href="#">Public Sans</a></li>
-                                        <li><a class="dropdown-item" href="#">Arial Rounded MT Bold</a></li>
-                                        <li><a class="dropdown-item" href="#">Bebas</a></li>
-                                        <li><a class="dropdown-item" href="#"> Palatino</a></li>
-                                        <li><a class="dropdown-item" href="#">Brandon Grotesque</a></li>
-                                        <li><a class="dropdown-item" href="#">Trebuchet MS</a></li>
-                                        <li><a class="dropdown-item" href="#">Frutiger</a></li>
-
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Font Family
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
+                                    >
+                                        <li v-for="fontFamily in fontFamilies" :key="fontFamily">
+                                        <a class="dropdown-item" href="#" @click="selectFontFamily(fontFamily)">{{ fontFamily }}</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -511,6 +467,62 @@ export default {
         const draggedElement = ref(null);
         const draggedElementBack = ref(null);
 
+        // Define a default font size
+        const defaultFontSize = 21.33; // Change this value as per your requirement
+
+        // Define a default font family
+        const defaultFontFamily = 'Arial'; // Change this value as per your requirement
+        // Define the font sizes available in the dropdown
+        const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+
+        // Your existing font families
+        const fontFamilies = [
+            'Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia', 'Comic Sans MS',
+            'Calibri', 'Century Gothic', 'Monseratt', 'Poppins','Arial Narrow','Myriad Pro',
+            'Hevetica', 'Baskerville', 'Tahoma', 'Garamond','Franklin Gothic','Futura',
+            'Cambria', 'Rockwell', 'Comfortaa', 'Proxima Nova','Roboto','Lato',
+            'Quick Sand', 'Open Sans', 'Ubuntu',' Avenir','News Gothic','Merriweather',
+            'Frutiger','Public Sans', 'Arial Rounded MT Bold','Bebas','Palatino',
+            'Brandon Grotesque','Trebuchet MS', 
+        
+        ];
+        // Define a ref for tracking the selected font size
+        const selectedFontSize = ref(null);
+        // Define a ref for tracking the selected font family from the dropdown
+        const selectedFontFamily = ref(null);
+
+        // Define a ref to track whether the dropdown is open or closed
+        const dropdownOpen = ref(false);
+        // Define a ref to track whether the font family dropdown is open or closed
+        const fontFamilyDropdownOpen = ref(false);
+
+        // Function to toggle the dropdown visibility
+        const toggleDropdown = () => {
+        dropdownOpen.value = !dropdownOpen.value;
+        };
+        // Function to toggle the font family dropdown visibility
+        const toggleFontFamilyDropdown = () => {
+        fontFamilyDropdownOpen.value = !fontFamilyDropdownOpen.value;
+        };
+
+        // Function to handle the font size selection
+        const selectFontSize = (fontSize) => {
+            // selectedFontSize.value = fontSize;
+            dropdownOpen.value = false; // Close the dropdown after selection (optional)
+            // Close the font size dropdown after selection (optional)
+            // toggleFontFamilyDropdown(false);
+            // Apply the selectedFontSize to your canvas text elements
+            // For example:
+            // const fontSizeInPixels = parseInt(fontSize);
+            // offscreenContext.font = `${fontSizeInPixels}px Arial`;
+            selectedFontSize.value = fontSize
+        };
+        // Function to handle the font family selection
+        const selectFontFamily = (fontFamily) => {
+            selectedFontFamily.value = fontFamily;
+            // Close the font family dropdown after selection (optional)
+            toggleFontFamilyDropdown(false);
+        };
 
         watch(statePath, () => {
             console.log(statePath);
@@ -604,13 +616,29 @@ export default {
                     content: ecp, 
                     x:idCoordinates.value?.textContentsBack_0_x || templateCoordinates.value[0]?.textContentsBack_0_x || 310, 
                     y:(idCoordinates.value?.textContentsBack_0_y || templateCoordinates.value[0]?.textContentsBack_0_y || 120) / 2,
-                    fontSize:30/2},
-                {content: address1, x:(idCoordinates.value?.textContentsBack_1_x || templateCoordinates.value[0]?.textContentsBack_1_x || 280),y:(idCoordinates.value?.textContentsBack_1_y || templateCoordinates.value[0]?.textContentsBack_1_y ||160)/2,fontSize:22/2},
+                    fontFamily:(templateCoordinates.value[0]?.textContentsBack_0_ff || "Helvetica"),
+                    fontSize:(templateCoordinates.value[0]?.textContentsBack_0_fs || 30)/2},
+                {
+                    content: address1, 
+                    x:(idCoordinates.value?.textContentsBack_1_x || templateCoordinates.value[0]?.textContentsBack_1_x || 280),
+                    y:(idCoordinates.value?.textContentsBack_1_y || templateCoordinates.value[0]?.textContentsBack_1_y ||160)/2,
+                    fontFamily:(templateCoordinates.value[0]?.textContentsBack_1_ff || "Helvetica"),
+                    fontSize:(templateCoordinates.value[0]?.textContentsBack_1_fs ||22)/2},
                 // {content: barangay, x:255,y:0,fontSize:25},
                 // {content: address2, x:255,y:122,fontSize:25/2},
                 // {content: province, x:0,y:0,fontSize:0},
-                {content: ecpc, x:(idCoordinates.value?.textContentsBack_2_x || templateCoordinates.value[0]?.textContentsBack_2_x ||340),y:(idCoordinates.value?.textContentsBack_2_y || templateCoordinates.value[0]?.textContentsBack_2_y ||200)/2,fontSize:25/2},
-                {content: semester, x:(idCoordinates.value?.textContentsBack_3_x || templateCoordinates.value[0]?.textContentsBack_3_x ||35),y:(idCoordinates.value?.textContentsBack_3_y || templateCoordinates.value[0]?.textContentsBack_3_y || 500)/2,fontSize:30/2},
+                {
+                    content: ecpc, 
+                    x:(idCoordinates.value?.textContentsBack_2_x || templateCoordinates.value[0]?.textContentsBack_2_x ||340),
+                    y:(idCoordinates.value?.textContentsBack_2_y || templateCoordinates.value[0]?.textContentsBack_2_y ||200)/2,
+                    fontFamily:(templateCoordinates.value[0]?.textContentsBack_2_ff || "Helvetica"),
+                    fontSize:(templateCoordinates.value[0]?.textContentsBack_2_fs ||25)/2},
+                {
+                    content: semester, 
+                    x:(idCoordinates.value?.textContentsBack_3_x || templateCoordinates.value[0]?.textContentsBack_3_x ||35),
+                    y:(idCoordinates.value?.textContentsBack_3_y || templateCoordinates.value[0]?.textContentsBack_3_y || 500)/2,
+                    fontFamily:(templateCoordinates.value[0]?.textContentsBack_3_ff || "Helvetica"),
+                    fontSize:(templateCoordinates.value[0]?.textContentsBack_3_fs ||30)/2},
             ]
         })
 
@@ -780,7 +808,7 @@ export default {
                                 if (textContentsBack.value) {
                                     textContentsBack.value.forEach((textContent, index) => {
                                         // console.log(textContent.content)
-                                        offscreenContextBack.font = `${textContent.fontSize}px Arial`;
+                                        offscreenContextBack.font = `${textContent.fontSize}px ${textContent.fontFamily}`;
                                         contextBack.fillStyle = "black"; // Apply selection style
                                         offscreenContextBack.fillText(
                                         textContent.content,
@@ -1241,7 +1269,9 @@ export default {
             image_src,
             profile,
             image_signature,
-            signature
+            signature,
+            fontSizes,dropdownOpen,toggleDropdown ,selectFontSize,  //fontsize
+            fontFamilies,fontFamilyDropdownOpen,toggleFontFamilyDropdown,selectFontFamily,selectedFontFamily
         };
     },
 };

@@ -54,16 +54,19 @@
 
                     <!-- editor for template -->
                 </div>
-                <div class="row mt-5">
-                    <div class="col-md-12 mt-3">
-                        <h3 class="text-success fw-bold">Edit Template</h3>
+                <div class="row mt-5 border p-2">
+                    <div class="col-md-6 mt-3">
+                        <h3 class="text-secondary fw-bold">Edit Template</h3>
+                    </div>  
+                    <div class="col-md-6 mt-3">
+                        <h3 class="text-secondary fw-bold">Selection Details</h3>
                     </div>  
                         <div class="col-md-2">
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
-                                        Select Font Size
+                                        Select Font Size: <span class="badge text-bg-success" v-if="selectedFontSize"><b>{{ selectedFontSize }} pt</b></span>
                                     </button>
                                     <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow:scroll;"
@@ -77,7 +80,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                               <!-- For font family dropdown -->
                               <div class="container mt-3">
                                     <!-- Your Font Family Dropdown Menu -->
@@ -95,6 +98,103 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                              <!-- For font family dropdown -->
+                              <div class="container mt-3">
+                                    <!-- Your Font Family Dropdown Menu -->
+                                    <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleWidthDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
+                                        W
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': widthDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow-y:scroll;"
+                                    >
+                                        <li v-for="width in widths" :key="width">
+                                        <a class="dropdown-item" href="#" @click="selectWidth(width)">{{ width }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                    <!-- Your Font Family Dropdown Menu -->
+                                    <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleHeightDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
+                                        H
+                                    </button>
+                                    <ul class="dropdown-menu" :class="{ 'show': heightDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow-y:scroll;"
+                                    >
+                                        <li v-for="height in heights" :key="height">
+                                        <a class="dropdown-item" href="#" @click="selectHeight(height)">{{ height }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 border rounded">
+                              <!-- For font family dropdown -->
+                            <div class="container mt-3 mx-auto">
+                                    <!-- Your Font Family Dropdown Menu -->
+                                <div class="dropdown">
+                                    <div class="text-secondary">
+                                        font Size
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b>:</b>
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown me-2">
+                                    <div class="text-success">
+                                        <b v-if="selectedFontSize">{{ selectedFontSize }} pt</b>
+                                        <b v-else="selectedFontSize">{{ 20 }} pt</b>
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">|</b>
+                                    </div>
+                                    
+                                </div>
+                                 <!-- Your Font Family Dropdown Menu -->
+                                 <div class="dropdown">
+                                    <div class="text-secondary">
+                                        Font Family
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b>:</b>
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="text-success">
+                                        <b v-if="selectedFontFamily">{{ selectedFontFamily }}</b>
+                                        <b v-else="selectedFontSize">{{ "Helvetica" }}</b>
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">|</b>
+                                    </div>
+                                    
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">selected : </b>
+                                        <b class="text-success" v-if="selectedContent">{{ selectedContent }} </b>
+                                        <b class="text-success" v-else>{{ "select content" }} </b>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 <div class="row mt-4">
                     <!-- <div class="col-md-4 border">
@@ -220,6 +320,8 @@ export default {
         // Add a selectedContentIndex reactive variable
         const selectedContentIndex = ref(null);
         const selectedContentIndexBack = ref(null);
+        const selectedContent = ref(null);
+
 
         const instance = getCurrentInstance();
         const canvasRef = ref(null);
@@ -227,7 +329,7 @@ export default {
         const canvasWidth = ref(0);
         const canvasHeight = ref(0);
         // we devided by 2 to make it smaller
-        let isResizing = ref(false);
+        let isMoving = ref(false);
         const profileX = ref(55 / 2); // Adjust the X coordinate as needed
         const profileY = ref(87 / 2); // Adjust the Y coordinate as needed
         const profileWidth = ref(352 / 2); // Adjust the width as needed
@@ -256,8 +358,9 @@ export default {
 
         // Define a default font family
         const defaultFontFamily = 'Arial'; // Change this value as per your requirement
+
         // Define the font sizes available in the dropdown
-        const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+        const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28,30, 36, 48, 72];
 
         // Your existing font families
         const fontFamilies = [
@@ -270,8 +373,15 @@ export default {
             'Brandon Grotesque','Trebuchet MS', 
         
         ];
+
+        const widths = [100,150,200,250,300,350,400,450,500]
+        const heights = [100,150,200,250,300,350,400,450,500]
         // Define a ref for tracking the selected font size
         const selectedFontSize = ref(null);
+        // Define a ref for tracking the selected Width
+        const selectedWidth = ref(null);
+        // Define a ref for tracking the selected Height
+        const selectedHeight = ref(null);
         // Define a ref for tracking the selected font family from the dropdown
         const selectedFontFamily = ref(null);
 
@@ -279,6 +389,10 @@ export default {
         const dropdownOpen = ref(false);
         // Define a ref to track whether the font family dropdown is open or closed
         const fontFamilyDropdownOpen = ref(false);
+        // Define a ref to track whether the width dropdown is open or closed
+        const widthDropdownOpen = ref(false);
+        // Define a ref to track whether the height dropdown is open or closed
+        const heightDropdownOpen = ref(false);
 
         // Function to toggle the dropdown visibility
         const toggleDropdown = () => {
@@ -287,6 +401,14 @@ export default {
         // Function to toggle the font family dropdown visibility
         const toggleFontFamilyDropdown = () => {
         fontFamilyDropdownOpen.value = !fontFamilyDropdownOpen.value;
+        };
+        // Function to toggle the width dropdown visibility
+        const toggleWidthDropdown = () => {
+            widthDropdownOpen.value = !widthDropdownOpen.value;
+        };
+        // Function to toggle the width dropdown visibility
+        const toggleHeightDropdown = () => {
+            heightDropdownOpen.value = !heightDropdownOpen.value;
         };
 
         // Function to handle the font size selection
@@ -299,13 +421,26 @@ export default {
             // For example:
             // const fontSizeInPixels = parseInt(fontSize);
             // offscreenContext.font = `${fontSizeInPixels}px Arial`;
-            selectedFontSize.value = (parseInt(fontSize)/72)*96
+            // selectedFontSize.value = (parseInt(fontSize)/72)*96
+            selectedFontSize.value = parseInt(fontSize)
         };
         // Function to handle the font family selection
         const selectFontFamily = (fontFamily) => {
             selectedFontFamily.value = fontFamily;
             // Close the font family dropdown after selection (optional)
             toggleFontFamilyDropdown(false);
+        };
+        // Function to handle the Width selection
+        const selectWidth = (width) => {
+            selectedWidth.value = width + 2;
+            // Close the font family dropdown after selection (optional)
+            toggleWidthDropdown(false);
+        };
+        // Function to handle the Width selection
+        const selectHeight = (height) => {
+            selectedHeight.value = height + 15;
+            // Close the font family dropdown after selection (optional)
+            toggleHeightDropdown(false);
         };
 
         const textContents = computed(() => {
@@ -453,6 +588,8 @@ export default {
                                
                                 offscreenContext.font = `${textContent.fontSize}px ${textContent.fontFamily}`;
                                 if (index === selectedContentIndex.value) {
+                                    // get the selected text
+                                    selectedContent.value = textContent.content
                                     offscreenContext.fillStyle = "green"; // Apply selection style for the selected text content (green)
                                     offscreenContext.font = `${textContent.fontSize+1}px ${textContent.fontFamily}`;
                                             // Shadow properties
@@ -528,6 +665,8 @@ export default {
                                         // console.log(textContent.content)
                                         offscreenContextBack.font = `${textContent.fontSize}px ${textContent.fontFamily}`;
                                         if (index === selectedContentIndexBack.value) {
+                                            //get the selected text
+                                            selectedContent.value = textContent.content
                                             offscreenContextBack.fillStyle = "green"; // Apply selection style for the selected text content (green)
                                             offscreenContextBack.font = `${textContent.fontSize+1}px ${textContent.fontFamily}`;
                                             // Shadow properties
@@ -654,6 +793,20 @@ export default {
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;
 
+            // Check if the mouse is within the profile image
+            if (
+                offsetX >= profileX.value &&
+                offsetX <= profileX.value + profileWidth.value &&
+                offsetY >= profileY.value &&
+                offsetY <= profileY.value + profileHeight.value
+            ) {
+                isMoving.value = true;
+                profileWidth.value = (selectedWidth.value || 352) / 2; // Adjust the width as needed
+                profileHeight.value = (selectedHeight.value || 415) / 2; // Adjust the width as needed
+                // redrawCanvas()
+                // const profileHeight = ref(415 / 2); // Adjust the height as needed
+            }
+            
             // Check if the mouse is within any text element on the front canvas
             for (let i = 0; i < textContents.value.length; i++) {
                 const textContent = textContents.value[i];
@@ -667,6 +820,7 @@ export default {
                     // Use selectedFontFamily if available; otherwise, use the defaultFontFamily
                     textContent.fontFamily = selectedFontFamily.value || defaultFontFamily;
                     selectedContentIndex.value = i; // Set the selected content index
+                    isMoving.value = false;
                 break;
                 }
             }
@@ -675,6 +829,20 @@ export default {
             const rectBack = canvasBackRef.value.getBoundingClientRect();
             const offsetXBack = event.clientX - rectBack.left;
             const offsetYBack = event.clientY - rectBack.top;
+
+            // Check if the mouse is within the profile image
+            if (
+                offsetXBack >= signatureX.value &&
+                offsetXBack <= signatureX.value + signatureWidth.value &&
+                offsetYBack >= signatureY.value &&
+                offsetYBack <= signatureY.value + signatureHeight.value
+            ) {
+                isMoving.value = true;
+                signatureWidth.value = (selectedWidth.value || 300) / 2; // Adjust the width as needed
+                signatureHeight.value = (selectedHeight.value || 150) - 15; // Adjust the width as needed
+                // redrawCanvas()
+                // const profileHeight = ref(415 / 2); // Adjust the height as needed
+            }
 
             for (let b = 0; b < textContentsBack.value.length; b++) {
                 const textContentBack = textContentsBack.value[b];
@@ -688,7 +856,8 @@ export default {
                     // Use selectedFontFamily if available; otherwise, use the defaultFontFamily
                     textContentBack.fontFamily = selectedFontFamily.value || defaultFontFamily;
                     selectedContentIndexBack.value = b; // Set the selected content index for the back canvas
-                break;
+                    isMoving.value = false;
+                    break;
                 }
             }
             console.log(selectedContentIndex.value)
@@ -812,6 +981,9 @@ export default {
                     // Update the profile image position
                     profileX.value += diffX;
                     profileY.value += diffY;
+                    // activate dropdown button
+                    // moving
+                    isMoving.value = true
                 } else if (typeof draggedElement.value === "number") {
                     // Update the text position
                     const draggedTextContent =
@@ -862,6 +1034,9 @@ export default {
                     // Update the profile image position on the back canvas
                     signatureX.value += diffXBack;
                     signatureY.value += diffYBack;
+
+                    // moving
+                    isMoving.value = true
                 } else if (typeof draggedElementBack.value === "number") {
                     // Update the text position on the back canvas
                     const draggedTextContentBack = textContentsBack.value[draggedElementBack.value];
@@ -897,12 +1072,17 @@ export default {
                 if (diffXBack !== 0 || diffYBack !== 0) {
                     redrawCanvas();
                 }
+
+                
             }
         };
 
         const handleMouseUp = () => {
             // isResizing = false;
             isDragging.value = false;
+
+            // // moving
+            // isMoving.value = false
             draggedElement.value = null;
             // new added
             selectedContentIndex.value = null; // Clear the selected content index
@@ -1005,7 +1185,11 @@ export default {
             imageTemplates,
             getImageTemplates,
             handleImageClick,
-            fontSizes,dropdownOpen,toggleDropdown ,selectFontSize,  //fontsize
+            selectedContent,
+            isMoving,
+            widths,widthDropdownOpen,toggleWidthDropdown,selectWidth,selectedWidth,//width
+            heights,heightDropdownOpen,toggleHeightDropdown,selectHeight,selectedHeight,//height
+            fontSizes,dropdownOpen,toggleDropdown ,selectFontSize, selectedFontSize, //fontsize
             fontFamilies,fontFamilyDropdownOpen,toggleFontFamilyDropdown,selectFontFamily,selectedFontFamily
         };
     },

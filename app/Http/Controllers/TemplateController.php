@@ -30,7 +30,7 @@ class TemplateController extends Controller
 
     // save template
     public function saveImageTemplates(Request $request){
-        $alreadySaveT = Template::where('template_name',$request->templates['template'])->first();
+        $alreadySaveT = Template::where('template_name',preg_replace('#/id_template#', 'id_template', $request->templates['template']))->first();
         // dd($request);
         if($alreadySaveT){
 
