@@ -27,6 +27,26 @@ class ImageController extends Controller
         return response()->json($imageNames);
     }
 
+    // get id generated
+    public function getGeneratedId()
+    {
+        // Path to the "id_final" directory within the "public" folder
+        $path = public_path('id_final/');
+
+        // Get all files (images) in the specified path
+        $imageFiles = File::files($path);
+
+        // Filter out only the file names with the "_f.png" suffix
+        $filteredImages = array_filter($imageFiles, function ($imageFile) {
+            return str_ends_with($imageFile, '_f.png');
+        });
+
+        // Extract the base names (file names) of the filtered images
+        $idNames = array_map('basename', $filteredImages);
+
+        return response()->json($idNames);
+    }
+
     public function getSignatures()
     {
         // path to public

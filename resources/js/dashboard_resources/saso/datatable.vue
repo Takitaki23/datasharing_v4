@@ -30,6 +30,7 @@
                                 <!-- <th>Guardian's Name</th>
                                 <th>Guardian's Address</th>
                                 <th>Guardian's Contact</th> -->
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -99,6 +100,7 @@ export default {
         // data-id
         const data_id = ref(null);
         const users = ref([]);
+        const id_Gen = ref([]);
         const modalVisible = ref(false);
         const editModalVisible = ref(false);
         const addModalVisible = ref(false);
@@ -355,22 +357,38 @@ export default {
             }
         });
 
-        watch(users, (newUsers)=>{
+        watch(users, async(newUsers)=>{
             console.log(newUsers)
             if(newUsers && !isDataTableInitialized.value){
+                try {
+                const id_generated = await axios.get('/api/id-generated')
+                    id_Gen.value = id_generated.data
+                    console.log(id_Gen.value)
+                } catch (error) {
+                    console.log(error)
+                }
                 if (table !== null) {
                     // Destroy the existing DataTable instance
                     table.destroy();
                 }
+                // Convert id_Gen.value object into an array of its values
+                const id_Gen_Array = id_Gen.value ? Object.values(id_Gen.value) : [];
+                console.log(id_Gen_Array)
                 table = $("#myTable").DataTable({
-                data: (users.value.data ?? []).map(item =>{
+                data: (users.value.data ?? []).map((item, index) =>{
+                   
+                    // Check if any item in id_Gen.value contains the image name with the '_f' suffix for the current student_no
+                    // Check if the new array id_Gen_F contains the image name with the '_f' suffix for the current student_no
+                    const isGenerated = id_Gen_Array.some((imageName) => imageName.includes(`${item.student_no}_f.png`));
+                    console.log("isGenerated:", isGenerated);
                     return {
                         generate_id: item.id,
                         student_id: item.student_no,
                         last_name: item.last_name,
                         middle_name: item.middle_name,
                         first_name: item.first_name,
-                        type: item.college,
+                        course: item.course,
+                        status: isGenerated ? true : false
                         // suffix: item.suffix || 'not available',
                         // guardian_name: item.guardian_name || 'not available',
                         // guardian_address: item.guardian_address || 'not available',
@@ -426,7 +444,17 @@ export default {
                     { data: "middle_name" },
                     { data: "first_name" },
                     // { data: "suffix"},
-                    { data: "type" },
+                    { data: "course" },
+                    { data: "status",
+                        render: (data, type, row) => {
+                            
+                            if(row.status){
+                                return `<span class="badge text-bg-success p-2">Generated ID</span>`
+                            }else{
+                                return `<span class="badge text-bg-warning p-2">Not Generated ID</span>`
+                            }
+                        }
+                    },
                     // { data: "guardian_name" },
                     // { data: "guardian_address" },
                     // { data: "guardian_contact" },

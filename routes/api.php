@@ -61,3 +61,6 @@ Route::get('/get-signatures', [ImageController::class, 'getSignatures']);
 // upload images template
 Route::post('/upload-images', [ImageController::class, 'handleUpload']);
 Route::post('/save-signature-image', [ImageController::class, 'handleUploadSignature']);
+
+// get id generated
+Route::get('/id-generated', [ImageController::class, 'getGeneratedId']);
