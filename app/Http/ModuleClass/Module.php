@@ -481,7 +481,7 @@ use Illuminate\Routing\Controller;
             $pdf->SetAutoPageBreak(false,0);
             $counter = 0;
             $space = 0;
-            $x2 = 0;
+            // $x2 = 0;
             $mt = 12.5;
             $mb = 23;
             foreach($data as $key => $value){
@@ -505,8 +505,8 @@ use Illuminate\Routing\Controller;
                         // between template
                         $space += 64.02;
                         // x top position
-                        $mt = (23 + $space);
-                        $mb = ($space+12.5);
+                        $mt = (12.5 + $space);
+                        $mb = ($space+23);
                         // $x2 = 10;
                         // dd($mt);
                     }
@@ -526,7 +526,7 @@ use Illuminate\Routing\Controller;
 
 
                         $y = 95 - (($value['profileX'] - $canvasLeft) * (95 - 50) / ($canvasRight - $canvasLeft)); // Map canvas Y to PDF Y ; // Calculate Y coordinate
-                        $x = $mt - (($value['profileY'] - $canvasTop) * ($mt - $mb) / ($canvasBottom - $canvasTop)); // Calculate X coordinate
+                        $x = $mt - (($value['profileY'] - $canvasTop) * ($mb-$mt) / ( $canvasTop - $canvasBottom)); // Calculate X coordinate
                         // dd($x);
 
                         // $ys = 95 - (($value['signatureX'] - $canvasLeft) * (95 - 50) / ($canvasRight - $canvasLeft));
