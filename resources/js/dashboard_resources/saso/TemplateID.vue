@@ -55,25 +55,29 @@
                     <!-- editor for template -->
                 </div>
                 <div class="row mt-5">
-                    <div class="col mt-3">
+                    <div class="col-md-12 mt-3">
                         <h3 class="text-success fw-bold">Edit Template</h3>
                     </div>  
-                        <div class="col">
+                        <div class="col-md-2">
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
                                         Select Font Size
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton">
+                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
+                                    
+                                    >
                                     <li v-for="fontSize in fontSizes" :key="fontSize">
                                         <a class="dropdown-item" href="#" @click="selectFontSize(fontSize)">{{ fontSize }}</a>
                                     </li>
                                     </ul>
                                 </div>
+
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                               <!-- For font family dropdown -->
                               <div class="container mt-3">
                                     <!-- Your Font Family Dropdown Menu -->
@@ -81,14 +85,15 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
                                         Select Font Family
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton">
+                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
+                                    >
                                         <li v-for="fontFamily in fontFamilies" :key="fontFamily">
                                         <a class="dropdown-item" href="#" @click="selectFontFamily(fontFamily)">{{ fontFamily }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 <div class="row mt-4">
@@ -255,7 +260,16 @@ export default {
         const fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
 
         // Your existing font families
-        const fontFamilies = ['Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia', 'Comic Sans MS'];
+        const fontFamilies = [
+            'Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia', 'Comic Sans MS',
+            'Calibri', 'Century Gothic', 'Monseratt', 'Poppins','Arial Narrow','Myriad Pro',
+            'Hevetica', 'Baskerville', 'Tahoma', 'Garamond','Franklin Gothic','Futura',
+            'Cambria', 'Rockwell', 'Comfortaa', 'Proxima Nova','Roboto','Lato',
+            'Quick Sand', 'Open Sans', 'Ubuntu',' Avenir','News Gothic','Merriweather',
+            'Frutiger','Public Sans', 'Arial Rounded MT Bold','Bebas','Palatino',
+            'Brandon Grotesque','Trebuchet MS', 
+        
+        ];
         // Define a ref for tracking the selected font size
         const selectedFontSize = ref(null);
         // Define a ref for tracking the selected font family from the dropdown
@@ -298,9 +312,9 @@ export default {
             const st_id_s = "20-1234";
 
             const course_s = "BS. INFORMATION TECHNOLOGY";
-            const last_name = "Eastwoods";
-            const first_name = "Professional";
-            const middle_name = "Science and Tech.";
+            const last_name = "Dela Cruz";
+            const first_name = "Juan";
+            const middle_name = "Sanchez";
             // we devided by 2 to make it smaller
             // Map the template coordinates to textContent objects
             return [
@@ -315,12 +329,17 @@ export default {
 
          // for back contents
          const textContentsBack = computed(()=>{
+            // Need to consume the credentials for guardian, you can see the guardian credentials at students.json
+
+            // "guardian_name": "Jane Doe",
             const ecp = "CONTACT PERSON";
-            const address1 = "#354 QUEZON ST. SAN JOSE BALANGA"
-            // const barangay = "SAN JOSE"
-            // const address2 = "BALANGA BATAAN"
-            // const province = "BATAAN"
+
+            // "guardian_address": "123 Elm Street, Metro City",
+            const address1 = "#354 QUEZON ST. SAN JOSE BALANGA" 
+
+            //   "guardian_contact_no": "0912 345 6789",
             const ecpc = "09345678986"
+
             const semester = "2nd Semester AY 2023 - 2024"
             return [
                 {content: ecp, x:(templateCoordinates.value[0]?.textContentsBack_0_x || 310), y:(templateCoordinates.value[0]?.textContentsBack_0_y || 120) / 2,fontSize:30/2, fontFamily:'Arial'},
