@@ -22,14 +22,15 @@
                         ></button>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-2">
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
                                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                     Font Size
                                 </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;">
                                         <li><a class="dropdown-item" href="#">8</a></li>
                                         <li><a class="dropdown-item" href="#">9</a></li>
                                         <li><a class="dropdown-item" href="#">10</a></li>
@@ -57,13 +58,45 @@
                                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                     Font family
                                 </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;">
                                         <li><a class="dropdown-item" href="#">Arial</a></li>
                                         <li><a class="dropdown-item" href="#">Century Gothic</a></li>
                                         <li><a class="dropdown-item" href="#">Calibri</a></li>
                                         <li><a class="dropdown-item" href="#">Times New Roman</a></li>
                                         <li><a class="dropdown-item" href="#">Helvetica</a></li>
                                         <li><a class="dropdown-item" href="#">Futura</a></li>
+                                        <li><a class="dropdown-item" href="#">Verdana</a></li>
+                                        <li><a class="dropdown-item" href="#">Courier New</a></li>
+                                        <li><a class="dropdown-item" href="#">Comic Sans MS</a></li>
+                                        <li><a class="dropdown-item" href="#">Monseratt</a></li>
+                                        <li><a class="dropdown-item" href="#">Poppins</a></li>
+                                        <li><a class="dropdown-item" href="#">Arial Narrow</a></li>
+                                        <li><a class="dropdown-item" href="#">Myriad Pro</a></li>
+                                        <li><a class="dropdown-item" href="#">Baskerville</a></li>
+                                        <li><a class="dropdown-item" href="#">Tahoma</a></li>
+                                        <li><a class="dropdown-item" href="#">Garamond</a></li>
+                                        <li><a class="dropdown-item" href="#">Franklin Gothic</a></li>
+                                        <li><a class="dropdown-item" href="#">Rockwell</a></li>
+                                        <li><a class="dropdown-item" href="#"> Comfortaa</a></li>
+                                        <li><a class="dropdown-item" href="#">Proxima Nova</a></li>
+                                        <li><a class="dropdown-item" href="#">Roboto</a></li>
+                                        <li><a class="dropdown-item" href="#">Lato</a></li>
+                                        <li><a class="dropdown-item" href="#">Quick Sand</a></li>
+                                        <li><a class="dropdown-item" href="#">Open Sans</a></li>
+                                        <li><a class="dropdown-item" href="#">Ubuntu</a></li>
+                                        <li><a class="dropdown-item" href="#"> Avenir</a></li>
+                                        <li><a class="dropdown-item" href="#">News Gothic</a></li>
+                                        <li><a class="dropdown-item" href="#">Merriweather</a></li>
+                                        <li><a class="dropdown-item" href="#">Frutiger</a></li>
+                                        <li><a class="dropdown-item" href="#">Public Sans</a></li>
+                                        <li><a class="dropdown-item" href="#">Arial Rounded MT Bold</a></li>
+                                        <li><a class="dropdown-item" href="#">Bebas</a></li>
+                                        <li><a class="dropdown-item" href="#"> Palatino</a></li>
+                                        <li><a class="dropdown-item" href="#">Brandon Grotesque</a></li>
+                                        <li><a class="dropdown-item" href="#">Trebuchet MS</a></li>
+                                        <li><a class="dropdown-item" href="#">Frutiger</a></li>
+
                                     </ul>
                                 </div>
                             </div>
