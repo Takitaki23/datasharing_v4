@@ -21,7 +21,7 @@ const routes = [
     {
         path: '/saso-dashboard',
         name: 'saso-Dashboard',
-        component: saso_dashboard,
+        component: () => import('./dashboard/SasoDashboard.vue'),
         meta:{
             requiresAuth:true
         },
@@ -29,7 +29,7 @@ const routes = [
     {
         path: '/cashier-dashboard',
         name: 'cashier-Dashboard',
-        component: cashier_dashboard,
+        component: () => import('./dashboard/CashierDashboard.vue'),
         meta:{
             requiresAuth:true
         },
@@ -37,7 +37,7 @@ const routes = [
     {
         path: '/clinic-dashboard',
         name: 'clinic-Dashboard',
-        component: clinic_dashboard,
+        component: () => import('./dashboard/ClinicDashboard.vue'),
         meta:{
             requiresAuth:true
         },
@@ -45,7 +45,7 @@ const routes = [
     {
         path: '/guidance-dashboard',
         name: 'guidance-Dashboard',
-        component: guidance_dashboard,
+        component: () => import('./dashboard/GuidanceDashboard.vue'),
         meta:{
             requiresAuth:true
         },

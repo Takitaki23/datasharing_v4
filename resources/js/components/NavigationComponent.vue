@@ -39,7 +39,8 @@
 <script setup>
   import { reactive, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
-  
+  import {useLoading} from 'vue-loading-overlay'
+  import { useToast } from "vue-toast-notification";
   // Create router instance
   const router = useRouter()
   
@@ -48,7 +49,9 @@
     isLoggedIn: false,
     credentials: {}
   })
-  
+  const $loading = useLoading({
+        // options
+        });
   // onMounted hook
   onMounted(() => {
     // Retrieve isLoggedIn and credentials from localStorage
@@ -62,9 +65,45 @@
     // Redirect user to appropriate page
     if (isLoggedIn === 'true') {
       // router.go()
-        router.push({name:`${credentials.role}-Dashboard`})
+      const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.success(`Welcome to ${credentials.role}-Dashboard!`, {
+                    position: "top-right",
+                });
+                router.push({name:`${credentials.role}-Dashboard`})
+            }, 500)
     }else{
-        router.push({ name: 'Login' })
+        const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.warning(`Your not Authenticated User!`, {
+                    position: "top-right",
+                });
+                router.push({ name: 'Login' })
+            }, 500)
     }
 
   })
@@ -73,9 +112,29 @@ const logout = async ()=>{
         localStorage.setItem('isLoggedIn', false)
         const cred = { "name": "" };
         localStorage.setItem('credentials', JSON.stringify(cred));
-        router.push({name:'Login'});
-        // Refresh the page
-        location.reload();
+        const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.warning(`Your Logging out User!`, {
+                    position: "top-right",
+                });
+                router.push({ name: 'Login' })
+                // Refresh the page
+                location.reload();
+            }, 500)
+        
+        
 }
 </script>
 

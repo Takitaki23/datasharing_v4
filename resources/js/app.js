@@ -58,6 +58,9 @@ import ToastPlugin from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-default.css';
 
 import Vue3Signature from "vue3-signature"
+
+import {LoadingPlugin} from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 // import 'vue-toast-notification/dist/theme-bootstrap.css';
 
-app.use(router).use(ToastPlugin).use(Vue3Signature).mount('#app');
+app.use(router).use(ToastPlugin).use(Vue3Signature).use(LoadingPlugin).mount('#app');

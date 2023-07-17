@@ -47,7 +47,11 @@
 // Import the `useRouter` function from the vue-router module
 import { reactive, onMounted, defineAsyncComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-
+import { useToast } from "vue-toast-notification";
+import {useLoading} from 'vue-loading-overlay'
+const $loading = useLoading({
+        // options
+        });
 const DashboardMain = defineAsyncComponent(() =>
     import("../dashboard_resources/saso/DashboardMain.vue")
 );
@@ -86,23 +90,98 @@ export default {
         const redirectToOtherDashboard = () => {
             const credentialsValue = credentials.value;
             if (credentialsValue.role !== "saso") {
+                const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.warning(`Your Redirected to ${credentialsValue.role}-Dashboard!`, {
+                    position: "top-right",
+                });
                 router.push({ name: `${credentialsValue.role}-Dashboard` });
+            }, 500)
             }
         };
         const currentComponent = ref("DashboardMain");
 
         const toggleDatatable = () => {
-            currentComponent.value = "Datatable";
+            // currentComponent.value = "Datatable";
+            const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.success(`Table is initialized`, {
+                    position: "top-right",
+                });
+                currentComponent.value = "Datatable";
+            }, 500)
         };
 
         // Method to navigate to DashboardMain component
         const goToDashboardMain = () => {
-          currentComponent.value = "DashboardMain";
+        //   currentComponent.value = "DashboardMain";
+          const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.success(`Dashboard Loaded Successfully!`, {
+                    position: "top-right",
+                });
+                currentComponent.value = "DashboardMain";
+            }, 500)
         };
 
         // Method for navigation to Template
         const toggleTemplateSelection = () => {
-            currentComponent.value = "TemplateID";
+            // currentComponent.value = "TemplateID";
+            const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()  
+                const $toast = useToast();
+                let instance = $toast.success(`Dashboard Template Successfully!`, {
+                    position: "top-right",
+                });
+                currentComponent.value = "TemplateID";
+            }, 500)
         }
 
         
