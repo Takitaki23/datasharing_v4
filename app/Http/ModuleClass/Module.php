@@ -257,6 +257,8 @@ use Illuminate\Routing\Controller;
                 $alreadySaveID->canvas_height = $data->canvas['height'];
                 // profile
                 $alreadySaveID->profile = $data->profile['profile'];
+                $alreadySaveID->profile_w = $data->profile['width'];
+                $alreadySaveID->profile_h = $data->profile['height'];
                 $alreadySaveID->profile_x = $data->profile['x'];
                 $alreadySaveID->profile_y = $data->profile['y'];
                 // contents st_no
@@ -303,6 +305,8 @@ use Illuminate\Routing\Controller;
                 $template->canvas_height = $data->canvas['height'];
                 // profile
                 $template->profile = $data->profile['profile'];
+                $template->profile_w = $data->profile['width'];
+                $template->profile_h = $data->profile['height'];
                 $template->profile_x = $data->profile['x'];
                 $template->profile_y = $data->profile['y'];
                 // contents st_no
@@ -394,7 +398,7 @@ use Illuminate\Routing\Controller;
                     break;
                     // college student
                 case '3':
-    
+                    
                     $pdf->RotatedImage($img,17,93,37,0,90);
                     $pdf->RotatedImage(public_path('id_final/').$pid.'_f.png',10,95,85.6,54.02,90);               
                     $pdf->RotatedImage(public_path('id_final/').$pid.'_b.png',10,195,85.6,54.02,90);
@@ -463,6 +467,7 @@ use Illuminate\Routing\Controller;
                 $toGenerate[$counter-1]["pid"] = $pid;
                 $toGenerate[$counter-1]["type"] = $type;
                 $toGenerate[$counter-1]["img"] = $img;
+                $toGenerate[$counter-1]["width"] = $student_cred['profile_w'];
                 $toGenerate[$counter-1]["sig"] = $sig;
                 $toGenerate[$counter-1]["signatureX"] = $student_cred['signature_x'];
                 $toGenerate[$counter-1]["signatureY"] = $student_cred['signature_y'];
@@ -529,10 +534,34 @@ use Illuminate\Routing\Controller;
                         $x = $mt - (($value['profileY'] - $canvasTop) * ($mb-$mt) / ( $canvasTop - $canvasBottom)); // Calculate X coordinate
                         // dd($x);
 
+                        // Calculate the conversion factor
+                        $pxValue = 352;
+                        $ptValue = 33;
+                        $conversionFactor = $ptValue / $pxValue;
+
+                        // Convert a size in pixels to points
+                        $sizeInPx = $value['width']; // Change this value to any other size in pixels
+                        $w = $sizeInPx * $conversionFactor;
+
+                        if($sizeInPx == 200){
+                            $y += -2;
+                            $x += 3;
+                        }elseif($sizeInPx == 250){
+                            // $y += -1;
+                            $x += 2;
+                        }elseif($sizeInPx == 300){
+                            $y += +.2;
+                            $x += .6;
+                        }else{
+                            $x += .6;
+                        }
+
+                        
+                        // dd($w);
                         // $ys = 95 - (($value['signatureX'] - $canvasLeft) * (95 - 50) / ($canvasRight - $canvasLeft));
                         // $xs = 12.5+$space - (($value['signatureY'] - $canvasTop) * (12.5+$space - 23+$space) / ($canvasBottom - $canvasTop));
                         
-                        $pdf->RotatedImage($value["img"],$x,$y,33,0,90);
+                        $pdf->RotatedImage($value["img"],$x,$y,$w,0,90);
                         $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_f.png',10+$space,95,85.6,54.02,90);               
                         $pdf->RotatedImage(public_path('id_final/').$value["pid"].'_b.png',10+$space,195,85.6,54.02,90);
                         $pdf->RotatedImage($value["sig"],22+$space,144,25,0,90);

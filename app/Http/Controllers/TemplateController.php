@@ -40,6 +40,8 @@ class TemplateController extends Controller
             $alreadySaveT->canvas_width = $request->canvas['width'];
             $alreadySaveT->canvas_height = $request->canvas['height'];
             // profile
+            $alreadySaveT->profile_w = $request->profile['width'];
+            $alreadySaveT->profile_h = $request->profile['height'];
             $alreadySaveT->profile_x = $request->profile['x'];
             $alreadySaveT->profile_y = $request->profile['y'];
             // contents st_no
@@ -112,6 +114,8 @@ class TemplateController extends Controller
             $template->canvas_width = $request->canvas['width'];
             $template->canvas_height = $request->canvas['height'];
             // profile
+            $template->profile_w = $request->profile['width'];
+            $template->profile_h = $request->profile['height'];
             $template->profile_x = $request->profile['x'];
             $template->profile_y = $request->profile['y'];
             // contents st_no

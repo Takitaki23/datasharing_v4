@@ -1143,8 +1143,10 @@ export default {
                 const activeTemplate = {activeTemplate:src} 
                 const response = await axios.get("/api/image-templates-coord",{params: activeTemplate});
                 templateCoordinates.value = response.data;
-                // profileX.value = templateCoordinates.value[0].profile_x / 2
-                // profileY.value = templateCoordinates.value[0].profile_y / 2
+                profileX.value = templateCoordinates.value[0].profile_x / 2
+                profileY.value = templateCoordinates.value[0].profile_y / 2
+                profileWidth.value = templateCoordinates.value[0].profile_w / 2
+                profileHeight.value = templateCoordinates.value[0].profile_h / 2
 
                 // template name
                 collegef.value = templateCoordinates.value[0]?.template_name || '/id_template/collegef.png'
@@ -1169,7 +1171,7 @@ export default {
                         idCoordinates.value = res.data
 
                         signatureX.value = idCoordinates.value?.signature_x || templateCoordinates.value[0]?.signature_x || (240+64.02)
-                        signatureY.value = idCoordinates.value?.signature_y || templateCoordinates.value[0]?.signature_y -10 || 75
+                        signatureY.value = idCoordinates.value?.signature_y || templateCoordinates.value[0]?.signature_y -15 || 75
 
                         profileX.value = idCoordinates.value?.profile_x / 2 || templateCoordinates.value[0]?.profile_x / 2 || 55 / 2
                         profileY.value = idCoordinates.value?.profile_y / 2 || templateCoordinates.value[0]?.profile_y / 2 || 87 / 2

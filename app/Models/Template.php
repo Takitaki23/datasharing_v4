@@ -10,7 +10,7 @@ class Template extends Model
     protected $fillable = [
         'template_name','template_back',
         'canvas_width','canvas_height',
-        'profile_x','profile_y','signature_x','signature_y',
+        'profile_x','profile_y','profile_w','profile_h','signature_x','signature_y',
         'textContents-0-x','textContents-0-y','textContents-0-fs','textContents-0-ff',
         'textContents-1-x','textContents-1-y','textContents-1-fs','textContents-1-ff',
         'textContents-2-x','textContents-2-y','textContents-2-fs','textContents-2-ff',

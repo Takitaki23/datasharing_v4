@@ -190,9 +190,11 @@
                                     <div class="card-body text-center">
                                         <div
                                             class="d-flex justify-content-center"
+                                            
                                         >
                                             <img
-                                                :src="profileImage"
+                                                :key="stateInit"
+                                                :src="capturedImage"
                                                 alt=""
                                                 style="
                                                     background-color: white;
@@ -237,6 +239,7 @@
                                     <div class="card-body text-center">
                                         <div
                                             class="d-flex justify-content-center"
+                                            :key="stateInit"
                                         >
                                             <img
                                                 :src="signatureImage"
@@ -459,6 +462,8 @@ export default {
         // accessing public folder in laravel
         const image_src = ref("/id_template/jhsf.png");
         const responseData = ref({});
+        const stateI = ref(0);
+        const stateInit = ref(0);
         let modalDataValue = ref({
             state: "",
         });
@@ -718,6 +723,11 @@ export default {
             startCapture();
         };
 
+        // You can also create a function to trigger the re-render if needed
+        const triggerRerender = () => {
+            stateInit.value += 1;
+        };
+
         // Function to save the cropped image to the server
         // const saveCroppedImage = () => {
         //     if (cropper) {
@@ -754,6 +764,7 @@ export default {
         //     }
         // };
         const saveCroppedImage = () => {
+            triggerRerender()
             if (cropper) {
                 const canvas = cropper.getCroppedCanvas();
                 if (canvas) {
@@ -785,6 +796,9 @@ export default {
                                 console.log(response.data);
                                 const $toast = useToast();
                                 let instance = $toast.success(response.data.message, { position: 'bottom-right' });
+                                // Update stateInit after a successful response
+                                
+                                
                             })
                             .catch((error) => {
                                 // Handle any errors
@@ -828,7 +842,9 @@ export default {
             undo,
             addWaterMark,
             fromDataURL,
-            handleDisabled
+            handleDisabled,
+            stateInit,
+            triggerRerender
 
 
         };

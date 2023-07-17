@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('template_back');
             $table->integer('canvas_width');
             $table->integer('canvas_height');
+            $table->integer('profile_w');
+            $table->integer('profile_h');
             $table->integer('profile_x');
             $table->integer('profile_y');
             $table->integer('textContents_0_x');//stundent no

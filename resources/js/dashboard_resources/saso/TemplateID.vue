@@ -18,7 +18,6 @@
             </div>
             <div class="uploaded_files" v-if="uploadedFiles.length > 0" style="width:70%; margin: auto; margin-top: 1rem;">
                 <div class="uploaded_file" v-for="(file, index) in uploadedFiles" :key="index">
-                    {{ file }}
                     <img :src="file.url" :alt="'Uploaded ID Template ' + (index + 1)">
                     <button class="btn btn-danger btn-sm delete-button" @click="removeUploadedFile(index)">
                         X
@@ -199,7 +198,8 @@
                                 </div>
                                 <div class="dropdown me-2">
                                     <div class="text-success">
-                                        <b>0 pt</b>
+                                        <b v-if="selectedWidth">{{ selectedWidth - 2 }} px</b>
+                                        <b v-else="selectedWidth">{{ 350 }} px</b>
                                     </div>
                                 </div>
                                 <div class="dropdown">
@@ -220,7 +220,8 @@
                                 </div>
                                 <div class="dropdown me-2">
                                     <div class="text-success">
-                                        <b>0 pt</b>
+                                        <b v-if="selectedHeight">{{ selectedHeight - 15 }} px</b>
+                                        <b v-else="selectedHeight">{{ 400 }} px</b>
                                     </div>
                                 </div>
                                 <div class="dropdown">
@@ -298,7 +299,8 @@
     <previewId v-id="previewModalVisible" :modalData="modalData" :dataId="dataId" @close="closeModalPreview" /> -->
 </template>
 <script>
-import { ref, onMounted, computed,getCurrentInstance, watch } from "vue";
+// defineComponent to call the composition api function in
+import { ref, onMounted, computed,getCurrentInstance, watch, defineComponent } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toast-notification";
 // for debuging
@@ -306,8 +308,7 @@ import { useToast } from "vue-toast-notification";
 // import collegeb from "../../images/collegeb.png";
 import profile from "../../images/man.png";
 import {useLoading} from 'vue-loading-overlay'
-export default {
-
+export default defineComponent({
 // For adding new template
     data() {
     return {
@@ -337,9 +338,14 @@ export default {
             // Handle the response if needed
             console.log(response.data);
             const $toast = useToast();
-                    let instance = $toast.success(response.data.message, {
-                        position: "top-right",
-                    });
+            let instance = $toast.success(response.data.message, {
+                position: "top-right",
+            });
+            this.getImageTemplates()
+            // Remove everything from the handleFileUpload method
+            event.target.value = ''; // Clear the file input
+            this.uploadedFiles = []; // Clear the uploadedFiles array
+
         })
         .catch(error => {
         // Handle the error if needed
@@ -708,7 +714,7 @@ export default {
                                 offscreenContextBack.drawImage(
                                     signatureImage,
                                     signatureX.value,
-                                    signatureY.value,
+                                    signatureY.value-4,
                                     signatureWidth.value,
                                     signatureHeight.value
                                 );
@@ -1251,6 +1257,8 @@ export default {
                 templateCoordinates.value = response.data;
                 profileX.value = templateCoordinates.value[0]?.profile_x / 2 || 55 / 2
                 profileY.value = templateCoordinates.value[0]?.profile_y / 2 || 87 / 2
+                profileWidth.value = templateCoordinates.value[0]?.profile_w / 2 || 352 / 2
+                profileHeight.value = templateCoordinates.value[0]?.profile_h / 2 || 415 / 2
 
                 signatureX.value = templateCoordinates.value[0]?.signature_x || (240+64.02)
                 signatureY.value = templateCoordinates.value[0]?.signature_y-10 || 75
@@ -1270,7 +1278,7 @@ export default {
 
         onMounted(() => {
             getImageTemplates();
-            getTemplateCoordinates('id_template/collegef.png');
+            getTemplateCoordinates(localStorage.getItem('activeImage'));
             const canvas = canvasRef.value;
             if (canvas) {
                 canvas.addEventListener("mousedown", handleMouseDown);
@@ -1321,7 +1329,7 @@ export default {
             fontFamilies,fontFamilyDropdownOpen,toggleFontFamilyDropdown,selectFontFamily,selectedFontFamily
         };
     },
-};
+});
 </script>
 <style scoped>
 .canvas-con{
