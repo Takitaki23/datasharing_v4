@@ -22,15 +22,15 @@
                         ></button>
                     </div>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
                                         Select Font Size
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
-                                    style="overflow: hidden; height: 300px; overflow:scroll;"
+                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow-y:scroll;"
                                     
                                     >
                                     <li v-for="fontSize in fontSizes" :key="fontSize">
@@ -40,30 +40,59 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                              <!-- For font family dropdown -->
-                              <div class="container mt-3">
+                        <div class="col-md-6 ">
+                            <div class="container mt-3">
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Font Family
-                                    </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
-                                    style="overflow: hidden; height: 300px; overflow:scroll;"
-                                    >
-                                        <li v-for="fontFamily in fontFamilies" :key="fontFamily">
-                                        <a class="dropdown-item" href="#" @click="selectFontFamily(fontFamily)">{{ fontFamily }}</a>
-                                        </li>
-                                    </ul>
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">Selection Details: </b>
+                                    </div>
                                 </div>
+                                <!-- Font Size -->
+                                <div class="dropdown">
+                                    <div class="text-secondary">
+                                        Font Size
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b>:</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown me-2">
+                                    <div class="text-success">
+                                        <b>0 pt</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">|</b>
+                                    </div>
+                                    
+                                </div>
+                                <!-- Selected -->
+                                <div class="dropdown">
+                                    <div class="text-secondary">
+                                       Selected
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b>:</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown me-1">
+                                    <div class="text-success">
+                                        <b>0</b>
+                                    </div>
+                                </div>
+                                
                             </div>
-
                         </div>
+                          
                     </div>
-                    
                     <div
                         class="modal-body row"
-                        style="height: 400px; overflow: hidden"
-                    >
+                        style="height: 400px; overflow: hidden;">
                         <!-- Content for ID preview -->
                         <div class="col-sm-6">
                             <canvas
@@ -1378,5 +1407,9 @@ canvas {
 .dropdown-item:hover {
   background-color: #d5d0d0;
 }
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 
 </style>
