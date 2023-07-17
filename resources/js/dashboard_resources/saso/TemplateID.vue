@@ -68,8 +68,8 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
                                         Select Font Size: <span class="badge text-bg-success" v-if="selectedFontSize"><b>{{ selectedFontSize }} pt</b></span>
                                     </button>
-                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
-                                    style="overflow: hidden; height: 300px; overflow-y:scroll;"
+                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
                                     
                                     >
                                     <li v-for="fontSize in fontSizes" :key="fontSize">
@@ -77,6 +77,7 @@
                                     </li>
                                     </ul>
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -87,8 +88,8 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
                                         Select Font Family
                                     </button>
-                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
-                                    style="overflow: hidden; height: 300px; overflow-y:scroll;"
+                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    style="overflow: hidden; height: 300px; overflow:scroll;"
                                     >
                                         <li v-for="fontFamily in fontFamilies" :key="fontFamily">
                                         <a class="dropdown-item" href="#" @click="selectFontFamily(fontFamily)">{{ fontFamily }}</a>
@@ -97,16 +98,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2" style="text-align: center; margin-top: -.5rem;">
+                        <div class="col-md-2">
                               <!-- For font family dropdown -->
-                              <div class="container">
+                              <div class="container mt-3">
                                     <!-- Your Font Family Dropdown Menu -->
-                                    Resize Image
                                     <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle " type="button" @click="toggleWidthDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleWidthDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
                                         W
                                     </button>
-                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': widthDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu" :class="{ 'show': widthDropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow-y:scroll;"
                                     >
                                         <li v-for="width in widths" :key="width">
@@ -119,7 +119,7 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleHeightDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
                                         H
                                     </button>
-                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': heightDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu" :class="{ 'show': heightDropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow-y:scroll;"
                                     >
                                         <li v-for="height in heights" :key="height">
@@ -135,19 +135,22 @@
                                     <!-- Your Font Family Dropdown Menu -->
                                 <div class="dropdown">
                                     <div class="text-secondary">
-                                        Font Size
+                                        font Size
                                     </div>
+                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
                                         <b>:</b>
                                     </div>
+                                    
                                 </div>
                                 <div class="dropdown me-2">
                                     <div class="text-success">
                                         <b v-if="selectedFontSize">{{ selectedFontSize }} pt</b>
                                         <b v-else="selectedFontSize">{{ 20 }} pt</b>
                                     </div>
+                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
@@ -160,6 +163,7 @@
                                     <div class="text-secondary">
                                         Font Family
                                     </div>
+                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
@@ -178,52 +182,11 @@
                                     <div class="btn btn-white">
                                         <b class="text-secondary">|</b>
                                     </div>
-                                </div>
-                                 <!-- Width -->
-                                <div class="dropdown">
-                                    <div class="text-secondary">
-                                       Width
-                                    </div>
+                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
-                                        <b>:</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown me-2">
-                                    <div class="text-success">
-                                        <b>0 pt</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b class="text-secondary">|</b>
-                                    </div>
-                                </div>
-                                   <!-- Height -->
-                                <div class="dropdown">
-                                    <div class="text-secondary">
-                                       Height 
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b>:</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown me-2">
-                                    <div class="text-success">
-                                        <b>0 pt</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b class="text-secondary">|</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b class="text-secondary">Selected : </b>
+                                        <b class="text-secondary">selected : </b>
                                         <b class="text-success" v-if="selectedContent">{{ selectedContent }} </b>
                                         <b class="text-success" v-else>{{ "select content" }} </b>
                                     </div>
@@ -231,6 +194,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 <div class="row mt-4">
                     <!-- <div class="col-md-4 border">
@@ -242,21 +206,32 @@
                             ref="draggableCanvases"
                         ></canvas>
                     </div> -->
-                    <div class="col-md-6 border" style="height: 380px; overflow: hidden; padding: 1rem;">
+                    <div class="col-md-6" style="height: 380px; overflow: hidden; padding: 1rem;">
                         <canvas
                             class=""
                             ref="canvasRef"
                             :width="canvasWidth"
                             :height="canvasHeight"
                         ></canvas>
+                        <div v-if="isLoading" class="canvas-con">
+                            <div class="loading-message">
+                                <h3 class="text-secondary"><b>Front Template.</b></h3>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 border" style="height: 380px; overflow: hidden; padding: 1rem;">
+                    
+                    <div class="col-md-6" style="height: 380px; overflow: hidden; padding: 1rem;">
                         <canvas
                             class=""
                             ref="canvasBackRef"
                             :width="canvasWidth"
                             :height="canvasHeight"
                         ></canvas>
+                        <div v-if="isLoading" class="canvas-con">
+                            <div class="loading-message">
+                                <h3 class="text-secondary"><b>Back Template.</b></h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -284,14 +259,14 @@
     <previewId v-id="previewModalVisible" :modalData="modalData" :dataId="dataId" @close="closeModalPreview" /> -->
 </template>
 <script>
-import { ref, onMounted, onUnmounted, watch, computed,getCurrentInstance, } from "vue";
+import { ref, onMounted, computed,getCurrentInstance } from "vue";
 import axios from "axios";
-import interact from "interactjs";
 import { useToast } from "vue-toast-notification";
 // for debuging
 // import collegef from "../../images/collegef.png";
 // import collegeb from "../../images/collegeb.png";
 import profile from "../../images/man.png";
+import {useLoading} from 'vue-loading-overlay'
 export default {
 
 // For adding new template
@@ -430,6 +405,11 @@ export default {
         // Define a ref to track whether the height dropdown is open or closed
         const heightDropdownOpen = ref(false);
 
+        const $loading = useLoading({
+        // options
+        });
+
+        const isLoading = ref(true)
         // Function to toggle the dropdown visibility
         const toggleDropdown = () => {
         dropdownOpen.value = !dropdownOpen.value;
@@ -802,13 +782,29 @@ export default {
             axios
                 .post("api/save-template", positions)
                 .then((response) => {
+
+                    const loader = $loading.show({
+                    // Optional parameters
+                        loader: 'spinner',
+                        color: '#00FF00',
+                        width: 94,
+                        height: 94,
+                        backgroundColor: '#808080',
+                        opacity: 0.5,
+                        zIndex: 999
+                    });
+                    // simulate AJAX
+                    setTimeout(() => {
+                        loader.hide()
+                        const $toast = useToast();
+                        let instance = $toast.success("Successfully updated!", {
+                            position: "top-right",
+                        });
+                    }, 1000)
                     console.log(
                         "Content positions sent to the server successfully"
                     );
-                    const $toast = useToast();
-                    let instance = $toast.success("Successfully updated!", {
-                        position: "top-right",
-                    });
+                    
 
                     // // Force dismiss specific toast
                     // instance.dismiss();
@@ -837,6 +833,7 @@ export default {
                 offsetY <= profileY.value + profileHeight.value
             ) {
                 isMoving.value = true;
+                isLoading.value = false
                 profileWidth.value = (selectedWidth.value || 352) / 2; // Adjust the width as needed
                 profileHeight.value = (selectedHeight.value || 415) / 2; // Adjust the width as needed
                 // redrawCanvas()
@@ -857,6 +854,7 @@ export default {
                     textContent.fontFamily = selectedFontFamily.value || defaultFontFamily;
                     selectedContentIndex.value = i; // Set the selected content index
                     isMoving.value = false;
+                    isLoading.value = false
                 break;
                 }
             }
@@ -874,6 +872,7 @@ export default {
                 offsetYBack <= signatureY.value + signatureHeight.value
             ) {
                 isMoving.value = true;
+                isLoading.value = false
                 signatureWidth.value = (selectedWidth.value || 300) / 2; // Adjust the width as needed
                 signatureHeight.value = (selectedHeight.value || 150) - 15; // Adjust the width as needed
                 // redrawCanvas()
@@ -893,6 +892,7 @@ export default {
                     textContentBack.fontFamily = selectedFontFamily.value || defaultFontFamily;
                     selectedContentIndexBack.value = b; // Set the selected content index for the back canvas
                     isMoving.value = false;
+                    isLoading.value = false
                     break;
                 }
             }
@@ -1145,13 +1145,43 @@ export default {
         // hendle the clicked image
         const handleImageClick = async (src) => {
             console.log(src)
-            collegef.value = src
-            // collegeb.value 
-            handleBack(src)
+            
             // get template coordinates when iclicked
             getTemplateCoordinates(src)
-            // save it to local storage
-            localStorage.setItem('active_id',src)
+            // collegeb.value 
+            handleBack(src)
+            isLoading.value = true
+            const loader = $loading.show({
+            // Optional parameters
+                loader: 'spinner',
+                color: '#00FF00',
+                width: 94,
+                height: 94,
+                backgroundColor: '#808080',
+                opacity: 0.5,
+                zIndex: 999
+            });
+            // simulate AJAX
+            setTimeout(() => {
+                loader.hide()
+                isLoading.value = false
+                
+                
+                // save it to local storage
+                localStorage.setItem('active_id',src)
+                collegef.value = src
+                
+                const $toast = useToast();
+                let instance = $toast.success("Successfully updated!", {
+                    position: "top-right",
+                });
+                
+
+                
+                
+            }, 500)
+            
+            
         }
 
          // back id map
@@ -1223,6 +1253,7 @@ export default {
             handleImageClick,
             selectedContent,
             isMoving,
+            isLoading,
             widths,widthDropdownOpen,toggleWidthDropdown,selectWidth,selectedWidth,//width
             heights,heightDropdownOpen,toggleHeightDropdown,selectHeight,selectedHeight,//height
             fontSizes,dropdownOpen,toggleDropdown ,selectFontSize, selectedFontSize, //fontsize
@@ -1232,24 +1263,27 @@ export default {
 };
 </script>
 <style scoped>
-/* canvas {
-    border: 1px solid #b84c4c;
-} */
-/* .drop-zone {
-    height: 200px;
-    border: 2px dashed #000;
+.canvas-con{
+    border: 2px solid rgba(230, 224, 224, 0.7);;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  /* background-color: rgba(230, 224, 224, 0.4); Add a semi-transparent background for better visibility */
 }
-.draggable {
-    width: 25%;
-    min-height: 6.5em;
-    margin: 1rem 0 0 1rem;
-    background-color: #29e;
-    color: white;
-    border-radius: 0.75em;
-    padding: 4%;
-    touch-action: none;
-    user-select: none;
-} */
+.loading-message {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40%;
+  width: 50%;
+  border: 2px dashed rgb(226, 217, 217);
+  background-color: rgba(230, 224, 224, 0.3); /* Add a semi-transparent background for better visibility */
+  box-shadow: rgba(166, 166, 172, 0.2) 0px 7px 29px 0px;
+  /* word-spacing: 2px; */
+}
+
 /* Main container */
 .main-container {
   width: 85%;
@@ -1458,10 +1492,6 @@ div.dashboard_header {
 .dropdown-item:hover {
   background-color: #d5d0d0;
 }
-.custom-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
 @media screen and (max-width: 1480px) {
     .generate-id-button {
         max-width: 100% !important;
