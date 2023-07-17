@@ -65,13 +65,14 @@
                         <h3 class="text-secondary fw-bold">Selection Details</h3>
                     </div>  
                         <div class="col-md-2">
+                            
                                <!-- For font size dropdown -->
                             <div class="container mt-3">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
                                         Select Font Size: <span class="badge text-bg-success" v-if="selectedFontSize"><b>{{ selectedFontSize }} pt</b></span>
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu  custom-scrollbar" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow:scroll;"
                                     
                                     >
@@ -91,7 +92,7 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleFontFamilyDropdown" aria-haspopup="true" aria-expanded="false">
                                         Select Font Family
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu  custom-scrollbar" :class="{ 'show': fontFamilyDropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow:scroll;"
                                     >
                                         <li v-for="fontFamily in fontFamilies" :key="fontFamily">
@@ -101,15 +102,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" style="text-align: center; margin-top: -.5rem;">
                               <!-- For font family dropdown -->
-                              <div class="container mt-3">
+                              <div class="container">
+                                    Resize Image
                                     <!-- Your Font Family Dropdown Menu -->
                                     <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleWidthDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
                                         W
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': widthDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu custom-scrollbar" :class="{ 'show': widthDropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow-y:scroll;"
                                     >
                                         <li v-for="width in widths" :key="width">
@@ -122,7 +124,7 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleHeightDropdown" aria-haspopup="true" aria-expanded="false" :disabled="!isMoving">
                                         H
                                     </button>
-                                    <ul class="dropdown-menu" :class="{ 'show': heightDropdownOpen }" aria-labelledby="dropdownMenuButton"
+                                    <ul class="dropdown-menu  custom-scrollbar" :class="{ 'show': heightDropdownOpen }" aria-labelledby="dropdownMenuButton"
                                     style="overflow: hidden; height: 300px; overflow-y:scroll;"
                                     >
                                         <li v-for="height in heights" :key="height">
@@ -138,7 +140,7 @@
                                     <!-- Your Font Family Dropdown Menu -->
                                 <div class="dropdown">
                                     <div class="text-secondary">
-                                        font Size
+                                        Font Size
                                     </div>
                                     
                                 </div>
@@ -166,13 +168,11 @@
                                     <div class="text-secondary">
                                         Font Family
                                     </div>
-                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
                                         <b>:</b>
                                     </div>
-                                    
                                 </div>
                                 <div class="dropdown">
                                     <div class="text-success">
@@ -185,11 +185,47 @@
                                     <div class="btn btn-white">
                                         <b class="text-secondary">|</b>
                                     </div>
-                                    
+                                </div>
+                                <!-- Width -->
+                                <div class="dropdown">
+                                    <div class="text-secondary">
+                                       Width
+                                    </div>
                                 </div>
                                 <div class="dropdown">
                                     <div class="btn btn-white">
-                                        <b class="text-secondary">selected : </b>
+                                        <b>:</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown me-2">
+                                    <div class="text-success">
+                                        <b>0 pt</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">|</b>
+                                    </div>
+                                </div>
+                                <!-- Height -->
+                                <div class="dropdown">
+                                    <div class="text-secondary">
+                                       Height
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b>:</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown me-2">
+                                    <div class="text-success">
+                                        <b>0 pt</b>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn btn-white">
+                                        <b class="text-secondary">Selected : </b>
                                         <b class="text-success" v-if="selectedContent">{{ selectedContent }} </b>
                                         <b class="text-success" v-else>{{ "select content" }} </b>
                                     </div>
@@ -781,12 +817,10 @@ export default {
 
         const sendContentPositions = () => {
             const positions = getContentPositions();
-
             console.log(positions);
             axios
                 .post("api/save-template", positions)
                 .then((response) => {
-
                     const loader = $loading.show({
                     // Optional parameters
                         loader: 'spinner',
@@ -1536,7 +1570,9 @@ div.dashboard_header {
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
-
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 .dropdown-item:hover {
   background-color: #d5d0d0;
 }
