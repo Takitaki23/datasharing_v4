@@ -416,8 +416,8 @@ export default {
 
         // accessing public folder in laravel
         const image_src = ref("/id_template/jhsf.png");
-        const image_signature = ref("/id_signatures/1685325544.png");
-        let signature = ref('/id_signatures/1685325544.png')
+        const image_signature = ref("/id_signatures/default.png");
+        let signature = ref('/id_signatures/default.png')
         let profile = ref(null)
         // template coordinates
         const templateCoordinates = ref([]);

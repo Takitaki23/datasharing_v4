@@ -359,9 +359,9 @@ export default {
         const templateCoordinates = ref([]);
 
         // college front
-        let collegef = ref('/id_template/collegef.png')
-        let collegeb = ref('/id_template/collegeb.png')
-        let signature = ref('/id_signatures/1685325544.png')
+        let collegef = ref(localStorage.getItem('activeImage') || '/id_template/collegef.png')
+        let collegeb = ref(localStorage.getItem('activeImageBack') ||'/id_template/collegeb.png')
+        let signature = ref('/id_signatures/default.png')
 
         // Create a hidden canvas for double buffering
         const hiddenCanvas = document.createElement("canvas");
@@ -1239,6 +1239,7 @@ export default {
          // back id map
          const handleBack = async (src) => {
            collegeb.value = src.replace('f','b')
+           localStorage.setItem("activeImageBack",collegeb.value)
             console.log(collegeb.value)
         }
 
