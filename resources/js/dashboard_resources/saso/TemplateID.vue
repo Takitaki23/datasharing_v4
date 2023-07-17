@@ -1253,7 +1253,7 @@ export default {
                 profileY.value = templateCoordinates.value[0]?.profile_y / 2 || 87 / 2
 
                 signatureX.value = templateCoordinates.value[0]?.signature_x || (240+64.02)
-                signatureY.value = templateCoordinates.value[0]?.signature_y || 75
+                signatureY.value = templateCoordinates.value[0]?.signature_y-10 || 75
 
                 console.log(templateCoordinates.value);
                 // console.log(templateCoordinates.value);

@@ -1169,7 +1169,7 @@ export default {
                         idCoordinates.value = res.data
 
                         signatureX.value = idCoordinates.value?.signature_x || templateCoordinates.value[0]?.signature_x || (240+64.02)
-                        signatureY.value = idCoordinates.value?.signature_y || templateCoordinates.value[0]?.signature_y || 75
+                        signatureY.value = idCoordinates.value?.signature_y || templateCoordinates.value[0]?.signature_y -10 || 75
 
                         profileX.value = idCoordinates.value?.profile_x / 2 || templateCoordinates.value[0]?.profile_x / 2 || 55 / 2
                         profileY.value = idCoordinates.value?.profile_y / 2 || templateCoordinates.value[0]?.profile_y / 2 || 87 / 2
@@ -1220,7 +1220,7 @@ export default {
                     .then((res)=>{
                         // console.log(res.data)
                         // Find the filename "23-002.png" or fallback to "man.png" if not found
-                        const desiredFilename = res.data.find(filename => filename === `${st_no}.png`) || "signature1.jpg";
+                        const desiredFilename = res.data.find(filename => filename === `${st_no}.png`) || "default.png";
                         signature.value = `/id_signatures/${desiredFilename}`;
                         console.log(desiredFilename);  // Output: "23-002.png"
                     })
