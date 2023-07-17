@@ -47,8 +47,11 @@
                         :key="index"
                     >
                         <img :src="'id_template/' + tmpID" alt="Image 1" @click="handleImageClick('id_template/' + tmpID)"/>
-                        <div class="image-overlay">
-                            <!-- Add any overlay content here -->
+                        <!-- <div id="image-overlay" :class="isActive">
+                            <h2>Active Template</h2>
+                        </div> -->
+                        <div :class="{ 'image-overlay': true, 'active': isActive === 'id_template/' + tmpID }">
+                            <h2 v-if="isActive === 'id_template/' + tmpID" class="border bg-secondary rounded p-2 text-white"><b>Active Template</b></h2>
                         </div>
                     </div>
 
@@ -259,7 +262,7 @@
     <previewId v-id="previewModalVisible" :modalData="modalData" :dataId="dataId" @close="closeModalPreview" /> -->
 </template>
 <script>
-import { ref, onMounted, computed,getCurrentInstance } from "vue";
+import { ref, onMounted, computed,getCurrentInstance, watch } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toast-notification";
 // for debuging
@@ -410,6 +413,7 @@ export default {
         });
 
         const isLoading = ref(true)
+        const isActive = ref(localStorage.getItem('activeImage') || '');
         // Function to toggle the dropdown visibility
         const toggleDropdown = () => {
         dropdownOpen.value = !dropdownOpen.value;
@@ -1142,9 +1146,23 @@ export default {
             }
         };
 
+        // Save the activeImage state to local storage whenever it changes
+        watch(isActive, (newValue) => {
+            localStorage.setItem('activeImage', newValue);
+        });
+
         // hendle the clicked image
         const handleImageClick = async (src) => {
             console.log(src)
+            // isActive.value = ''
+
+            if (isActive.value === src) {
+                // If the same image is clicked again, deactivate it
+                isActive.value = '';
+            } else {
+                // Set the clicked image as active
+                isActive.value = src;
+            }
             
             // get template coordinates when iclicked
             getTemplateCoordinates(src)
@@ -1209,6 +1227,12 @@ export default {
             }
         }
 
+        // const isActiveImage = (url) => {
+        //     console.log(url)
+        //     isActive.value = true;
+        // //   return activeImage.value === url;
+        // };
+
         onMounted(() => {
             getImageTemplates();
             getTemplateCoordinates('id_template/collegef.png');
@@ -1252,6 +1276,8 @@ export default {
             getImageTemplates,
             handleImageClick,
             selectedContent,
+            
+            isActive,
             isMoving,
             isLoading,
             widths,widthDropdownOpen,toggleWidthDropdown,selectWidth,selectedWidth,//width
@@ -1353,6 +1379,28 @@ div.dashboard_header {
 
 .image-item:before:hover {
     cursor: pointer;
+}
+
+
+.image-overlay.active {
+    position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(196, 187, 187, 0.7); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Adjust the active text style as needed */
+.image-overlay h2 {
+  font-size: 24px;
+  color: #000;
+  text-align: center;
 }
 
 /* Design for the generated button ID */
