@@ -1,395 +1,30 @@
 <template>
-    <div>
-        <!-- Preview Modal -->
-        <div
-            class="modal fade"
-            id="previewModal"
-            tabindex="-1"
-            aria-labelledby="previewModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="previewModalLabel">
-                            Preview ID Card
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        ></button>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                               <!-- For font size dropdown -->
-                            <div class="container mt-3">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" >
-                                        Select Font Size
-                                    </button>
-                                    <ul class="dropdown-menu  custom-scrollbar" :class="{ 'show': dropdownOpen }" aria-labelledby="dropdownMenuButton"
-                                    style="overflow: hidden; height: 300px; overflow:scroll;"
-                                    >
-                                    <li v-for="fontSize in fontSizes" :key="fontSize">
-                                        <a class="dropdown-item" href="#" @click="selectFontSize(fontSize)">{{ fontSize }}</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="container mt-3">
-                                <div class="btn btn-white">
-                                        <b class="text-secondary">Selection Details: </b>
-                                    </div>
-                                 <!-- Font Size -->
-                                <div class="dropdown">
-                                    <div class="text-secondary ">
-                                        Font Size
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b>:</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown me-2">
-                                    <div class="text-success">
-                                        <b>0 pt</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b class="text-secondary">|</b>
-                                    </div>
-                                    
-                                </div>
-                                      <!-- Font Size -->
-                                      <div class="dropdown">
-                                    <div class="text-secondary">
-                                        Selected
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="btn btn-white">
-                                        <b>:</b>
-                                    </div>
-                                </div>
-                                <div class="dropdown me-2">
-                                    <div class="text-success">
-                                        <b>0</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="row"
-                        style="height: 400px; overflow: hidden"
-                    >
-                        <!-- Content for ID preview -->
-                        <div class="col-sm-6">
-                            <canvas
-                                ref="canvasRef"
-                                :width="canvasWidth"
-                                :height="canvasHeight"
-                            ></canvas>
-                        </div>
-                        <div class="col-md-6" style="height: 380px;overflow: hidden;">
-                            <canvas class="" ref="canvasBackRef" :width="canvasWidth" :height="canvasHeight"></canvas>
-                        </div>
-                     
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            @click="handleExportButtonClick()"
-                        >
-                            Save Changes
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                        >
-                            Back
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <div class="popup">
+        <div class="popup-inner">
+            <!-- allow us anycontent we write to parent  -->
+            <slot />
+            <button class="popup-close" @click="TogglePopup()">Close Popup</button>
         </div>
-        <!-- Modal -->
-        <div
-            class="modal"
-            id="viewModal"
-          
-        >
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            View Student Information
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        ></button>
-                    </div>
-                    <div class="modal-body" :key="st_id">
-                        <!-- Student Info -->
-                        <!-- to refresh the data add a key -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label fw-bold"
-                                        >Student Number:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.student_no }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label fw-bold"
-                                        >Last Name:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.last_name }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="message-text"
-                                        class="col-form-label fw-bold"
-                                        >Middle Name:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.middle_name }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="message-text"
-                                        class="col-form-label fw-bold"
-                                        >First Name:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.first_name }}</label
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label fw-bold"
-                                        >Course</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.course }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label fw-bold"
-                                        >Type</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.college }}</label
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Guardian's Info -->
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            Guardian's Information
-                        </h5>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="message-text"
-                                        class="col-form-label fw-bold"
-                                        >Guardian's Name:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{ responseData.guardian_name }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="message-text"
-                                        class="col-form-labe fw-bold"
-                                        >Guardian's Address:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{
-                                            responseData.guardian_address
-                                        }}</label
-                                    >
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label
-                                        for="message-text"
-                                        class="col-form-label fw-bold"
-                                        >Guardian's Contact:</label
-                                    >
-                                    <br />
-                                    <label
-                                        for="recipient-name"
-                                        class="col-form-label"
-                                        >{{
-                                            responseData.guardian_contact_no
-                                        }}</label
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card" :key="reInit">
-                                    <i
-                                        class="fa-solid fa-thumbtack thumbtack-icon"
-                                    ></i>
-                                    <div class="card-header">
-                                        <h6 class="ms-3 text-light">
-                                            Identification Card Picture {{ reInit }}
-                                        </h6>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        <div
-                                            class="d-flex justify-content-center"
-                                            
-                                        >
-                                            <img
-                                            class="text-danger"
-                                                :src="profile"
-                                                
-                                                style="background-color: white"
-                                            />
-                                        </div>
-                                        <div class="mt-3">
-                                            <!-- <button
-                                                class="btn btn-primary w-100 mb-3"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-eye me-2"
-                                                ></i
-                                                >View Picture
-                                            </button> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <i
-                                        class="fa-solid fa-thumbtack thumbtack-icon"
-                                    ></i>
-                                    <div class="card-header">
-                                        <h6 class="ms-3 text-light">
-                                            Identification Card Signature
-                                        </h6>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        <div
-                                            class="d-flex justify-content-center"
-                                        >
-                                            <img
-                                                :src="signature"
-                                                alt=""
-                                                style="background-color: white"
-                                            />
-                                        </div>
-                                        <div class="mt-3">
-                                            <!-- <button
-                                                class="btn btn-primary w-100 mb-3"
-                                                type="file"
-                                            >
-                                                <i
-                                                    class="fa-solid fa-eye me-2"
-                                                ></i
-                                                >View Signature
-                                            </button> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            class="btn btn-primary text-center"
-                            data-bs-toggle="modal"
-                            data-bs-target="#previewModal"
-                            
-                        >
-                            <i class="fa-solid fa-id-card"></i> Preview ID
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>    
 </template>
 
 <script>
+ import {onMounted, ref} from 'vue'
+    export default{
+        props: ['TogglePopup'],
+        setup (props) {
+            const l = ref('loaded')
+            onMounted(()=>{
+                console.log(l.value)
+                // if(props.TogglePopup){
+                //     console.log('new Request',props.TogglePopup)
+                // }
+            })
+        }
+    }
+</script>
+
+<!-- <script>
 // import { useToast } from "vue-toastification";
 import axios from "axios";
 import {ref,onMounted,getCurrentInstance,computed,watch} from "vue";
@@ -404,7 +39,7 @@ import {useRouter} from 'vue-router'
 
 
 export default {
-    props: ["modalData", "dataId","initProfile"],
+    props: ["modalData", "dataId","initProfile","TogglePopup"],
     name: "IdCardGenerator",
     setup(props) {
         const router = useRouter();
@@ -1323,111 +958,26 @@ export default {
         };
     },
 };
-</script>
+</script> -->
 
 <style scoped>
-/* fcustom fiont */
-@font-face {
-  font-family: 'Helvetica-Bold';
-  src: url('/id_fonts/Helvetica-Bold.ttf') format('truetype');
-}
+    .popup{
+        /* width: 100%; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
 
-@font-face {
-  font-family: 'Helvetica';
-  src: url('/id_fonts/Helvetica.ttf') format('truetype');
-}
-
-
-canvas {
-    background-color: rgb(95, 178, 95);
-    padding: 10px;
-    /* border: 1px solid #000; */
-}
-#previewModal {
-    width: 100%;
-}
-/* Modal Design */
-.modal-header {
-    background-color: rgb(95, 178, 95);
-    color: #ffffff;
-}
-
-.modal-body h5 {
-    color: rgb(67, 155, 67);
-}
-
-.modal-footer {
-    background-color: #f8f9fa;
-}
-.btn-view {
-    width: 100%;
-}
-/* Card Design */
-.card-header {
-    background-color: rgb(57, 157, 199);
-}
-/* Thumbtack Icon Design */
-.thumbtack-icon {
-    color: #ffffff;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: -3px;
-    left: 10px;
-    z-index: 1;
-}
-/* Dropdown */
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-toggle {
-  padding: 0.5rem 1rem;
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-toggle:hover {
-  background-color: #f4f4f4;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1;
-  min-width: 100%;
-  padding: 0.5rem 0;
-  margin: 0;
-  list-style: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.dropdown-item {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: #333;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #d5d0d0;
-}
-.custom-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
+    .popup .popup-inner{
+        position: relative;
+        background: #FFF;
+        padding: 32px;
+    }
 </style>

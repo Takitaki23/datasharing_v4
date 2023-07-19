@@ -1,5 +1,27 @@
 <template>
     <div class="main-container">
+        <!-- view modal -->
+        <popupPreview
+            v-if="popupTriggers.buttonTrigger"
+            :TogglePopup="() => TogglePopup('buttonTrigger')">
+            
+            <h5 class="modal-title" id="exampleModalLabel">
+                View Student Information
+            </h5>
+            <!-- palipat ng design ng viewStudent Information only -->
+        </popupPreview>
+
+        <!-- preview ID modal -->
+        <popupPreview
+            v-if="popupTriggers.buttonTrigger"
+            :TogglePopup="() => TogglePopup('buttonTrigger')">
+
+            <h5 class="modal-title" id="exampleModalLabel">
+                View Student Information
+            </h5>
+            <!-- palipat ng design ng preview ID only -->
+            <!-- wagmo alisin yung original button sa table -->
+        </popupPreview>
         <div class="dashboard_header" style="margin-left: 13rem">
             <h1 class="fw-bold">View Records</h1>
             <nav aria-label="breadcrumb">
@@ -34,9 +56,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -44,23 +64,52 @@
         <!-- Button for generating ID -->
         <!-- data-bs-toggle="modal"
                             data-bs-target="#bulkPreviewModal" -->
-        <button type="button" class="btn btn-success mt-3 fw-bold generate-id-button" 
-        data-bs-toggle="modal" data-bs-target="#bulkPreviewModal" @click="handleGenerateId">
-            <i class="fa-solid fa-id-card-clip fa-flip fa-xl"></i> Generate ID 
-            <span v-show="selectedIds != 0" class="badge text-bg-danger"> {{ selectedIds }}</span>
+        <button
+            type="button"
+            class="btn btn-success mt-3 fw-bold generate-id-button"
+            data-bs-toggle="modal"
+            data-bs-target="#bulkPreviewModal"
+            @click="handleGenerateId"
+        >
+            <i class="fa-solid fa-id-card-clip fa-flip fa-xl"></i> Generate ID
+            <span v-show="selectedIds != 0" class="badge text-bg-danger">
+                {{ selectedIds }}</span
+            >
             <!-- {{ previewModalVisibleShow  }} -->
         </button>
     </div>
     <!-- view modal -->
-    <viewModal v-show="modalVisible" :modalData="modalData" :dataId="dataId"  @close="closeModalView" />
+    <viewModal
+        v-show="modalVisible"
+        :modalData="modalData"
+        :dataId="dataId"
+        @close="closeModalView"
+    />
     <editModal v-show="editModalVisible" @close="closeModalEdit" />
-    <addModal v-show="addModalVisible" :modalData="modalData" :dataId="dataId" :addModalVisible="addModalVisible" @close="closeModalAdd" />
-    <previewId v-id="previewModalVisible" :modalData="modalData" :dataId="dataId" @close="closeModalPreview" />
-   
+    <addModal
+        v-show="addModalVisible"
+        :modalData="modalData"
+        :dataId="dataId"
+        :addModalVisible="addModalVisible"
+        @close="closeModalAdd"
+    />
+    <previewId
+        v-id="previewModalVisible"
+        :modalData="modalData"
+        :dataId="dataId"
+        @close="closeModalPreview"
+    />
 </template>
 <script>
-import { ref, onMounted, onBeforeUnmount, computed, reactive, watch } from "vue";
-import axios from 'axios';
+import {
+    ref,
+    onMounted,
+    onBeforeUnmount,
+    computed,
+    reactive,
+    watch,
+} from "vue";
+import axios from "axios";
 // Import the required DataTables styles
 import "datatables.net";
 import "datatables.net-responsive";
@@ -87,6 +136,8 @@ import viewModal from "./ViewStudentInformation.vue";
 import editModal from "./EditStudentInformation.vue";
 import addModal from "./AddStudentInformation.vue";
 import previewId from "./PreviewId.vue";
+
+import popupPreview from "./Popup.vue";
 // import cameraModal from "./cameraModal.vue";
 export default {
     components: {
@@ -94,9 +145,14 @@ export default {
         editModal,
         addModal,
         previewId,
+        popupPreview,
         // cameraModal,
     },
     setup() {
+        const popupTriggers = ref({
+            buttonTrigger: false,
+        });
+
         // data-id
         const data_id = ref(null);
         const users = ref([]);
@@ -105,7 +161,7 @@ export default {
         const editModalVisible = ref(false);
         const addModalVisible = ref(false);
         const previewModalVisible = reactive({
-            show:false
+            show: false,
         });
 
         const isDataTableInitialized = ref(false);
@@ -114,8 +170,9 @@ export default {
         // const modalShow = ref(false)
 
         const selectedCheckboxes = reactive({
-            pids:[],student_data:[]
-        });   
+            pids: [],
+            student_data: [],
+        });
 
         const modalData = ref(null);
         const dataId = ref(null);
@@ -159,7 +216,7 @@ export default {
             addModalVisible.value = false;
         };
         // view modal add function
-        const openModalPreview = async (responsedata,responseid) => {
+        const openModalPreview = async (responsedata, responseid) => {
             // show modal
             console.log("open");
             previewModalVisible.show = true;
@@ -174,165 +231,7 @@ export default {
             modalData.value = null;
             dataId.value = null;
         };
-        const fetchUsers = async () => {
-            // hardcoded user data for testing
-            // const initialUsers = [
-            //     {
-            //         id: 1,
-            //         last_name: "Abutar",
-            //         middle_name: "Chanco",
-            //         first_name: "Christian Paul",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 2,
-            //         last_name: "Esconde",
-            //         middle_name: "Sacdalan",
-            //         first_name: "Kyneth",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 3,
-            //         last_name: "Bugay",
-            //         middle_name: "",
-            //         first_name: "Takatoshi",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 4,
-            //         last_name: "Doe",
-            //         middle_name: "John",
-            //         first_name: "Jane",
-            //         suffix: "",
-            //         type: "High School Student",
-            //     },
-            //     {
-            //         id: 5,
-            //         last_name: "Smith",
-            //         middle_name: "Alex",
-            //         first_name: "Emily",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 6,
-            //         last_name: "Gonzalez",
-            //         middle_name: "Maria",
-            //         first_name: "Carlos",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     // Add more data here
-            //     {
-            //         id: 7,
-            //         last_name: "Garcia",
-            //         middle_name: "Andres",
-            //         first_name: "Sofia",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 8,
-            //         last_name: "Lee",
-            //         middle_name: "Ji-hoon",
-            //         first_name: "Seo-yeon",
-            //         suffix: "",
-            //         type: "High School Student",
-            //     },
-            //     {
-            //         id: 9,
-            //         last_name: "Wang",
-            //         middle_name: "Li",
-            //         first_name: "Wei",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 10,
-            //         last_name: "Lopez",
-            //         middle_name: "Isabella",
-            //         first_name: "Mateo",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 11,
-            //         last_name: "Chen",
-            //         middle_name: "Xiao",
-            //         first_name: "Ling",
-            //         suffix: "",
-            //         type: "High School Student",
-            //     },
-            //     {
-            //         id: 12,
-            //         last_name: "Gupta",
-            //         middle_name: "Aarav",
-            //         first_name: "Anika",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 13,
-            //         last_name: "Martinez",
-            //         middle_name: "Diego",
-            //         first_name: "Sofia",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 14,
-            //         last_name: "Nguyen",
-            //         middle_name: "Minh",
-            //         first_name: "Linh",
-            //         suffix: "",
-            //         type: "High School Student",
-            //     },
-            //     {
-            //         id: 15,
-            //         last_name: "Kim",
-            //         middle_name: "Min-ji",
-            //         first_name: "Jae-hyun",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 16,
-            //         last_name: "Gonzales",
-            //         middle_name: "Luis",
-            //         first_name: "Camila",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            //     {
-            //         id: 17,
-            //         last_name: "Patel",
-            //         middle_name: "Aarav",
-            //         first_name: "Neha",
-            //         suffix: "",
-            //         type: "High School Student",
-            //     },
-            //     {
-            //         id: 18,
-            //         last_name: "Suzuki",
-            //         middle_name: "Hiroshi",
-            //         first_name: "Yumi",
-            //         suffix: "",
-            //         type: "College Student",
-            //     },
-            // ];
-            // users.value = initialUsers;
-
-            // try {
-            //     const response = await axios.get('/api/students'); // Adjust the API endpoint URL as needed
-            //     users.value = JSON.parse(response.data);
-            //     console.log(users.value)
-            // } catch (error) {
-            //     console.error(error);
-            // }
-        };
+        const fetchUsers = async () => {};
 
         onMounted(async () => {
             // to avoid duplication
@@ -340,226 +239,238 @@ export default {
             // Define an array to store the selected checkbox IDs
             // let selectedCheckboxes = { pids: [], student_data:[] };
             try {
-                const response = await axios.get('/api/students'); // Adjust the API endpoint URL as needed
+                const response = await axios.get("/api/students"); // Adjust the API endpoint URL as needed
                 users.value = JSON.parse(response.data);
-                console.log(users.value.data)
-                
+                console.log(users.value.data);
             } catch (error) {
                 console.error(error);
-            }     
-            
+            }
         });
 
         onBeforeUnmount(() => {
             if (table !== null) {
-            // Destroy the DataTable instance before unmounting the component
-            table.destroy();
+                // Destroy the DataTable instance before unmounting the component
+                table.destroy();
             }
         });
 
-        watch(users, async(newUsers)=>{
-            console.log(newUsers)
-            if(newUsers && !isDataTableInitialized.value){
+        watch(users, async (newUsers) => {
+            console.log(newUsers);
+            if (newUsers && !isDataTableInitialized.value) {
                 try {
-                const id_generated = await axios.get('/api/id-generated')
-                    id_Gen.value = id_generated.data
-                    console.log(id_Gen.value)
+                    const id_generated = await axios.get("/api/id-generated");
+                    id_Gen.value = id_generated.data;
+                    console.log(id_Gen.value);
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                 }
                 if (table !== null) {
                     // Destroy the existing DataTable instance
                     table.destroy();
                 }
                 // Convert id_Gen.value object into an array of its values
-                const id_Gen_Array = id_Gen.value ? Object.values(id_Gen.value) : [];
-                console.log(id_Gen_Array)
+                const id_Gen_Array = id_Gen.value
+                    ? Object.values(id_Gen.value)
+                    : [];
+                console.log(id_Gen_Array);
                 table = $("#myTable").DataTable({
-                data: (users.value.data ?? []).map((item, index) =>{
-                   
-                    // Check if any item in id_Gen.value contains the image name with the '_f' suffix for the current student_no
-                    // Check if the new array id_Gen_F contains the image name with the '_f' suffix for the current student_no
-                    const isGenerated = id_Gen_Array.some((imageName) => imageName.includes(`${item.student_no}_f.png`));
-                    console.log("isGenerated:", isGenerated);
-                    return {
-                        generate_id: item.id,
-                        student_id: item.student_no,
-                        last_name: item.last_name,
-                        middle_name: item.middle_name,
-                        first_name: item.first_name,
-                        course: item.course,
-                        status: isGenerated ? true : false
-                        // suffix: item.suffix || 'not available',
-                        // guardian_name: item.guardian_name || 'not available',
-                        // guardian_address: item.guardian_address || 'not available',
-                        // guardian_contact: item.guardian_contact_no || 'not available',
-                        
-                    }
-                }),
-                responsive: true,
-                dom:
-                    "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-3'f>>" +
-                    "<'row'<'col-sm-12'rt>>" +
-                    "<'row'<'col-sm-12 col-md-7'i><'col-sm-12 col-md-5'p>>" +
-                    "<'row'<'col-sm-12 col-md-12'B>>",
-                buttons: [
-                    {
-                        extend: "copy",
-                        className: "btn btn-primary mr-1",
-                        text: '<i class="fas fa-copy"></i> Copy',
-                    },
-                    {
-                        extend: "csv",
-                        className: "btn btn-success mr-1",
-                        text: '<i class="fas fa-file-csv"></i> CSV',
-                    },
-                    {
-                        extend: "pdf",
-                        className: "btn btn-danger mr-1",
-                        text: '<i class="fas fa-file-pdf"></i> PDF',
-                    },
-                    {
-                        extend: "print",
-                        className: "btn btn-warning",
-                        text: '<i class="fas fa-print"></i> Print',
-                    },
-                ],
-                
+                    data: (users.value.data ?? []).map((item, index) => {
+                        // Check if any item in id_Gen.value contains the image name with the '_f' suffix for the current student_no
+                        // Check if the new array id_Gen_F contains the image name with the '_f' suffix for the current student_no
+                        const isGenerated = id_Gen_Array.some((imageName) =>
+                            imageName.includes(`${item.student_no}_f.png`)
+                        );
+                        console.log("isGenerated:", isGenerated);
+                        return {
+                            generate_id: item.id,
+                            student_id: item.student_no,
+                            last_name: item.last_name,
+                            middle_name: item.middle_name,
+                            first_name: item.first_name,
+                            course: item.course,
+                            status: isGenerated ? true : false,
+                            // suffix: item.suffix || 'not available',
+                            // guardian_name: item.guardian_name || 'not available',
+                            // guardian_address: item.guardian_address || 'not available',
+                            // guardian_contact: item.guardian_contact_no || 'not available',
+                        };
+                    }),
+                    responsive: true,
+                    dom:
+                        "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-3'f>>" +
+                        "<'row'<'col-sm-12'rt>>" +
+                        "<'row'<'col-sm-12 col-md-7'i><'col-sm-12 col-md-5'p>>" +
+                        "<'row'<'col-sm-12 col-md-12'B>>",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn btn-primary mr-1",
+                            text: '<i class="fas fa-copy"></i> Copy',
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn btn-success mr-1",
+                            text: '<i class="fas fa-file-csv"></i> CSV',
+                        },
+                        {
+                            extend: "pdf",
+                            className: "btn btn-danger mr-1",
+                            text: '<i class="fas fa-file-pdf"></i> PDF',
+                        },
+                        {
+                            extend: "print",
+                            className: "btn btn-warning",
+                            text: '<i class="fas fa-print"></i> Print',
+                        },
+                    ],
 
-                columns: [
-                     // checkbox for generate id
-                     {
-                        data:"generate_id",
-                        render: (data, type, row) => {
-                            return `
+                    columns: [
+                        // checkbox for generate id
+                        {
+                            data: "generate_id",
+                            render: (data, type, row) => {
+                                return `
                             <th scope="row">
                                 <input class="form-check-input" type="checkbox" data-id="${row.generate_id}">
                                 PID: ${row.generate_id}
                             </th>
                                 `;
+                            },
                         },
-                    },
-                    { data: "student_id" },
-                    { data: "last_name" },
-                    { data: "middle_name" },
-                    { data: "first_name" },
-                    // { data: "suffix"},
-                    { data: "course" },
-                    { data: "status",
-                        render: (data, type, row) => {
-                            
-                            if(row.status){
-                                return `<span class="badge text-bg-success p-2">Generated ID</span>`
-                            }else{
-                                return `<span class="badge text-bg-warning p-2">Not Generated ID</span>`
-                            }
-                        }
-                    },
-                    // { data: "guardian_name" },
-                    // { data: "guardian_address" },
-                    // { data: "guardian_contact" },
-                    // Button for View
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            // <button type="button" class="btn btn-warning edit" data-bs-toggle="modal"
-                            // data-bs-target="#editModal"
-                            // data-bs-whatever="@getbootstrap">Edit</button>
-                            return `
+                        { data: "student_id" },
+                        { data: "last_name" },
+                        { data: "middle_name" },
+                        { data: "first_name" },
+                        // { data: "suffix"},
+                        { data: "course" },
+                        {
+                            data: "status",
+                            render: (data, type, row) => {
+                                if (row.status) {
+                                    return `<span class="badge text-bg-success p-2">Generated ID</span>`;
+                                } else {
+                                    return `<span class="badge text-bg-warning p-2">Not Generated ID</span>`;
+                                }
+                            },
+                        },
+                        // { data: "guardian_name" },
+                        // { data: "guardian_address" },
+                        // { data: "guardian_contact" },
+                        // Button for View
+                        {
+                            data: null,
+                            render: (data, type, row) => {
+                                // <button type="button" class="btn btn-warning edit" data-bs-toggle="modal"
+                                // data-bs-target="#editModal"
+                                // data-bs-whatever="@getbootstrap">Edit</button>
+                                return `
                             <button type="button" class="btn btn-primary view" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            data-bs-target="#viewModal"
                             data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">View</button>
 
-                            
+                            <button type="button" class="btn btn-primary pop">
+                                Open Popups 
+                            </button>
 
                             <button type="button" class="btn btn-success add" data-bs-toggle="modal"
                             data-bs-target="#addModal"
                             data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">Add${row.generate_id}</button>                 
                             `;
+                            },
+                            orderable: false,
+                            searchable: false,
                         },
-                        orderable: false,
-                        searchable: false,
+                    ],
+                    initComplete: function () {
+                        // Create a new toolbar container element
+                        const toolbar = $(
+                            "<div class='toolbar-container'></div>"
+                        );
+                        // Prepend the toolbar container to the first child row of the DataTables wrapper
+                        $(".dataTables_wrapper .row:first-child").prepend(
+                            toolbar
+                        );
+
+                        // Event handler for checkbox change
+                        $(document).ready(function () {
+                            $("#myTable").on(
+                                "change",
+                                ".form-check-input",
+                                function () {
+                                    const id = $(this).data("id");
+                                    const row = $(this).closest("tr"); // Get the closest row element
+
+                                    if ($(this).is(":checked")) {
+                                        // Add the selected ID to the array if checked
+                                        selectedCheckboxes.pids.push(id);
+
+                                        // Get the data of the clicked row
+                                        const table = $("#myTable").DataTable();
+                                        const rowData = table.row(row).data();
+
+                                        selectedCheckboxes.student_data.push(
+                                            rowData
+                                        );
+                                        // Log the data of the clicked row
+                                        console.log(
+                                            "Clicked Row Data:",
+                                            rowData
+                                        );
+                                    } else {
+                                        // Remove the selected ID from the array if unchecked
+                                        // const index = selectedCheckboxes.pids.indexOf(id);
+                                        // Remove the selected ID and row from the arrays if unchecked
+                                        const index =
+                                            selectedCheckboxes.pids.indexOf(id);
+                                        if (index !== -1) {
+                                            selectedCheckboxes.pids.splice(
+                                                index,
+                                                1
+                                            );
+                                            selectedCheckboxes.student_data.splice(
+                                                index,
+                                                1
+                                            );
+                                        }
+                                    }
+
+                                    console.log(selectedCheckboxes);
+                                }
+                            );
+                        });
                     },
-                ],
-                initComplete: function () {
-                // Create a new toolbar container element
-                const toolbar = $("<div class='toolbar-container'></div>");
-                // Prepend the toolbar container to the first child row of the DataTables wrapper
-                $(".dataTables_wrapper .row:first-child").prepend(toolbar);
-
-                // Event handler for checkbox change
-                $(document).ready(function(){
-                    $('#myTable').on('change', '.form-check-input', function() {
-                    const id = $(this).data('id');
-                    const row = $(this).closest('tr'); // Get the closest row element
-
-                    if ($(this).is(':checked')) {
-                    // Add the selected ID to the array if checked
-                    selectedCheckboxes.pids.push(id);
-                    
-                        // Get the data of the clicked row
-                    const table = $('#myTable').DataTable();
-                    const rowData = table.row(row).data();
-
-                    
-                    selectedCheckboxes.student_data.push(rowData);
-                    // Log the data of the clicked row
-                    console.log('Clicked Row Data:', rowData);
-
-
-                    } else {
-                    // Remove the selected ID from the array if unchecked
-                    // const index = selectedCheckboxes.pids.indexOf(id);
-                     // Remove the selected ID and row from the arrays if unchecked
-                    const index = selectedCheckboxes.pids.indexOf(id);
-                    if (index !== -1) {
-                        selectedCheckboxes.pids.splice(index, 1);
-                        selectedCheckboxes.student_data.splice(index, 1);
-                    }
-                    }
-
-                    console.log(selectedCheckboxes)
                 });
-                })
-                },
-                
-                
-            });
-            // Event handlers for view and add buttons
-            $("#myTable").on("click", ".view", function () {
-                // console.log(this.value.dataset.id)
-                const rowIndex = table.row($(this).closest("tr")).index();
-                const rowData = table.row(rowIndex).data();
-                console.log(rowData)
-                data_id.value =  parseInt(this.getAttribute('data-id'), 10);
-                // console.log(this.getAttribute('data-id')); // Access data-id attribute using getAttribute
-                // pass the id of row click
-                openModalView(data_id);
-            });
+                // Event handlers for view and add buttons
+                $("#myTable").on("click", ".view", function () {
+                    // console.log(this.value.dataset.id)
+                    const rowIndex = table.row($(this).closest("tr")).index();
+                    const rowData = table.row(rowIndex).data();
+                    console.log(rowData);
+                    data_id.value = parseInt(this.getAttribute("data-id"), 10);
+                    // console.log(this.getAttribute('data-id')); // Access data-id attribute using getAttribute
+                    // pass the id of row click
+                    openModalView(data_id);
+                });
 
-            // edit
-            // $("#myTable").on("click", ".edit", function () {
-            //     const rowIndex = table.row($(this).closest("tr")).index();
-            //     const rowData = table.row(rowIndex).data();
-            //     // pass the id of row click
-            //     openModalEdit(rowData.id);
-            // });
+                // view
+                $("#myTable").on("click", ".pop", function () {
+                    TogglePopup("buttonTrigger");
+                });
 
-            // add
-            $("#myTable").on("click", ".add", function () {
-                const rowIndex = table.row($(this).closest("tr")).index();
-                const rowData = table.row(rowIndex).data();
+                // add
+                $("#myTable").on("click", ".add", function () {
+                    const rowIndex = table.row($(this).closest("tr")).index();
+                    const rowData = table.row(rowIndex).data();
 
-                data_id.value =  parseInt(this.getAttribute('data-id'), 10);
-                // pass the id of row click
-                openModalAdd(data_id);
-                // Emit the custom event with the ID for going back
-                // t/his.$emit("open-modal-add", rowData.id);
-            });
-            isDataTableInitialized.value = true;
+                    data_id.value = parseInt(this.getAttribute("data-id"), 10);
+                    // pass the id of row click
+                    openModalAdd(data_id);
+                    // Emit the custom event with the ID for going back
+                    // t/his.$emit("open-modal-add", rowData.id);
+                });
+                isDataTableInitialized.value = true;
             }
-        })
-            
+        });
 
         // Compute the selected IDs from selectedCheckboxes
         const selectedIds = computed(() => {
@@ -571,30 +482,40 @@ export default {
         // const previewModalVisibleShow = computed(()=>{
         //     return previewModalVisible.show == true ? true : false
         // })
-       
+
         // Method to handle the generate ID button click
         const handleGenerateId = async () => {
-            console.log('Generated ID:', selectedCheckboxes.pids);
+            console.log("Generated ID:", selectedCheckboxes.pids);
             const headers = {
-                    'Accept': 'application/vnd.api+json',
-                    'Content-Type': 'application/vnd.api+json',
-                    'Authorization' : 'Bearer ' + localStorage.getItem('token')
-                    }
-                   await axios.post('/api/generateId',{ headers: headers, params: { id: selectedCheckboxes.pids.length, st_id: selectedCheckboxes.student_data } })
-                    .then((res)=>{
-                    console.log(res.data)
-                    openModalPreview(res.data.path, res.data.id)
-                    })
-
-                    .catch((err)=>{
-                    console.log(err)
-                   
-                    
+                Accept: "application/vnd.api+json",
+                "Content-Type": "application/vnd.api+json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            };
+            await axios
+                .post("/api/generateId", {
+                    headers: headers,
+                    params: {
+                        id: selectedCheckboxes.pids.length,
+                        st_id: selectedCheckboxes.student_data,
+                    },
                 })
-        
+                .then((res) => {
+                    console.log(res.data);
+                    openModalPreview(res.data.path, res.data.id);
+                })
+
+                .catch((err) => {
+                    console.log(err);
+                });
         };
-       
-        return { 
+
+        // function to trigger a popups set to true to false
+        const TogglePopup = (trigger) => {
+            return (popupTriggers.value[trigger] =
+                !popupTriggers.value[trigger]);
+        };
+
+        return {
             selectedIds,
             users,
             modalVisible,
@@ -612,8 +533,9 @@ export default {
             handleGenerateId,
             modalData,
             dataId,
+            popupTriggers,
+            TogglePopup,
             // previewModalVisibleShow
-           
         };
     },
 };

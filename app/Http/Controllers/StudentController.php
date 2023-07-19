@@ -44,7 +44,8 @@ class StudentController extends Controller
                     $student->profile = $imageName;
                     $student->save();
             }
-            return response()->json(['message' => 'Image saved successfully']);
+            $id = explode('.', $imageName);
+            return response()->json(['message' => 'Image saved successfully', 'id'=>$id[0]]);
         } else {
             return response()->json(['error' => 'No image file found']);
         }

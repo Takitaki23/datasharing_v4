@@ -438,6 +438,9 @@
         <!-- Display Captured Image -->
         <!-- <img :src="capturedImage" alt="" style="background-color: white; width: 150px; height: 150px;"> -->
     </div>
+
+    <!-- components recieved props -->
+    <InitComponents :initProfile="stateInit" />
 </template>
 
 <script>
@@ -447,10 +450,13 @@ import Cropper from "cropperjs";
 import axios from "axios";
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+
+import InitComponents from './ViewStudentInformation.vue'
 // import Vue3Signature from "vue3-signature"
 let cropper = null
 
 export default {
+    components:{InitComponents},
     props: ["modalData", "dataId", "addModalVisible"],
     setup(props) {
         const video = ref(null);
@@ -794,11 +800,13 @@ export default {
                             .then((response) => {
                                 // Handle the response from the server
                                 console.log(response.data);
+                                stateI.value = response.data.id
                                 const $toast = useToast();
                                 let instance = $toast.success(response.data.message, { position: 'bottom-right' });
                                 // Update stateInit after a successful response
                                 
-                                
+                                // localStorage.setItem('student_no',responseData.value.student_no)
+                                triggerRerender()
                             })
                             .catch((error) => {
                                 // Handle any errors
@@ -844,7 +852,9 @@ export default {
             fromDataURL,
             handleDisabled,
             stateInit,
-            triggerRerender
+            stateI,
+            triggerRerender,
+            InitComponents
 
 
         };
