@@ -88,7 +88,7 @@
                     <div
                         class="row"
                         style="height: 400px; overflow: hidden"
-                    >
+                        >
                         <!-- Content for ID preview -->
                         <div class="col-sm-6">
                             <canvas
