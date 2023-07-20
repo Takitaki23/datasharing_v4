@@ -5,7 +5,7 @@
             {{ dataId }}
             <button
                 class="popup-close btn btn-secondary mt-3"
-                @click="TogglePreviewPopup()">
+                @click="TogglePopup()">
                 Close
             </button>
         </div>
@@ -16,11 +16,11 @@
     import { onMounted } from 'vue';
     export default {
         
-        props: ["TogglePreviewPopup", "dataId",'viewModal'],
+        props: ["TogglePopup", "dataId"],
         setup(props){
 
             onMounted(()=>{
-                // props.viewModal()
+                
             })
         }
     }

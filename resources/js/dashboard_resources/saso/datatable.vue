@@ -14,16 +14,15 @@
       <!-- Improved design for viewStudent Information -->
     </popupPreview>
 
-        <!-- preview ID modal -->
-        <!-- <popupPreview v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('')" -->
-        <!-- >
-            <h5 class="modal-title" id="exampleModalLabel">
-                View Student Information
-            </h5>  -->
-            <!-- palipat ng design ng preview ID only -->
-            
-            <!-- wagmo alisin yung original button sa table -->
-        <!-- </popupPreview> -->
+    <popupId 
+        v-if="popupTriggers.buttonPreviewTrigger" 
+        :TogglePopup="() => TogglePopup('buttonPreviewTrigger')" class="popup-container"
+        :dataId="data_id">
+        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
+            color: #ffffff; padding: .5rem;">
+            Preview ID
+        </h5>
+    </popupId>
 
         <div class="dashboard_header" style="margin-left: 13rem">
             <h1 class="fw-bold">View Records</h1>
@@ -141,6 +140,7 @@ import addModal from "./AddStudentInformation.vue";
 import previewId from "./PreviewId.vue";
 
 import popupPreview from "./popups/Popup.vue";
+import popupId from "./popups/PreviewPopup.vue"
 // custom loader
 import { useCustomLoader } from "../../plugins/loader";
 // import cameraModal from "./cameraModal.vue";
@@ -151,12 +151,14 @@ export default {
         addModal,
         previewId,
         popupPreview,
+        popupId
         // cameraModal,
     },
     setup() {
         const { initializeLoader } = useCustomLoader() 
         const popupTriggers = ref({
             buttonTrigger: false,
+            buttonPreviewTrigger: false
         });
 
         // data-id
@@ -375,7 +377,11 @@ export default {
                             data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">View</button>
 
                             <button type="button" class="btn btn-primary pop" data-id="${row.student_id}">
-                                Open Popups
+                                View
+                            </button>
+
+                            <button type="button" class="btn btn-primary preview" data-id="${row.student_id}">
+                                ID
                             </button>
 
                             <button type="button" class="btn btn-success add" data-bs-toggle="modal"
@@ -470,6 +476,21 @@ export default {
                     const loader = await initializeLoader('Student Information initialize!')
                     if(loader){
                         TogglePopup("buttonTrigger");
+                    }
+                });
+
+                // ID
+                $("#myTable").on("click", ".preview", async function () {
+                    const rowIndex = table.row($(this).closest("tr")).index();
+                    const rowData = table.row(rowIndex).data();
+                    console.log(rowData);
+                    data_id.value = this.getAttribute("data-id");
+                    // pass the id of row click
+                    // openModalView(data_id);
+                   
+                    const loader = await initializeLoader('Student Information initialize!')
+                    if(loader){
+                        TogglePopup("buttonPreviewTrigger");
                     }
                 });
 

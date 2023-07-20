@@ -1,6 +1,7 @@
 <template>
     <div class="popup">
         <div class="popup-inner">
+            {{ state }}
             <!-- allow us anycontent we write to parent  -->
             <slot />
             <div class="popup-content" :key="dataId">
@@ -180,52 +181,23 @@
             >
                 Close
             </button>
-            <button
-                class="btn btn-secondary mt-3"
-                @click="() => TogglePreviewPopup('buttonPreviewTrigger')">
-                open
-            </button>
         </div>
     </div>
-
-    <PreviewPopup 
-        v-if="previewTriggers.buttonPreviewTrigger" 
-        :TogglePreviewPopup="() => TogglePreviewPopup('buttonPreviewTrigger')" class="popup-container"
-        :dataId="studentData.student_no"
-        :viewModal="() => TogglePopup('buttonTrigger')">
-        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
-            color: #ffffff; padding: .5rem;">
-            Preview ID
-        </h5>
-    </PreviewPopup>
 </template>
 
 <script>
 import { onMounted, ref, watchEffect } from "vue";
 
-import PreviewPopup from "./PreviewPopup.vue";
 // custom loader
 // import { useCustomLoader } from "../../plugins/loader";
 export default {
     props: ["TogglePopup", "dataId"],
-    components:{
-        PreviewPopup,
-    },
     setup(props) {
         // const { TogglePopup, dataId } = props; // Destructure the props
         const studentData = ref({});
         const profile = ref(null);
         const signature = ref(null);
 
-        const previewTriggers = ref({
-            buttonPreviewTrigger: false,
-        });
-
-        // function to trigger a popups set to true to false
-        const TogglePreviewPopup = (trigger) => {
-            return (previewTriggers.value[trigger] =
-                !previewTriggers.value[trigger]);
-        };
 
         // send a request for student data
         const studentDataRequest = async(studentNumber) => {
@@ -264,6 +236,7 @@ export default {
                 console.error("Error fetching student data:", error);
            }
         }
+
         // load when popup loaded
         onMounted(async () => {
             // call the request to begins
@@ -276,7 +249,7 @@ export default {
         });
 
 
-        return {studentData, profile,signature,TogglePreviewPopup,previewTriggers};
+        return {studentData, profile,signature};
     },
 };
 </script>
