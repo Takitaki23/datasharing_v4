@@ -368,25 +368,24 @@ export default {
                         {
                             data: null,
                             render: (data, type, row) => {
-                                // <button type="button" class="btn btn-warning edit" data-bs-toggle="modal"
-                                // data-bs-target="#editModal"
-                                // data-bs-whatever="@getbootstrap">Edit</button>
+                            //     <button type="button" class="btn btn-primary pop" data-id="${row.student_id}">
+                            //     View
+                            // </button>
                                 return `
                             <button type="button" class="btn btn-primary view" data-bs-toggle="modal"
                             data-bs-target="#viewModal"
-                            data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">View</button>
+                            data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">debug</button>
 
                             <button type="button" class="btn btn-primary pop" data-id="${row.student_id}">
                                 View
                             </button>
-
                             <button type="button" class="btn btn-primary preview" data-id="${row.student_id}">
                                 ID
                             </button>
 
                             <button type="button" class="btn btn-success add" data-bs-toggle="modal"
                             data-bs-target="#addModal"
-                            data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">Add${row.generate_id}</button>                 
+                            data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">Upload </button>                 
                             `;
                             },
                             orderable: false,
