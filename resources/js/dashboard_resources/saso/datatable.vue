@@ -5,9 +5,7 @@
         v-if="popupTriggers.buttonTrigger" 
         :TogglePopup="() => TogglePopup('buttonTrigger')" class="popup-container"
         :dataId="data_id">
-        
-        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
-            color: #ffffff; padding: .5rem;">
+        <h5 class="modal-title rounded-top" id="exampleModalLabel">
             View Student Information
         </h5>
       <!-- Improved design for viewStudent Information -->
@@ -17,8 +15,7 @@
         v-if="popupTriggers.buttonPreviewTrigger" 
         :TogglePopup="() => TogglePopup('buttonPreviewTrigger')" class="popup-container"
         :dataId="data_id">
-        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
-            color: #ffffff; padding: .5rem;">
+        <h5 class="modal-title rounded-top" id="exampleModalLabel">
             Preview ID
         </h5>
     </popupId>
@@ -972,6 +969,13 @@ div.dashboard_header {
 }
 button.popup-close{
     border: 1px solid red
+}
+.rounded-top {
+  background-color: rgb(95, 178, 95);
+  color: #ffffff;
+  padding: 0.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 @media screen and (max-width: 1480px) {

@@ -1,6 +1,6 @@
 <template>
     <div class="popup">
-        <div class="popup-inner">
+        <div class="popup-inner" style="width: 80%;">
             {{ state }}
             <!-- allow us anycontent we write to parent  -->
             <slot />
@@ -1203,11 +1203,17 @@ export default {
     align-items: center;
     justify-content: center;
     z-index: 100;
+    overflow-y: scroll  
 }
 
 .popup .popup-inner {
     position: relative;
     background: #fff;
     padding: 35px;
+}
+
+.popup-close {
+  /* Add this style to align the button to the right */
+  float: right;
 }
 </style>
