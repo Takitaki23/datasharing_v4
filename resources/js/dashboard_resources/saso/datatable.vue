@@ -1,11 +1,17 @@
 <template>
     <div class="main-container">
+        
         <!-- view modal -->
-     <popupPreview v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')" class="popup-container">
-      <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
-      color: #ffffff; padding: .5rem;">View Student Information</h5>
+     <popupPreview 
+        v-if="popupTriggers.buttonTrigger" 
+        :TogglePopup="() => TogglePopup('buttonTrigger')" class="popup-container"
+        :dataId="data_id">
+        
+        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
+            color: #ffffff; padding: .5rem;">
+            View Student Information
+        </h5>
       <!-- Improved design for viewStudent Information -->
-
     </popupPreview>
 
         <!-- preview ID modal -->
@@ -25,7 +31,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        Student Records
+                        Student Records {{ dataId }}
                     </li>
                 </ol>
             </nav>
@@ -134,7 +140,9 @@ import editModal from "./EditStudentInformation.vue";
 import addModal from "./AddStudentInformation.vue";
 import previewId from "./PreviewId.vue";
 
-import popupPreview from "./Popup.vue";
+import popupPreview from "./popups/Popup.vue";
+// custom loader
+import { useCustomLoader } from "../../plugins/loader";
 // import cameraModal from "./cameraModal.vue";
 export default {
     components: {
@@ -146,6 +154,7 @@ export default {
         // cameraModal,
     },
     setup() {
+        const { initializeLoader } = useCustomLoader() 
         const popupTriggers = ref({
             buttonTrigger: false,
         });
@@ -365,8 +374,8 @@ export default {
                             data-bs-target="#viewModal"
                             data-bs-whatever="@getbootstrap" data-id="${row.generate_id}">View</button>
 
-                            <button type="button" class="btn btn-primary pop">
-                                Open Popups 
+                            <button type="button" class="btn btn-primary pop" data-id="${row.student_id}">
+                                Open Popups
                             </button>
 
                             <button type="button" class="btn btn-success add" data-bs-toggle="modal"
@@ -450,8 +459,18 @@ export default {
                 });
 
                 // view
-                $("#myTable").on("click", ".pop", function () {
-                    TogglePopup("buttonTrigger");
+                $("#myTable").on("click", ".pop", async function () {
+                    const rowIndex = table.row($(this).closest("tr")).index();
+                    const rowData = table.row(rowIndex).data();
+                    console.log(rowData);
+                    data_id.value = this.getAttribute("data-id");
+                    // pass the id of row click
+                    // openModalView(data_id);
+                   
+                    const loader = await initializeLoader('Student Information initialize!')
+                    if(loader){
+                        TogglePopup("buttonTrigger");
+                    }
                 });
 
                 // add
@@ -530,6 +549,7 @@ export default {
             handleGenerateId,
             modalData,
             dataId,
+            data_id,
             popupTriggers,
             TogglePopup,
             // previewModalVisibleShow

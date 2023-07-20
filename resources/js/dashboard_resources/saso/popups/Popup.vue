@@ -3,181 +3,282 @@
         <div class="popup-inner">
             <!-- allow us anycontent we write to parent  -->
             <slot />
-        <div class="popup-content">
-            <!-- Student Info -->
-            <div class="row mb-3">
-            <div class="col">
-                <div class="mb-3">
-                <label for="recipient-name" class="col-form-label fw-bold">Student Number:</label>
-                <br />
-                <label for="recipient-name" class="col-form-label">20-0098</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="mb-3">
-                <label for="recipient-name" class="col-form-label fw-bold">Last Name:</label>
-                <br />
-                <label for="recipient-name" class="col-form-label">Abutar</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="mb-3">
-                <label for="recipient-name" class="col-form-label fw-bold">Middle Name:</label>
-                <br />
-                <label for="recipient-name" class="col-form-label">Abutar</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="mb-3">
-                <label for="recipient-name" class="col-form-label fw-bold">First Name:</label>
-                <br />
-                <label for="recipient-name" class="col-form-label">Abutar</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                                    <div class="mb-3">
-                                        <label
-                                            for="recipient-name"
-                                            class="col-form-label fw-bold"
-                                            >Course</label
-                                        >
-                                        <br />
-                                        <label
-                                            for="recipient-name"
-                                            class="col-form-label"
-                                            >Bachelor of Science in Information Technology</label
-                                        >
-                                    </div>
-                </div>
-                <div class="col">
-                                    <div class="mb-3">
-                                        <label
-                                            for="recipient-name"
-                                            class="col-form-label fw-bold"
-                                            >Type</label
-                                        >
-                                        <br />
-                                        <label
-                                            for="recipient-name"
-                                            class="col-form-label"
-                                            >College Student</label
-                                        >
-                                    </div>
-                </div>
-            </div>
-            </div>
-        
-            <!-- Guardian's Info -->
-            <h5 class="modal-title" id="exampleModalLabel" style="  color: rgb(67, 155, 67);">Guardian's Information</h5>
-            <div class="row">
+            <div class="popup-content" :key="dataId">
+                <!-- Student Info -->
+                <div class="row mb-3">
                     <div class="col">
-                                        <div class="mb-3">
-                                            <label
-                                                for="message-text"
-                                                class="col-form-label fw-bold"
-                                                >Guardian's Name:</label
-                                            >
-                                            <br />
-                                            <label
-                                                for="recipient-name"
-                                                class="col-form-label"
-                                                >Emma Abutar</label
-                                            >
-                                        </div>
+                        <div class="mb-3">
+                            <label
+                                for="recipient-name"
+                                class="col-form-label fw-bold"
+                                >Student Number:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.student_no }}</label
+                            >
+                        </div>
                     </div>
                     <div class="col">
-                                        <div class="mb-3">
-                                            <label
-                                                for="message-text"
-                                                class="col-form-labe fw-bold mt-2"
-                                                >Guardian's Address:</label
-                                            >
-                                            <br />
-                                            <label
-                                                for="recipient-name"
-                                                class="col-form-label"
-                                                >Cataning, Balanga City Bataan</label
-                                            >
-                                        </div>
+                        <div class="mb-3">
+                            <label
+                                for="recipient-name"
+                                class="col-form-label fw-bold"
+                                >Last Name:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.last_name }}</label
+                            >
+                        </div>
                     </div>
                     <div class="col">
-                                        <div class="mb-3">
-                                            <label
-                                                for="message-text"
-                                                class="col-form-labe fw-bold mt-2"
-                                                >Guardian's Address:</label
-                                            >
-                                            <br />
-                                            <label
-                                                for="recipient-name"
-                                                class="col-form-label"
-                                                >Cataning, Balanga City Bataan</label
-                                            >
-                                        </div>
+                        <div class="mb-3">
+                            <label
+                                for="recipient-name"
+                                class="col-form-label fw-bold"
+                                >Middle Name:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.middle_name }}</label
+                            >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label
+                                for="recipient-name"
+                                class="col-form-label fw-bold"
+                                >First Name:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.first_name}}</label
+                            >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label
+                                    for="recipient-name"
+                                    class="col-form-label fw-bold"
+                                    >Course</label
+                                >
+                                <br />
+                                <label
+                                    for="recipient-name"
+                                    class="col-form-label"
+                                    >{{ studentData.course }}</label
+                                >
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label
+                                    for="recipient-name"
+                                    class="col-form-label fw-bold"
+                                    >Type</label
+                                >
+                                <br />
+                                <label
+                                    for="recipient-name"
+                                    class="col-form-label"
+                                    >{{ studentData.college }}</label
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guardian's Info -->
+                <h5
+                    class="modal-title"
+                    id="exampleModalLabel"
+                    style="color: rgb(67, 155, 67)"
+                >
+                    Guardian's Information
+                </h5>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label
+                                for="message-text"
+                                class="col-form-label fw-bold"
+                                >Guardian's Name:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.guardian_name }}</label
+                            >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label
+                                for="message-text"
+                                class="col-form-labe fw-bold mt-2"
+                                >Guardian's Address:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.guardian_address }}</label
+                            >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label
+                                for="message-text"
+                                class="col-form-labe fw-bold mt-2"
+                                >Guardian's Contact:</label
+                            >
+                            <br />
+                            <label for="recipient-name" class="col-form-label"
+                                >{{ studentData.guardian_contact_no }}</label
+                            >
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
                             <i class="fa-solid fa-thumbtack thumbtack-icon"></i>
-                                        <div class="card-header">
-                                            <h6 class="ms-3 text-light">
-                                                Identification Card Picture 
-                                            </h6>
-                                        </div>
-                        <div class="card-body">
-                            <div
-                                                class="d-flex justify-content-center"
-                                                
-                                            >
-                                                <img
-                                                class="text-danger"
-                                                />
-                                            </div>
-                        </div>
+                            <div class="card-header">
+                                <h6 class="ms-3 text-light">
+                                    Identification Card Picture
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <img class="text-danger"  :src="profile" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card">
                             <i class="fa-solid fa-thumbtack thumbtack-icon"></i>
-                                        <div class="card-header">
-                                            <h6 class="ms-3 text-light">
-                                                Identification Card Picture 
-                                            </h6>
-                                        </div>
-                        <div class="card-body">
-                            <div
-                                                class="d-flex justify-content-center"
-                                            >
-                                                <img
-                                                />
-                                            </div>
-                            
-                        </div>
+                            <div class="card-header">
+                                <h6 class="ms-3 text-light">
+                                    Identification Card Signature
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <img class="text-danger" :src="signature"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-      </div>
-            <button class="popup-close btn btn-secondary mt-3" @click="TogglePopup()">Close</button>
+            </div>
+            <button
+                class="popup-close btn btn-secondary mt-3"
+                @click="TogglePopup()"
+            >
+                Close
+            </button>
+            <button
+                class="btn btn-secondary mt-3"
+                @click="() => TogglePreviewPopup('buttonPreviewTrigger')">
+                open
+            </button>
         </div>
-    </div>    
+    </div>
+
+    <PreviewPopup 
+        v-if="previewTriggers.buttonPreviewTrigger" 
+        :TogglePreviewPopup="() => TogglePreviewPopup('buttonPreviewTrigger')" class="popup-container"
+        :dataId="studentData.student_no"
+        :viewModal="() => TogglePopup('buttonTrigger')">
+        <h5 class="modal-title" id="exampleModalLabel" style="  background-color: rgb(95, 178, 95);
+            color: #ffffff; padding: .5rem;">
+            Preview ID
+        </h5>
+    </PreviewPopup>
 </template>
 
 <script>
- import {onMounted, ref} from 'vue'
-    export default{
-        props: ['TogglePopup'],
-        setup (props) {
-            const l = ref('loaded')
-            onMounted(()=>{
-                console.log(l.value)
-                // if(props.TogglePopup){
-                //     console.log('new Request',props.TogglePopup)
-                // }
-            })
+import { onMounted, ref, watchEffect } from "vue";
+
+import PreviewPopup from "./PreviewPopup.vue";
+// custom loader
+// import { useCustomLoader } from "../../plugins/loader";
+export default {
+    props: ["TogglePopup", "dataId"],
+    components:{
+        PreviewPopup,
+    },
+    setup(props) {
+        // const { TogglePopup, dataId } = props; // Destructure the props
+        const studentData = ref({});
+        const profile = ref(null);
+        const signature = ref(null);
+
+        const previewTriggers = ref({
+            buttonPreviewTrigger: false,
+        });
+
+        // function to trigger a popups set to true to false
+        const TogglePreviewPopup = (trigger) => {
+            return (previewTriggers.value[trigger] =
+                !previewTriggers.value[trigger]);
+        };
+
+        // send a request for student data
+        const studentDataRequest = async(studentNumber) => {
+            try {
+                const response = await axios.get(`/api/students`);
+                const studentsData = JSON.parse(response.data);
+                studentData.value =
+                studentsData.data.find((item) => item.student_no === studentNumber) ||
+                null;
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+            }
         }
-    }
+
+        // const get the profile
+        const getStudentProfile = async(studentNumber) => {
+           try {
+                const response = await axios.get(`/api/get-images`);
+                console.log(response.data)
+                const studentProfile = response.data.find(filename => filename === `${studentNumber}.png`) || "man.png";
+                profile.value = `/id_image/${studentProfile}`
+                // signature
+
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+           }
+        }
+        // const get the signature
+        const getStudentSignature = async(studentNumber) => {
+            try {
+                const response = await axios.get(`/api/get-signatures`);
+                console.log(response.data)
+                const studentProfile = response.data.find(filename => filename === `${studentNumber}.png`) || "default.png";
+                signature.value = `/id_signatures/${studentProfile}`
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+           }
+        }
+        // load when popup loaded
+        onMounted(async () => {
+            // call the request to begins
+            studentDataRequest(props.dataId)
+            // call the profile fetching
+            getStudentProfile(props.dataId)
+            // call the signature fetching
+            getStudentSignature(props.dataId)
+           
+        });
+
+
+        return {studentData, profile,signature,TogglePreviewPopup,previewTriggers};
+    },
+};
 </script>
 
 <!-- <script>
@@ -1117,23 +1218,23 @@ export default {
 </script> -->
 
 <style scoped>
-    .popup{
-        /* width: 100%; */
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-    }
+.popup {
+    /* width: 100%; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
 
-    .popup .popup-inner{
-        position: relative;
-        background: #FFF;
-        padding: 35px;
-    }
+.popup .popup-inner {
+    position: relative;
+    background: #fff;
+    padding: 35px;
+}
 </style>
