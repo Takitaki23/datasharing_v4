@@ -3,7 +3,163 @@
         <div class="popup-inner">
             <!-- allow us anycontent we write to parent  -->
             <slot />
-            <button class="popup-close" @click="TogglePopup()">Close Popup</button>
+        <div class="popup-content">
+            <!-- Student Info -->
+            <div class="row mb-3">
+            <div class="col">
+                <div class="mb-3">
+                <label for="recipient-name" class="col-form-label fw-bold">Student Number:</label>
+                <br />
+                <label for="recipient-name" class="col-form-label">20-0098</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                <label for="recipient-name" class="col-form-label fw-bold">Last Name:</label>
+                <br />
+                <label for="recipient-name" class="col-form-label">Abutar</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                <label for="recipient-name" class="col-form-label fw-bold">Middle Name:</label>
+                <br />
+                <label for="recipient-name" class="col-form-label">Abutar</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                <label for="recipient-name" class="col-form-label fw-bold">First Name:</label>
+                <br />
+                <label for="recipient-name" class="col-form-label">Abutar</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                                    <div class="mb-3">
+                                        <label
+                                            for="recipient-name"
+                                            class="col-form-label fw-bold"
+                                            >Course</label
+                                        >
+                                        <br />
+                                        <label
+                                            for="recipient-name"
+                                            class="col-form-label"
+                                            >Bachelor of Science in Information Technology</label
+                                        >
+                                    </div>
+                </div>
+                <div class="col">
+                                    <div class="mb-3">
+                                        <label
+                                            for="recipient-name"
+                                            class="col-form-label fw-bold"
+                                            >Type</label
+                                        >
+                                        <br />
+                                        <label
+                                            for="recipient-name"
+                                            class="col-form-label"
+                                            >College Student</label
+                                        >
+                                    </div>
+                </div>
+            </div>
+            </div>
+        
+            <!-- Guardian's Info -->
+            <h5 class="modal-title" id="exampleModalLabel" style="  color: rgb(67, 155, 67);">Guardian's Information</h5>
+            <div class="row">
+                    <div class="col">
+                                        <div class="mb-3">
+                                            <label
+                                                for="message-text"
+                                                class="col-form-label fw-bold"
+                                                >Guardian's Name:</label
+                                            >
+                                            <br />
+                                            <label
+                                                for="recipient-name"
+                                                class="col-form-label"
+                                                >Emma Abutar</label
+                                            >
+                                        </div>
+                    </div>
+                    <div class="col">
+                                        <div class="mb-3">
+                                            <label
+                                                for="message-text"
+                                                class="col-form-labe fw-bold mt-2"
+                                                >Guardian's Address:</label
+                                            >
+                                            <br />
+                                            <label
+                                                for="recipient-name"
+                                                class="col-form-label"
+                                                >Cataning, Balanga City Bataan</label
+                                            >
+                                        </div>
+                    </div>
+                    <div class="col">
+                                        <div class="mb-3">
+                                            <label
+                                                for="message-text"
+                                                class="col-form-labe fw-bold mt-2"
+                                                >Guardian's Address:</label
+                                            >
+                                            <br />
+                                            <label
+                                                for="recipient-name"
+                                                class="col-form-label"
+                                                >Cataning, Balanga City Bataan</label
+                                            >
+                                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <i class="fa-solid fa-thumbtack thumbtack-icon"></i>
+                                        <div class="card-header">
+                                            <h6 class="ms-3 text-light">
+                                                Identification Card Picture 
+                                            </h6>
+                                        </div>
+                        <div class="card-body">
+                            <div
+                                                class="d-flex justify-content-center"
+                                                
+                                            >
+                                                <img
+                                                class="text-danger"
+                                                />
+                                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <i class="fa-solid fa-thumbtack thumbtack-icon"></i>
+                                        <div class="card-header">
+                                            <h6 class="ms-3 text-light">
+                                                Identification Card Picture 
+                                            </h6>
+                                        </div>
+                        <div class="card-body">
+                            <div
+                                                class="d-flex justify-content-center"
+                                            >
+                                                <img
+                                                />
+                                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+      </div>
+            <button class="popup-close btn btn-secondary mt-3" @click="TogglePopup()">Close</button>
         </div>
     </div>    
 </template>
@@ -978,6 +1134,6 @@ export default {
     .popup .popup-inner{
         position: relative;
         background: #FFF;
-        padding: 32px;
+        padding: 35px;
     }
 </style>
